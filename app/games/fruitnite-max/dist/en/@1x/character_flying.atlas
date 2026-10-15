@@ -1,0 +1,76 @@
+
+character_flying.png
+size: 384,235
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+orange_body
+  rotate: true
+  xy: 322, 171
+  size: 62, 60
+  orig: 62, 62
+  offset: 0, 1
+  index: -1
+orange_flying_machine
+  rotate: true
+  xy: 212, 13
+  size: 220, 108
+  orig: 221, 109
+  offset: 0, 0
+  index: -1
+orange_hand_left
+  rotate: false
+  xy: 322, 15
+  size: 15, 30
+  orig: 17, 30
+  offset: 0, 0
+  index: -1
+orange_hand_right
+  rotate: true
+  xy: 322, 47
+  size: 30, 20
+  orig: 30, 20
+  offset: 0, 0
+  index: -1
+orange_hat
+  rotate: false
+  xy: 322, 120
+  size: 42, 49
+  orig: 42, 51
+  offset: 0, 1
+  index: -1
+orange_hat_shadow
+  rotate: false
+  xy: 322, 79
+  size: 32, 39
+  orig: 35, 41
+  offset: 1, 1
+  index: -1
+orange_leg_light
+  rotate: false
+  xy: 339, 26
+  size: 15, 19
+  orig: 15, 21
+  offset: 0, 1
+  index: -1
+orange_leg_right
+  rotate: true
+  xy: 339, 7
+  size: 17, 14
+  orig: 17, 15
+  offset: 0, 1
+  index: -1
+orange_mouth
+  rotate: false
+  xy: 355, 10
+  size: 14, 14
+  orig: 15, 14
+  offset: 0, 0
+  index: -1
+pomegranate
+  rotate: false
+  xy: 2, 2
+  size: 208, 231
+  orig: 256, 256
+  offset: 24, 11
+  index: -1

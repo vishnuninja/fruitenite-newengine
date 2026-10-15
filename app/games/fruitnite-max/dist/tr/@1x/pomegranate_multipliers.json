@@ -1,0 +1,47 @@
+{"frames": {
+
+"z2":
+{
+	"frame": {"x":1,"y":1,"w":228,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":0,"w":228,"h":256},
+	"sourceSize": {"w":256,"h":256}
+},
+"z3":
+{
+	"frame": {"x":1,"y":263,"w":228,"h":256},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":0,"w":228,"h":256},
+	"sourceSize": {"w":256,"h":256}
+},
+"z5":
+{
+	"frame": {"x":235,"y":1,"w":228,"h":256},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":0,"w":228,"h":256},
+	"sourceSize": {"w":256,"h":256}
+},
+"z10":
+{
+	"frame": {"x":263,"y":235,"w":228,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":0,"w":228,"h":256},
+	"sourceSize": {"w":256,"h":256}
+}},
+"animations": {
+	"z": ["z2","z3","z5","z10"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "pomegranate_multipliers.png",
+	"format": "RGBA8888",
+	"size": {"w":492,"h":492},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:17bcc674c2a57aa92b94a08adf0be557:f88c5e1931395328825ff40d02ea049d:a3a0affbffc4de180fa9a1b04e81d8ac$"
+}
+}

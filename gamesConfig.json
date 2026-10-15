@@ -1,0 +1,41 @@
+{
+    "slotPath": "app/games/fruitnite-max/src/",
+    "gamePath": "app/games/",
+    "gameFiles": {
+        "fruitnite-max": [
+            "libs/gsap.min.js",
+            "libs/PixiPlugin.min.js",
+            "configs/BGUIConfig.js",
+            "controllers/GSlotController.js",
+            "controllers/GWinController.js",
+            "controllers/GPanelController.js",
+            "configs/ReelViewUIConfig.js",
+            "configs/PaytableViewUIConfig.js",
+            "views/GReelSymbol.js",
+            "views/GView.js",
+            "views/GReelView.js",
+            "views/GWinView.js",
+            "views/TumbleReelStrip.js",
+            "model/gSpinData.js",
+            "model/GCoreApp.js",
+            "model/GPanelModel.js",
+            "model/GfsModel.js",
+            "views/GInfoPopupView.js",
+            "views/GBGView.js",
+            "views/GSoundLib.js",
+            "views/GBigWinView.js",
+            "views/RoyalRewardView.js",
+            "views/GIntroView.js",
+            "views/GSlider.js",
+            "model/GSlotModel.js",
+            "controllers/GreelController.js",
+            "controllers/GErrorController.js",
+            "views/GErrorView.js",
+            "utils/wagerNormalization.js",
+            "views/GHistoryPanelView.js",
+            "controllers/GHistoryPanelController.js",
+            "controllers/GambleController.js",
+            "views/GHistoryPanelMobileView.js"
+        ]
+    }
+}

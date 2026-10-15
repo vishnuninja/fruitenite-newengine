@@ -1,0 +1,28 @@
+{"frames": {
+
+"Extra Spins_box":
+{
+	"frame": {"x":1,"y":1,"w":808,"h":568},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":19,"y":11,"w":808,"h":568},
+	"sourceSize": {"w":840,"h":600}
+},
+"limit_exceed_BG":
+{
+	"frame": {"x":574,"y":1,"w":1120,"h":752},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":14,"w":1120,"h":752},
+	"sourceSize": {"w":1120,"h":780}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "popupBG.png",
+	"format": "RGBA8888",
+	"size": {"w":1695,"h":810},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:2ad1c146b05a0d7f34f4886aba67f180:b80af2ed2b7e789e036c5e1bbc400e08:8f8accef699045bb5d99a81520188924$"
+}
+}

@@ -1,0 +1,272 @@
+
+liquid_jar_Final.png
+size: 2048,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Bubbl3
+  rotate: true
+  xy: 290, 2
+  size: 48, 54
+  orig: 48, 54
+  offset: 0, 0
+  index: -1
+Bubble
+  rotate: true
+  xy: 306, 80
+  size: 37, 30
+  orig: 37, 30
+  offset: 0, 0
+  index: -1
+Bubble2
+  rotate: true
+  xy: 346, 2
+  size: 67, 66
+  orig: 67, 66
+  offset: 0, 0
+  index: -1
+Jar
+  rotate: true
+  xy: 2, 206
+  size: 301, 278
+  orig: 301, 278
+  offset: 0, 0
+  index: -1
+Jar_holder
+  rotate: false
+  xy: 2, 119
+  size: 340, 85
+  orig: 340, 85
+  offset: 0, 0
+  index: -1
+Jar_top
+  rotate: false
+  xy: 2, 52
+  size: 302, 65
+  orig: 302, 65
+  offset: 0, 0
+  index: -1
+head_cap
+  rotate: false
+  xy: 2, 4
+  size: 286, 46
+  orig: 286, 46
+  offset: 0, 0
+  index: -1
+liquid
+  rotate: true
+  xy: 282, 223
+  size: 284, 218
+  orig: 284, 218
+  offset: 0, 0
+  index: -1
+smoke/Smoke1
+  rotate: false
+  xy: 344, 71
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke10
+  rotate: false
+  xy: 952, 205
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke11
+  rotate: false
+  xy: 958, 357
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke12
+  rotate: false
+  xy: 952, 53
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke13
+  rotate: false
+  xy: 1104, 205
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke14
+  rotate: false
+  xy: 1110, 357
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke15
+  rotate: false
+  xy: 1104, 53
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke16
+  rotate: false
+  xy: 1256, 205
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke17
+  rotate: false
+  xy: 1262, 357
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke18
+  rotate: false
+  xy: 1256, 53
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke19
+  rotate: false
+  xy: 1408, 205
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke2
+  rotate: false
+  xy: 496, 71
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke20
+  rotate: false
+  xy: 1414, 357
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke21
+  rotate: false
+  xy: 1408, 53
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke22
+  rotate: false
+  xy: 1560, 205
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke23
+  rotate: false
+  xy: 1566, 357
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke24
+  rotate: false
+  xy: 1560, 53
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke25
+  rotate: false
+  xy: 1712, 205
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke26
+  rotate: false
+  xy: 1718, 357
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke27
+  rotate: false
+  xy: 1864, 205
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke28
+  rotate: false
+  xy: 1870, 357
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke29
+  rotate: false
+  xy: 1712, 53
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke3
+  rotate: false
+  xy: 502, 357
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke30
+  rotate: false
+  xy: 1864, 53
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke4
+  rotate: false
+  xy: 648, 205
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke5
+  rotate: false
+  xy: 654, 357
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke6
+  rotate: false
+  xy: 648, 53
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke7
+  rotate: false
+  xy: 800, 205
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke8
+  rotate: false
+  xy: 806, 357
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Smoke9
+  rotate: false
+  xy: 800, 53
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1

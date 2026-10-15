@@ -1,0 +1,159 @@
+{
+  "frames": {
+    "buy_button_disabled": {
+      "frame": {
+        "x": 4,
+        "y": 4,
+        "w": 258,
+        "h": 230
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 258,
+        "h": 230
+      },
+      "sourceSize": {
+        "w": 258,
+        "h": 230
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "buy_button_hover": {
+      "frame": {
+        "x": 270,
+        "y": 4,
+        "w": 258,
+        "h": 230
+      },
+      "rotated": true,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 258,
+        "h": 230
+      },
+      "sourceSize": {
+        "w": 258,
+        "h": 230
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "buy_button_normal": {
+      "frame": {
+        "x": 4,
+        "y": 242,
+        "w": 258,
+        "h": 230
+      },
+      "rotated": true,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 258,
+        "h": 230
+      },
+      "sourceSize": {
+        "w": 258,
+        "h": 230
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "buy_button_pressed": {
+      "frame": {
+        "x": 242,
+        "y": 270,
+        "w": 238,
+        "h": 213
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 10,
+        "y": 9,
+        "w": 238,
+        "h": 213
+      },
+      "sourceSize": {
+        "w": 258,
+        "h": 230
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "no-button_normal": {
+      "frame": {
+        "x": 488,
+        "y": 270,
+        "w": 174,
+        "h": 90
+      },
+      "rotated": true,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 174,
+        "h": 90
+      },
+      "sourceSize": {
+        "w": 174,
+        "h": 90
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "yes-btn-popup_normal": {
+      "frame": {
+        "x": 508,
+        "y": 4,
+        "w": 174,
+        "h": 90
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 174,
+        "h": 90
+      },
+      "sourceSize": {
+        "w": 174,
+        "h": 90
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.7",
+    "image": "buy_button.webp",
+    "format": "RGBA8888",
+    "size": {
+      "w": 686,
+      "h": 504
+    },
+    "scale": 1
+  }
+}

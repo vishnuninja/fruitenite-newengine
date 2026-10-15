@@ -1,0 +1,20 @@
+{"frames": {
+
+"pomegranate":
+{
+	"frame": {"x":4,"y":4,"w":218,"h":242},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":19,"y":8,"w":218,"h":242},
+	"sourceSize": {"w":256,"h":256}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "pomegranate_sym.png",
+	"format": "RGBA8888",
+	"size": {"w":226,"h":250},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:fc6bb759168d7745f081286f60baf0e3:d2c13ced0756804eabe7e9d26aa82ab9:ea2d63cc5c95a83c99777df3a6ffcc18$"
+}
+}

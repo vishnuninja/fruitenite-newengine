@@ -1,0 +1,649 @@
+
+Fruitnite-BG-Canon.png
+size: 2044,2024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Burst/chest_Max_win_bg_fx_0
+  rotate: true
+  xy: 939, 1843
+  size: 131, 136
+  orig: 250, 250
+  offset: 60, 51
+  index: -1
+Burst/chest_Max_win_bg_fx_1
+  rotate: true
+  xy: 1225, 1825
+  size: 149, 161
+  orig: 250, 250
+  offset: 52, 39
+  index: -1
+Burst/chest_Max_win_bg_fx_10
+  rotate: true
+  xy: 235, 1484
+  size: 226, 238
+  orig: 250, 250
+  offset: 7, 6
+  index: -1
+Burst/chest_Max_win_bg_fx_11
+  rotate: true
+  xy: 475, 1418
+  size: 226, 240
+  orig: 250, 250
+  offset: 5, 5
+  index: -1
+Burst/chest_Max_win_bg_fx_12
+  rotate: true
+  xy: 1779, 1561
+  size: 225, 241
+  orig: 250, 250
+  offset: 4, 5
+  index: -1
+Burst/chest_Max_win_bg_fx_13
+  rotate: true
+  xy: 1440, 1349
+  size: 228, 241
+  orig: 250, 250
+  offset: 3, 5
+  index: -1
+Burst/chest_Max_win_bg_fx_14
+  rotate: true
+  xy: 1195, 1136
+  size: 230, 241
+  orig: 250, 250
+  offset: 3, 5
+  index: -1
+Burst/chest_Max_win_bg_fx_15
+  rotate: true
+  xy: 1672, 1096
+  size: 233, 242
+  orig: 250, 250
+  offset: 2, 5
+  index: -1
+Burst/chest_Max_win_bg_fx_16
+  rotate: true
+  xy: 717, 1396
+  size: 226, 242
+  orig: 250, 250
+  offset: 10, 5
+  index: -1
+Burst/chest_Max_win_bg_fx_17
+  rotate: true
+  xy: 1195, 1368
+  size: 227, 243
+  orig: 250, 250
+  offset: 10, 4
+  index: -1
+Burst/chest_Max_win_bg_fx_18
+  rotate: true
+  xy: 717, 1165
+  size: 229, 242
+  orig: 250, 250
+  offset: 9, 4
+  index: -1
+Burst/chest_Max_win_bg_fx_19
+  rotate: true
+  xy: 474, 1187
+  size: 229, 241
+  orig: 250, 250
+  offset: 10, 3
+  index: -1
+Burst/chest_Max_win_bg_fx_2
+  rotate: true
+  xy: 1599, 1805
+  size: 169, 178
+  orig: 250, 250
+  offset: 41, 32
+  index: -1
+Burst/chest_Max_win_bg_fx_20
+  rotate: true
+  xy: 1683, 1331
+  size: 228, 239
+  orig: 250, 250
+  offset: 13, 3
+  index: -1
+Burst/chest_Max_win_bg_fx_21
+  rotate: true
+  xy: 235, 1253
+  size: 229, 237
+  orig: 250, 250
+  offset: 13, 3
+  index: -1
+Burst/chest_Max_win_bg_fx_22
+  rotate: true
+  xy: 2, 1268
+  size: 230, 231
+  orig: 250, 250
+  offset: 13, 4
+  index: -1
+Burst/chest_Max_win_bg_fx_23
+  rotate: false
+  xy: 1438, 1117
+  size: 232, 230
+  orig: 250, 250
+  offset: 12, 4
+  index: -1
+Burst/chest_Max_win_bg_fx_24
+  rotate: false
+  xy: 961, 1144
+  size: 232, 229
+  orig: 250, 250
+  offset: 12, 5
+  index: -1
+Burst/chest_Max_win_bg_fx_25
+  rotate: false
+  xy: 961, 1375
+  size: 232, 226
+  orig: 250, 250
+  offset: 11, 6
+  index: -1
+Burst/chest_Max_win_bg_fx_26
+  rotate: false
+  xy: 2, 1500
+  size: 231, 225
+  orig: 250, 250
+  offset: 11, 7
+  index: -1
+Burst/chest_Max_win_bg_fx_27
+  rotate: false
+  xy: 1547, 1579
+  size: 230, 224
+  orig: 250, 250
+  offset: 11, 8
+  index: -1
+Burst/chest_Max_win_bg_fx_28
+  rotate: false
+  xy: 1315, 1597
+  size: 230, 222
+  orig: 250, 250
+  offset: 10, 9
+  index: -1
+Burst/chest_Max_win_bg_fx_3
+  rotate: true
+  xy: 1779, 1788
+  size: 186, 187
+  orig: 250, 250
+  offset: 29, 29
+  index: -1
+Burst/chest_Max_win_bg_fx_4
+  rotate: false
+  xy: 2, 1728
+  size: 198, 198
+  orig: 250, 250
+  offset: 20, 24
+  index: -1
+Burst/chest_Max_win_bg_fx_5
+  rotate: true
+  xy: 202, 1727
+  size: 199, 209
+  orig: 250, 250
+  offset: 23, 19
+  index: -1
+Burst/chest_Max_win_bg_fx_6
+  rotate: false
+  xy: 413, 1712
+  size: 207, 214
+  orig: 250, 250
+  offset: 18, 14
+  index: -1
+Burst/chest_Max_win_bg_fx_7
+  rotate: true
+  xy: 622, 1646
+  size: 211, 222
+  orig: 250, 250
+  offset: 15, 11
+  index: -1
+Burst/chest_Max_win_bg_fx_8
+  rotate: true
+  xy: 846, 1624
+  size: 214, 230
+  orig: 250, 250
+  offset: 13, 8
+  index: -1
+Burst/chest_Max_win_bg_fx_9
+  rotate: true
+  xy: 1078, 1603
+  size: 220, 235
+  orig: 250, 250
+  offset: 10, 7
+  index: -1
+Canon
+  rotate: true
+  xy: 1327, 543
+  size: 286, 477
+  orig: 286, 477
+  offset: 0, 0
+  index: -1
+Canon_Back
+  rotate: false
+  xy: 1077, 1840
+  size: 146, 134
+  orig: 146, 134
+  offset: 0, 0
+  index: -1
+Stone_LS
+  rotate: false
+  xy: 2, 363
+  size: 401, 292
+  orig: 402, 292
+  offset: 1, 0
+  index: -1
+Wooden_Back
+  rotate: false
+  xy: 2, 1977
+  size: 168, 45
+  orig: 168, 45
+  offset: 0, 0
+  index: -1
+canon_back_landscape
+  rotate: false
+  xy: 626, 1890
+  size: 143, 84
+  orig: 143, 84
+  offset: 0, 0
+  index: -1
+canon_front_landscape
+  rotate: false
+  xy: 771, 1859
+  size: 166, 115
+  orig: 166, 115
+  offset: 0, 0
+  index: -1
+canon_landscape
+  rotate: false
+  xy: 1388, 1821
+  size: 209, 153
+  orig: 209, 153
+  offset: 0, 0
+  index: -1
+damage/ 1
+  rotate: false
+  xy: 405, 333
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+damage/ 2
+  rotate: false
+  xy: 707, 312
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+damage/ 3
+  rotate: false
+  xy: 1009, 304
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+damage/ 4
+  rotate: false
+  xy: 1311, 241
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+damage/ 5
+  rotate: false
+  xy: 1613, 241
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+damage/ 6
+  rotate: false
+  xy: 2, 61
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+damage/ 7
+  rotate: false
+  xy: 304, 31
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+damage/ 8
+  rotate: false
+  xy: 606, 10
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+damage/ 9
+  rotate: false
+  xy: 908, 2
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+shotfx/ 1
+  rotate: false
+  xy: 2, 988
+  size: 263, 263
+  orig: 263, 263
+  offset: 0, 0
+  index: -1
+shotfx/ 10
+  rotate: false
+  xy: 532, 635
+  size: 263, 263
+  orig: 263, 263
+  offset: 0, 0
+  index: -1
+shotfx/ 11
+  rotate: false
+  xy: 797, 614
+  size: 263, 263
+  orig: 263, 263
+  offset: 0, 0
+  index: -1
+shotfx/ 12
+  rotate: false
+  xy: 1062, 606
+  size: 263, 263
+  orig: 263, 263
+  offset: 0, 0
+  index: -1
+shotfx/ 13
+  rotate: false
+  xy: 1062, 606
+  size: 263, 263
+  orig: 263, 263
+  offset: 0, 0
+  index: -1
+shotfx/ 14
+  rotate: false
+  xy: 1062, 606
+  size: 263, 263
+  orig: 263, 263
+  offset: 0, 0
+  index: -1
+shotfx/ 2
+  rotate: false
+  xy: 267, 922
+  size: 263, 263
+  orig: 263, 263
+  offset: 0, 0
+  index: -1
+shotfx/ 3
+  rotate: false
+  xy: 532, 900
+  size: 263, 263
+  orig: 263, 263
+  offset: 0, 0
+  index: -1
+shotfx/ 4
+  rotate: false
+  xy: 797, 879
+  size: 263, 263
+  orig: 263, 263
+  offset: 0, 0
+  index: -1
+shotfx/ 5
+  rotate: false
+  xy: 1062, 871
+  size: 263, 263
+  orig: 263, 263
+  offset: 0, 0
+  index: -1
+shotfx/ 6
+  rotate: false
+  xy: 1327, 852
+  size: 263, 263
+  orig: 263, 263
+  offset: 0, 0
+  index: -1
+shotfx/ 7
+  rotate: false
+  xy: 1592, 831
+  size: 263, 263
+  orig: 263, 263
+  offset: 0, 0
+  index: -1
+shotfx/ 8
+  rotate: false
+  xy: 2, 723
+  size: 263, 263
+  orig: 263, 263
+  offset: 0, 0
+  index: -1
+shotfx/ 9
+  rotate: false
+  xy: 267, 657
+  size: 263, 263
+  orig: 263, 263
+  offset: 0, 0
+  index: -1
+smoke/1
+  rotate: false
+  xy: 172, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/10
+  rotate: false
+  xy: 1108, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/11
+  rotate: false
+  xy: 1212, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/12
+  rotate: false
+  xy: 1316, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/13
+  rotate: false
+  xy: 1420, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/14
+  rotate: false
+  xy: 1524, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/15
+  rotate: false
+  xy: 1628, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/16
+  rotate: false
+  xy: 1732, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/17
+  rotate: false
+  xy: 1836, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/18
+  rotate: false
+  xy: 1940, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/19
+  rotate: false
+  xy: 2, 1929
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/2
+  rotate: false
+  xy: 276, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/20
+  rotate: false
+  xy: 106, 1928
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/21
+  rotate: false
+  xy: 210, 1928
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/22
+  rotate: false
+  xy: 314, 1928
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/23
+  rotate: false
+  xy: 418, 1928
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/24
+  rotate: false
+  xy: 522, 1928
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/3
+  rotate: false
+  xy: 380, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/4
+  rotate: false
+  xy: 484, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/5
+  rotate: false
+  xy: 588, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/6
+  rotate: false
+  xy: 692, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/7
+  rotate: false
+  xy: 796, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/8
+  rotate: false
+  xy: 900, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+smoke/9
+  rotate: false
+  xy: 1004, 1976
+  size: 102, 46
+  orig: 102, 46
+  offset: 0, 0
+  index: -1
+
+Fruitnite-BG-Canon2.png
+size: 983,1056
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Burst/chest_glow
+  rotate: false
+  xy: 2, 16
+  size: 438, 434
+  orig: 453, 448
+  offset: 7, 7
+  index: -1
+Stone_Portrait
+  rotate: false
+  xy: 442, 2
+  size: 539, 448
+  orig: 557, 478
+  offset: 6, 30
+  index: -1
+damage/ 10
+  rotate: false
+  xy: 2, 754
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+damage/ 11
+  rotate: false
+  xy: 304, 754
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+damage/ 12
+  rotate: false
+  xy: 606, 754
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+damage/ 13
+  rotate: false
+  xy: 2, 452
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+damage/ 14
+  rotate: false
+  xy: 304, 452
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+damage/ 15
+  rotate: false
+  xy: 606, 452
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1

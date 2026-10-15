@@ -1,0 +1,75 @@
+{
+  "urls": [
+    "PrimarySounds.ac3",
+    "PrimarySounds.mp3",
+    "PrimarySounds.m4a",
+    "PrimarySounds.ogg"
+  ],
+  "sprite": {
+    "banana": [
+      0,
+      2252
+    ],
+    "commonBtn": [
+      4000,
+      247
+    ],
+    "grape": [
+      6000,
+      3065
+    ],
+    "green_apple": [
+      11000,
+      1463
+    ],
+    "kiwi": [
+      14000,
+      1300
+    ],
+    "lemon": [
+      17000,
+      2043
+    ],
+    "main_theme": [
+      21000,
+      112431,
+      true
+    ],
+    "mellon": [
+      135000,
+      1533
+    ],
+    "orange": [
+      138000,
+      1045
+    ],
+    "red_apple": [
+      141000,
+      1834
+    ],
+    "reels_match": [
+      144000,
+      3785
+    ],
+    "reels_run": [
+      149000,
+      1533
+    ],
+    "reels_start_button": [
+      152000,
+      3042
+    ],
+    "reels_stop": [
+      157000,
+      2902
+    ],
+    "strawberry": [
+      161000,
+      1300
+    ],
+    "tiles_crash": [
+      164000,
+      3019
+    ]
+  }
+}

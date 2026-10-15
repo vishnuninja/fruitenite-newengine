@@ -1,0 +1,28 @@
+{"frames": {
+
+"bar":
+{
+	"frame": {"x":0,"y":0,"w":650,"h":28},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":650,"h":28},
+	"sourceSize": {"w":650,"h":28}
+},
+"fill":
+{
+	"frame": {"x":654,"y":0,"w":650,"h":28},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":650,"h":28},
+	"sourceSize": {"w":650,"h":28}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "loadingbar.png",
+	"format": "RGBA8888",
+	"size": {"w":1304,"h":28},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:dcee4315247280aa4facdd048a9b1df0:d9c5b537ab6d252679285b9e69ec45e0:4a7cec3fb2596a2ec43af42363228c7c$"
+}
+}

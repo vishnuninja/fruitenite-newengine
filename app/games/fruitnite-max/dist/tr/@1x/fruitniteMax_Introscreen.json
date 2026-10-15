@@ -1,0 +1,111 @@
+{"frames": {
+
+"Base_circle":
+{
+	"frame": {"x":444,"y":1496,"w":64,"h":63},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":63},
+	"sourceSize": {"w":64,"h":63}
+},
+"Fill_circle":
+{
+	"frame": {"x":513,"y":1496,"w":64,"h":63},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":63},
+	"sourceSize": {"w":64,"h":63}
+},
+"gameLogoVp":
+{
+	"frame": {"x":1,"y":1061,"w":509,"h":292},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":8,"w":509,"h":292},
+	"sourceSize": {"w":512,"h":325}
+},
+"Layer 6":
+{
+	"frame": {"x":786,"y":1,"w":1016,"h":766},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":13,"y":21,"w":1016,"h":766},
+	"sourceSize": {"w":1054,"h":800}
+},
+"Layer 7":
+{
+	"frame": {"x":1,"y":1,"w":1054,"h":779},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":8,"w":1054,"h":779},
+	"sourceSize": {"w":1054,"h":800}
+},
+"Layer 8":
+{
+	"frame": {"x":786,"y":773,"w":1016,"h":766},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":13,"y":21,"w":1016,"h":766},
+	"sourceSize": {"w":1054,"h":800}
+},
+"play_disabled":
+{
+	"frame": {"x":332,"y":1061,"w":321,"h":139},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":321,"h":139},
+	"sourceSize": {"w":321,"h":139}
+},
+"play_hover":
+{
+	"frame": {"x":299,"y":1206,"w":321,"h":139},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":321,"h":139},
+	"sourceSize": {"w":321,"h":139}
+},
+"play_normal":
+{
+	"frame": {"x":444,"y":1206,"w":321,"h":139},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":321,"h":139},
+	"sourceSize": {"w":321,"h":139}
+},
+"play_pressed":
+{
+	"frame": {"x":444,"y":1351,"w":321,"h":139},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":321,"h":139},
+	"sourceSize": {"w":321,"h":139}
+},
+"Tick":
+{
+	"frame": {"x":299,"y":1545,"w":27,"h":20},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":13,"y":17,"w":27,"h":20},
+	"sourceSize": {"w":53,"h":53}
+},
+"Tick_box":
+{
+	"frame": {"x":582,"y":1496,"w":53,"h":53},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":53,"h":53},
+	"sourceSize": {"w":53,"h":53}
+}},
+"animations": {
+	"Layer ": ["Layer 6","Layer 7","Layer 8"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "fruitniteMax_Introscreen.png",
+	"format": "RGBA8888",
+	"size": {"w":1803,"h":1571},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:0f67704cb96b08aa04ad22f278038ee6:4336056c6ca2a12a46395ab38a88b55b:cf8d17ae665dfa3f42e11cfa6f3bb419$"
+}
+}

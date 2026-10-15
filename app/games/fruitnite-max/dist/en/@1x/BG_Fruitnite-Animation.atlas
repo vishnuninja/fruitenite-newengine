@@ -1,0 +1,618 @@
+
+BG_Fruitnite-Animation.png
+size: 2037,1686
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Bush
+  rotate: false
+  xy: 2, 1274
+  size: 272, 197
+  orig: 273, 199
+  offset: 1, 1
+  index: -1
+Fire/1
+  rotate: true
+  xy: 617, 1406
+  size: 136, 166
+  orig: 136, 166
+  offset: 0, 0
+  index: -1
+Fire/2
+  rotate: true
+  xy: 785, 1406
+  size: 136, 166
+  orig: 136, 166
+  offset: 0, 0
+  index: -1
+Fire/3
+  rotate: true
+  xy: 953, 1406
+  size: 136, 166
+  orig: 136, 166
+  offset: 0, 0
+  index: -1
+Fire/4
+  rotate: true
+  xy: 1121, 1406
+  size: 136, 166
+  orig: 136, 166
+  offset: 0, 0
+  index: -1
+Fire/5
+  rotate: true
+  xy: 1289, 1406
+  size: 136, 166
+  orig: 136, 166
+  offset: 0, 0
+  index: -1
+Fire/6
+  rotate: true
+  xy: 1457, 1406
+  size: 136, 166
+  orig: 136, 166
+  offset: 0, 0
+  index: -1
+Fire/7
+  rotate: true
+  xy: 1625, 1406
+  size: 136, 166
+  orig: 136, 166
+  offset: 0, 0
+  index: -1
+Fire/8
+  rotate: true
+  xy: 1793, 1406
+  size: 136, 166
+  orig: 136, 166
+  offset: 0, 0
+  index: -1
+Fire_Particle
+  rotate: false
+  xy: 2, 1668
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+Freegame_Bush_Landscape
+  rotate: false
+  xy: 276, 1249
+  size: 273, 204
+  orig: 273, 204
+  offset: 0, 0
+  index: -1
+Freegame_Tree_Landscape
+  rotate: true
+  xy: 1156, 974
+  size: 430, 533
+  orig: 430, 533
+  offset: 0, 0
+  index: -1
+Tree
+  rotate: true
+  xy: 497, 609
+  size: 440, 524
+  orig: 441, 524
+  offset: 1, 0
+  index: -1
+Tree_Left
+  rotate: true
+  xy: 460, 2
+  size: 512, 773
+  orig: 531, 773
+  offset: 0, 0
+  index: -1
+Tree_Left_Portrait
+  rotate: false
+  xy: 2, 815
+  size: 493, 432
+  orig: 493, 432
+  offset: 0, 0
+  index: -1
+Tree_Right
+  rotate: true
+  xy: 1023, 516
+  size: 456, 892
+  orig: 456, 892
+  offset: 0, 0
+  index: -1
+Tree_Right_Portrait
+  rotate: false
+  xy: 2, 170
+  size: 456, 643
+  orig: 456, 643
+  offset: 0, 0
+  index: -1
+Water
+  rotate: false
+  xy: 551, 1051
+  size: 603, 353
+  orig: 604, 374
+  offset: 0, 0
+  index: -1
+Waterfall/1
+  rotate: true
+  xy: 187, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/10
+  rotate: true
+  xy: 853, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/11
+  rotate: true
+  xy: 927, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/12
+  rotate: true
+  xy: 1001, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/13
+  rotate: true
+  xy: 1075, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/14
+  rotate: true
+  xy: 1149, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/15
+  rotate: true
+  xy: 1223, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/16
+  rotate: true
+  xy: 1297, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/17
+  rotate: true
+  xy: 1371, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/18
+  rotate: true
+  xy: 1445, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/19
+  rotate: true
+  xy: 1519, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/2
+  rotate: true
+  xy: 261, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/20
+  rotate: true
+  xy: 1593, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/21
+  rotate: true
+  xy: 1667, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/22
+  rotate: true
+  xy: 1741, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/23
+  rotate: true
+  xy: 1815, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/24
+  rotate: true
+  xy: 1889, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/25
+  rotate: true
+  xy: 1963, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/26
+  rotate: true
+  xy: 2, 1573
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/27
+  rotate: true
+  xy: 76, 1546
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/28
+  rotate: true
+  xy: 150, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/29
+  rotate: true
+  xy: 224, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/3
+  rotate: true
+  xy: 335, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/30
+  rotate: true
+  xy: 298, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/31
+  rotate: true
+  xy: 372, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/32
+  rotate: true
+  xy: 446, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/33
+  rotate: true
+  xy: 520, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/34
+  rotate: true
+  xy: 594, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/35
+  rotate: true
+  xy: 668, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/36
+  rotate: true
+  xy: 742, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/37
+  rotate: true
+  xy: 816, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/38
+  rotate: true
+  xy: 890, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/39
+  rotate: true
+  xy: 964, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/4
+  rotate: true
+  xy: 409, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/40
+  rotate: true
+  xy: 1038, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/41
+  rotate: true
+  xy: 1112, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/42
+  rotate: true
+  xy: 1186, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/43
+  rotate: true
+  xy: 1260, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/44
+  rotate: true
+  xy: 1334, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/45
+  rotate: true
+  xy: 1408, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/46
+  rotate: true
+  xy: 1482, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/47
+  rotate: true
+  xy: 1556, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/48
+  rotate: true
+  xy: 1630, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/49
+  rotate: true
+  xy: 1704, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/5
+  rotate: true
+  xy: 483, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/50
+  rotate: true
+  xy: 1778, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/51
+  rotate: true
+  xy: 1852, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/52
+  rotate: true
+  xy: 1926, 1544
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/53
+  rotate: true
+  xy: 2, 1502
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/54
+  rotate: true
+  xy: 76, 1475
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/55
+  rotate: true
+  xy: 150, 1473
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/56
+  rotate: true
+  xy: 224, 1473
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/57
+  rotate: true
+  xy: 298, 1473
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/58
+  rotate: true
+  xy: 372, 1473
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/59
+  rotate: true
+  xy: 446, 1473
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/6
+  rotate: true
+  xy: 557, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/7
+  rotate: true
+  xy: 631, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/8
+  rotate: true
+  xy: 705, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+Waterfall/9
+  rotate: true
+  xy: 779, 1615
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+pink b
+  rotate: true
+  xy: 20, 1644
+  size: 40, 62
+  orig: 42, 64
+  offset: 1, 1
+  index: -1
+pink-Lwing
+  rotate: true
+  xy: 84, 1617
+  size: 67, 101
+  orig: 69, 103
+  offset: 1, 1
+  index: -1
+pink-Rwing
+  rotate: true
+  xy: 520, 1455
+  size: 87, 95
+  orig: 89, 97
+  offset: 1, 1
+  index: -1
+
+BG_Fruitnite-Animation2.png
+size: 1924,1084
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BG
+  rotate: false
+  xy: 2, 2
+  size: 1920, 1080
+  orig: 1920, 1080
+  offset: 0, 0
+  index: -1
+
+BG_Fruitnite-Animation3.png
+size: 1924,1084
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FreeGame_BG
+  rotate: false
+  xy: 2, 2
+  size: 1920, 1080
+  orig: 1920, 1080
+  offset: 0, 0
+  index: -1
+
+BG_Fruitnite-Animation4.png
+size: 1084,1924
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Freegame_Portrait
+  rotate: false
+  xy: 2, 2
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1
+
+BG_Fruitnite-Animation5.png
+size: 1084,1924
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Portrait_BG
+  rotate: false
+  xy: 2, 2
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1

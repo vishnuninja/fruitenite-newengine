@@ -1,0 +1,122 @@
+{
+  "urls": [
+    "SecondarySounds.ac3",
+    "SecondarySounds.mp3",
+    "SecondarySounds.m4a",
+    "SecondarySounds.ogg"
+  ],
+  "sprite": {
+    "BasketUI_IN": [
+      0,
+      1959
+    ],
+    "BasketUI_Loop": [
+      3000,
+      27481
+    ],
+    "BasketUI_Lose": [
+      32000,
+      1802
+    ],
+    "BasketUI_OUT": [
+      35000,
+      758
+    ],
+    "BasketUI_Select": [
+      37000,
+      313
+    ],
+    "BasketUI_Win": [
+      39000,
+      1959
+    ],
+    "Coin_ShootV": [
+      42000,
+      1933
+    ],
+    "buy_bonus_window_close": [
+      45000,
+      3831
+    ],
+    "buy_bonus_window_open": [
+      50000,
+      3228
+    ],
+    "cannon": [
+      55000,
+      1411
+    ],
+    "counter": [
+      58000,
+      7105
+    ],
+    "fantastic": [
+      67000,
+      6966
+    ],
+    "freespin_outro_window_close": [
+      75000,
+      5108
+    ],
+    "freespin_outro_window_open": [
+      82000,
+      7454
+    ],
+    "freespins_intro_window_close": [
+      91000,
+      3460
+    ],
+    "freespins_intro_window_open": [
+      96000,
+      4783
+    ],
+    "freespins_theme": [
+      102000,
+      156990
+    ],
+    "multiplier": [
+      260000,
+      4946
+    ],
+    "multiplier_enrollment": [
+      266000,
+      3297
+    ],
+    "multiplier_fly": [
+      271000,
+      1625
+    ],
+    "nice": [
+      274000,
+      4087
+    ],
+    "omg": [
+      280000,
+      4969
+    ],
+    "scatter": [
+      286000,
+      3274
+    ],
+    "scatter_landing_1": [
+      291000,
+      3274
+    ],
+    "scatter_landing_2": [
+      296000,
+      3367
+    ],
+    "scatter_landing_3": [
+      301000,
+      3297
+    ],
+    "super": [
+      306000,
+      4505
+    ],
+    "transition": [
+      312000,
+      4180
+    ]
+  }
+}
