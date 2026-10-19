@@ -1,11 +1,13 @@
-function ClockView(argument) {
-    ViewContainer.apply(this, arguments);
+// ============================================================================
+// ES6 Class Definition: ClockView
+// ============================================================================
+
+class ClockView extends ViewContainer {
+    constructor(argument) {
+    super(...arguments);
 }
 
-ClockView.prototype = Object.create(ViewContainer.prototype);
-ClockView.prototype.constructor = ClockView;
-
-ClockView.prototype.createView = function () {
+    createView() {
     var obj = {
         "fontStyle": "bold",
         "fontSize": 25,
@@ -32,19 +34,21 @@ ClockView.prototype.createView = function () {
 
     _mediator.subscribe(_events.core.onResize, this.resize.bind(this));
 
-};
+}
 
-ClockView.prototype.hide = function () {
+    hide() {
     this.visible = false;
 }
 
-ClockView.prototype.show = function () {
+    show() {
     this.visible = true;
 }
-ClockView.prototype.destroy = function () {
+
+    destroy() {
     clearInterval(this.myClockInterval);
 }
-ClockView.prototype.resize = function () {
+
+    resize() {
     // console.log("_viewInfoUtil.viewScale = ", _viewInfoUtil.viewScale);
     if (_viewInfoUtil.device === "Desktop") {
         this.x = _viewInfoUtil.getWindowWidth() - 10;
@@ -55,4 +59,9 @@ ClockView.prototype.resize = function () {
         this.y = 40 * _viewInfoUtil.viewScale;
     }
 
-};
+}
+
+}
+
+
+

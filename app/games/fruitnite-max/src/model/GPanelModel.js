@@ -1,8 +1,9 @@
 // ============================================================================
-// Consolidated Parent (CyprusPanelModel.js) and Child (GPanelModel.js)
-// Base Class Definition & Implementation
+// ES6 Class Definition: PanelModel
 // ============================================================================
-PanelModel = function () {
+
+class PanelModel {
+    constructor() {
     this.accountId = 1;
     this.balance = 0;
 
@@ -23,11 +24,9 @@ PanelModel = function () {
     this.totalWin = 0;
     this.totalFreespinWin = 0;
     this.totalGambleWin = 0;
-};
+}
 
-var data = PanelModel.prototype;
-
-data.saveInitData = function (obj) {
+    saveInitData(obj) {
     //Store Values from player key
     var data = obj.player;
     if (data.account_id) {
@@ -108,12 +107,15 @@ data.saveInitData = function (obj) {
     this.setTotalBet();
     this.updateOperatorConfig(obj);
 }
-data.updateOperatorConfig = function (obj) {
+
+    updateOperatorConfig(obj) {
 }
-data.updateGameCoinValue = function (obj, cValue) {
+
+    updateGameCoinValue(obj, cValue) {
     return cValue;
 }
-data.updatePanelModelWithPFS = function (PFSData) {
+
+    updatePanelModelWithPFS(PFSData) {
     if (PFSData.amount !== undefined) {
         this.balance = PFSData.amount;
     }
@@ -138,8 +140,7 @@ data.updatePanelModelWithPFS = function (PFSData) {
 
 }
 
-//TODO - OPTIMIZE LATER
-data.updatePanelModelWithPrevData = function (prevData) {
+    updatePanelModelWithPrevData(prevData) {
     if (!prevData) {
         console.warn('[CyprusPanelModel] updatePanelModelWithPrevData: prevData is undefined');
         return;
@@ -178,76 +179,24 @@ data.updatePanelModelWithPrevData = function (prevData) {
 
 }
 
-data.addGameElements = function (data) { }
-data.setPaylineValue = function (value) {
+    addGameElements(data) { }
+
+    setPaylineValue(value) {
     if (value > 0 && value <= this.totalPaylines) {
         this.selectedPaylines = value;
         this.setTotalBet();
     }
 }
-data.setBetIndex = function (index) {
+
+    setBetIndex(index) {
     if (index >= 0 && index < this.coinArray.length) {
         this.selectedCoinIndex = index;
         this.selectedCoinValue = this.coinArray[this.selectedCoinIndex];
         this.setTotalBet();
     }
 }
-data.setTotalBet = function () {
-    if (this.paylinesType == "fixed") {
-        this.totalBet = this.numCoins * this.selectedCoinValue;
-    } else {
-        this.totalBet = this.selectedPaylines * this.selectedCoinValue * this.numCoins;
-    }
-}
 
-data.getAllTotalBet = function () {
-    return this.allTotalBet;
-}
-data.setAllTotalBet = function (totalBet) {
-    this.allTotalBet += totalBet;
-}
-data.getTotalBet = function () {
-    return this.totalBet;
-}
-data.getTotalWin = function () {
-    return this.totalWin;
-}
-data.setTotalWin = function (win) {
-    this.totalWin = win;
-}
-data.getTotalPaylines = function () {
-    return this.totalPaylines;
-}
-data.getLineValue = function () {
-    return this.selectedPaylines;
-}
-data.getCoinArray = function () {
-    return this.coinArray;
-}
-data.getCoinIndex = function () {
-    return this.selectedCoinIndex;
-}
-data.getCoinValue = function () {
-    return this.selectedCoinValue;
-}
-/*data.getBalance = function(){
-    return this.balance;
-}*/
-data.setNumCoins = function (coins) {
-    this.numCoins = coins;
-}
-data.getSelectedNumCoins = function () {
-    return this.numCoins;
-}
-
-// ============================================================================
-// Game-Specific Extensions & Prototype Overrides (GPanelModel.js)
-// ============================================================================
-
-
-var data = PanelModel.prototype;
-
-data.setTotalBet = function () {
+    setTotalBet() {
     if (this.paylinesType == "fixed") {
         this.totalBet = this.numCoins * this.selectedCoinValue;
         _mediator.publish("UpdateBet",this.totalBet);
@@ -256,9 +205,57 @@ data.setTotalBet = function () {
     }
 }
 
+    getAllTotalBet() {
+    return this.allTotalBet;
+}
+
+    setAllTotalBet(totalBet) {
+    this.allTotalBet += totalBet;
+}
+
+    getTotalBet() {
+    return this.totalBet;
+}
+
+    getTotalWin() {
+    return this.totalWin;
+}
+
+    setTotalWin(win) {
+    this.totalWin = win;
+}
+
+    getTotalPaylines() {
+    return this.totalPaylines;
+}
+
+    getLineValue() {
+    return this.selectedPaylines;
+}
+
+    getCoinArray() {
+    return this.coinArray;
+}
+
+    getCoinIndex() {
+    return this.selectedCoinIndex;
+}
+
+    getCoinValue() {
+    return this.selectedCoinValue;
+}
+
+    setNumCoins(coins) {
+    this.numCoins = coins;
+}
+
+    getSelectedNumCoins() {
+    return this.numCoins;
+}
+
+}
 
 
 
-// --- Consolidated Exports & Aliases ---
-var GPanelModel = PanelModel;
-if (typeof window !== "undefined") { window.GPanelModel = PanelModel; }
+
+

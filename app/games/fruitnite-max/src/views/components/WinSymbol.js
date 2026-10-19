@@ -1,11 +1,17 @@
-function WinSymbol(symbol) {
+// ============================================================================
+// ES6 Class Definition: WinSymbol
+// ============================================================================
+
+class WinSymbol extends PIXI.Container {
+    constructor(symbol) {
+    super();
     this.config = {};
     this.updateWinSymbolConfig(symbol);
     this.animationArray = [];
     this.animationTweens = [];
     this.cAnimations = {};
     this.symbol = symbol;
-    PIXI.Container.call(this);
+    
 
 
     if (!_viewInfoUtil.isSecondaryAssetsLoaded||_viewInfoUtil.isSecondaryAssetsLoaded) {
@@ -25,20 +31,17 @@ function WinSymbol(symbol) {
     this.createView();
 }
 
-WinSymbol.prototype = Object.create(PIXI.Container.prototype);
-WinSymbol.prototype.constructor = WinSymbol;
-var v = WinSymbol.prototype;
+    setCustomizedAnimations(i) { }
 
-v.setCustomizedAnimations = function (i) { };
-
-v.updateWinSymbolConfig = function(symbol){
+    updateWinSymbolConfig(symbol) {
 	if(coreApp.gameModel.isFullFSActive() && _ng.GameConfig.separateSymbolsForFS){
 		this.config = _ng.GameConfig.symbolAnimationsFS[symbol];
 	}else if(_ng.GameConfig.symbolAnimations){
 		this.config = _ng.GameConfig.symbolAnimations[symbol];
 	}
 }
-v.createFinalView = function () {
+
+    createFinalView() {
     //Provide x, y, scale etc in config if required.
     //Starting with i = 1; i = 0 is for common config like duration
     for(var i = 1; i < this.config.length; i++){
@@ -89,7 +92,8 @@ v.createFinalView = function () {
     }
     this.addExtraElement();
 }
-v.createDefaultView = function () {
+
+    createDefaultView() {
     var i = 1;
     var sprite = this.symbol || "";
     this['animation' + i] = pixiLib.getElement("Sprite", sprite);
@@ -101,9 +105,12 @@ v.createDefaultView = function () {
     this.addChild(this['animation' + i]);
     this.addExtraDefaultElement();
 }
-v.addExtraElement = function(){};
-v.addExtraDefaultElement = function(){};
-v.runAnimation = function () {    
+
+    addExtraElement() {}
+
+    addExtraDefaultElement() {}
+
+    runAnimation() {    
     this.animationTweens.length = 0;
     for (var i = 0; i < this.animationArray.length; i++) {
         this.setCustomizedAnimations(i);
@@ -136,7 +143,8 @@ v.runAnimation = function () {
         }
     }
 }
-v.defaultAnimation = function () {
+
+    defaultAnimation() {
     this.animationTweens.length = 0;
     for (var i = 0; i < this.animationArray.length; i++) {
         switch (this.animationArray[i].animationConfig.type) {
@@ -150,7 +158,8 @@ v.defaultAnimation = function () {
         }
     }
 }
-v.removeAnimation = function () {
+
+    removeAnimation() {
     for (var i = 0; i < this.animationTweens.length; i++) {
         this.animationTweens[i].kill();
     }
@@ -160,3 +169,8 @@ v.removeAnimation = function () {
     this.removeChildren();
     this.animationArray.length = 0;
 }
+
+}
+
+
+

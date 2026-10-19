@@ -1,17 +1,15 @@
 // ============================================================================
-// Consolidated Parent (ReelView.js) and Child (GReelView.js)
-// Base Class Definition & Implementation
+// ES6 Class Definition: ReelView
 // ============================================================================
-function ReelView(argument) {
-	ViewContainer.call(this, arguments);
+
+class ReelView extends ViewContainer {
+    constructor(argument) {
+	super(...arguments);
 }
 
-ReelView.prototype = Object.create(ViewContainer.prototype);
-ReelView.prototype.constructor = ReelView.prototype;
-var view = ReelView.prototype;
-
-view.createView = function (argument) {
+    createView(argument) {
 	this.forceStop = false;
+	this.reelsStarted=false;
 	this.reelConfig = _ng.GameConfig.ReelViewUiConfig;
 	this.isAnticipateSndPlaying = false;
 	this.createExtraBottomElements();
@@ -21,11 +19,8 @@ view.createView = function (argument) {
 	if (this.reelConfig.fsReelGridBottom) {
 		this.createFSBottomGrid();
 	}
-
 	//actual gamereels 
 	this.createReels();
-
-
 	if (this.reelConfig.data.maskInfo.maskType == 1) {
 		this.createSingleMask();
 	} else if (this.reelConfig.data.maskInfo.maskType == 2){
@@ -47,43 +42,57 @@ view.createView = function (argument) {
 	this.createAnticipation();
 	this.createExtraElements();
     _mediator.subscribe("scaleReelMaskOnEachReelStop", this.updateReelWiseMask.bind(this));
-
+	_mediator.subscribe("forceStopBySpace",this.forceStopBySpace.bind(this));
+	// _mediator.subscribe("spinStartCheck",this.spinStartCheck.bind(this));
+	this.startSpinTimeoutArr = [];
+	this.stopSpinTimeoutArr = [];
 
 	setTimeout(function (){
 	    if(this.reelConfig.data.reelSpinConfig.hideTopSymbol){
 			this.toggleMask(false);
 		}
 	}.bind(this), 200);
-};
 
+    _mediator.subscribe("FadeReels",this.fadeReels.bind(this))
+}
 
-view.createExtraBottomElements = function(){
+    createExtraBottomElements() {
 	
 }
-view.createExtraElements = function () {
-	// body...
+
+    createExtraElements() {
+	this.winSymbolsToRemove = {};
+	this.currentTumbleIndex = 0;
+	_mediator.subscribe("spinStart", () => {
+		this.currentTumbleIndex = 0;
+	});
 }
-view.showWildMultiplier = function(){}
-view.createAnticipation = function () {
+
+    showWildMultiplier() {}
+
+    createAnticipation() {
 	//@todo create anticipate
 	/*if(this.reelConfig.scatterAnticipating){
 		this.scatterAnticipate = pixiLib.getElement("Sprite", this.reelConfig.scatterAnticipating);
 	}*/
 }
-view.createAnticipate = function () {
+
+    createAnticipate() {
 	//@todo create anticipate
 	/*if(this.reelConfig.scatterAnticipating){
 		this.scatterAnticipate = pixiLib.getElement("Sprite", this.reelConfig.scatterAnticipating);
 	}*/
 }
-view.showAnticipate = function (reelId) {
+
+    showAnticipate(reelId) {
 	//@todo show and set postion
 }
-view.clearAnticipate = function () {
+
+    clearAnticipate() {
 	//@todo hide anticipate
 }
 
-view.createBottomGrid = function (argument) {
+    createBottomGrid(argument) {
 	//@todo need to update frame in freespin/normal spin
 	this.bottomGrid = pixiLib.getElement("Sprite", this.reelConfig.reelGridBottom.image);
 	this.bottomGrid.name = "bottomGrid";
@@ -91,14 +100,15 @@ view.createBottomGrid = function (argument) {
 	pixiLib.setProperties(this.bottomGrid, this.reelConfig.reelGridBottom.props["VD"]);
 }
 
-view.createFSBottomGrid = function () {
+    createFSBottomGrid() {
 	this.fsBottomGrid = pixiLib.getElement("Sprite", this.reelConfig.fsReelGridBottom.image);
 	this.fsBottomGrid.name = "fsBottomGrid";
 	this.addChild(this.fsBottomGrid);
 	pixiLib.setProperties(this.fsBottomGrid, this.reelConfig.fsReelGridBottom.props["VD"]);
 	this.fsBottomGrid.visible = false;
 }
-view.showFreespinGrid = function () {
+
+    showFreespinGrid() {
 	if (this.fsBottomGrid) {
 		this.fsBottomGrid.alpha = 0;
 		this.fsBottomGrid.visible = true;
@@ -111,7 +121,8 @@ view.showFreespinGrid = function () {
 		TweenMax.to(this.fsTopGrid, 1, { alpha: 1 })
 	}
 }
-view.hideFreespinGrid = function () {
+
+    hideFreespinGrid() {
 	if (this.fsBottomGrid) {
 		TweenMax.to(this.fsBottomGrid, 1, {
 			alpha: 0,
@@ -131,14 +142,15 @@ view.hideFreespinGrid = function () {
 		})
 	}
 }
-view.createTopGrid = function (argument) {
+
+    createTopGrid(argument) {
 	this.topGrid = pixiLib.getElement("Sprite", this.reelConfig.reelGridTop.image);
 	this.topGrid.name = "topGrid";
 	this.addChild(this.topGrid);
 	pixiLib.setProperties(this.topGrid, this.reelConfig.reelGridTop.props["VD"]);
 }
 
-view.createFSTopGrid = function (argument) {
+    createFSTopGrid(argument) {
 	this.fsTopGrid = pixiLib.getElement("Sprite", this.reelConfig.fsReelGridTop.image);
 	this.fsTopGrid.name = "fsTopGrid";
 	this.addChild(this.fsTopGrid);
@@ -146,14 +158,14 @@ view.createFSTopGrid = function (argument) {
 	this.fsTopGrid.visible = false;
 }
 
-view.createReelGridTopAnim = function (argument) {
+    createReelGridTopAnim(argument) {
 	this.topAnim = pixiLib.getElement("Sprite", this.reelConfig.reelGridTopAnim.image);
 	this.topAnim.name = "topAnim";
 	this.addChild(this.topAnim);
 	pixiLib.setProperties(this.topAnim, this.reelConfig.reelGridTopAnim.props["VD"]);	
 }
 
-view.createSingleMask = function (argument) {
+    createSingleMask(argument) {
 	var maskPosition = this.reelConfig.data.maskInfo.maskPosition;
 	this.maskObj = pixiLib.getElement("Graphics", {w: maskPosition.width, h: maskPosition.height, type: maskPosition.type, pointsArray: maskPosition.pointsArray});
 	this.maskObj.name = "maskObject";
@@ -162,7 +174,8 @@ view.createSingleMask = function (argument) {
 	//mask
 	this.reelContainer.mask = this.maskObj;
 }
-view.createMaskWithSprite = function (argument) {
+
+    createMaskWithSprite(argument) {
 	var maskPosition = this.reelConfig.data.maskInfo.maskPosition;
 	 this.maskObj = pixiLib.getElement("Sprite", "reelFrameMask");
 	this.maskObj.name = "maskObject";
@@ -171,8 +184,8 @@ view.createMaskWithSprite = function (argument) {
 	//mask
 	this.reelContainer.mask = this.maskObj;
 }
-/**@vijay creating the reelwise mask 10-01-2020 */
-view.createReelWiseMask = function () {
+
+    createReelWiseMask() {
 
 	for (var i = 0; i < this.reelConfig.data.noOfReels; i++) {
 	var maskPosition = this.reelConfig.data.maskInfo.reelMaskPosition[i];
@@ -189,8 +202,7 @@ view.createReelWiseMask = function () {
 	}
 }
 
-/**@vijay updating (scaling height) ReelWise Mask if required */
-view.updateReelWiseMask = function (i, yScaleFactor) {
+    updateReelWiseMask(i, yScaleFactor) {
 	if(this.reelConfig.data.maskInfo.reelStripScaleFactor && this.reelConfig.data.reelSpinConfig.hideTopSymbol){
 	this.getChildByName(("maskObject"+i)).scale.y = yScaleFactor;
      if(yScaleFactor > 1){
@@ -201,7 +213,7 @@ view.updateReelWiseMask = function (i, yScaleFactor) {
 	}
 }
 
-view.toggleMask = function (bool){
+    toggleMask(bool) {
 	if(bool){
 		this.maskObj.visible = true;
 		this.reelContainer.mask = this.maskObj;
@@ -211,9 +223,7 @@ view.toggleMask = function (bool){
 	}
 }
 
-
-
-view.createReels = function (argument) {
+    createReels(argument) {
 	this.reels = [];
 
 	this.reelContainer = pixiLib.getContainer();
@@ -237,45 +247,27 @@ view.createReels = function (argument) {
 	pixiLib.setProperties(this.reelContainer, this.reelConfig.data.reelPositionsWRTGrid);
 }
 
-
-view.startSpin = function (argument) {
-	//console.log(" on all reels startedd ============================");
-	this.startSpinCounter = 0;
-	this.stopSpinCounter = 0;
-	this.forceStop = false;
-	_sndLib.play(_sndLib.sprite.reelSpinning);
-	this.anticipateAry = {};
-	this.isAnticipateActive = false;
-	this.isAnticipateSndPlaying = false;
-	this.individualStrip("start");
-	if(this.reelConfig.data.reelSpinConfig.hideTopSymbol){
-		this.toggleMask(true);
+    startSpin(spinSpeed) {
+	if(_ng.externalUiController.getSpaceBarHoldStatus())	spinSpeed = "quick";
+	this.setSpinResponseStatus(false);
+	var reelSpinSound = _sndLib.sprite.reelStart;
+	reelSpinSound.volume = 1;
+	_sndLib.play(reelSpinSound);
+	this.startSpinTimeoutArr = [];
+	var reelStartIntervalDuration = ("quick" === spinSpeed) ? 0 : 80;
+	for(let i=0;i<this.reels.length;i++){
+		var timeout = setTimeout(function () {
+			this.reels[i].startStripSpin(spinSpeed);
+		}.bind(this), i * reelStartIntervalDuration);
+		this.startSpinTimeoutArr.push(timeout);
 	}
-};
+}
 
-view.quickSpinStart = function (argument) {
-	//console.log(" on all reels startedd ============================");
-	this.startSpinCounter = 0;
-	this.stopSpinCounter = 0;
-	this.forceStop = false;
-	_sndLib.play(_sndLib.sprite.reelSpinning);
-	this.anticipateAry = {};
-	this.isAnticipateActive = false;
-	this.isAnticipateSndPlaying = false;
+    quickSpinStart() {
+	this.startSpin("quick");
+}
 
-	//start all reels at once 
-	for (var i = 0; i < this.reelConfig.data.noOfReels; i++) { 
-		this.updateReelWiseMask(i, 1);
-		_mediator.publish("onEachReelStart", i);
-		this.reels[i].startSpin();
-	}
-	_mediator.publish("allReelsStarted");
-	if(this.reelConfig.data.reelSpinConfig.hideTopSymbol){
-		this.toggleMask(true);
-	}
-};
-
-view.individualStrip = function (spinType, isStopNow) {
+    individualStrip(spinType, isStopNow) {
 	if (spinType == "start") {
 		if (this.startSpinCounter >= this.reels.length) {
 			this.startSpinCounter = this.reels.length - 1;
@@ -329,8 +321,7 @@ view.individualStrip = function (spinType, isStopNow) {
 	}
 }
 
-
-view.individualStripStop = function (spinType, isStopNow) {
+    individualStripStop(spinType, isStopNow) {
 	if (this.stopSpinCounter >= this.reels.length) {
 		this.stopSpinCounter = this.reels.length - 1;
 	}
@@ -372,17 +363,28 @@ view.individualStripStop = function (spinType, isStopNow) {
 	}
 }
 
-view.stopSpin = function (matrix) {
-	this.anticipateAry = {};
-	this.isAnticipateActive = false;
-	this.reelsData = matrix;
-	this.totalScatters = 0;
-	this.stopSpinCounter = 0;
-	this.individualStripStop("stop");
-};
+    stopSpin(msg) {
+	// Check allreelstopped... response recieved...
+	if(msg === "spinfallcompleted")
+		this.setReelFallStatus(true);
+	if(msg === "spinresponserecieved"){
+		this.setSpinResponseStatus(true);
+		console.log(msg)
+		_mediator.publish("showSpinStop"); // To enable stop button...
+	}
+	if(this.spinResponseReceived && this.spinFallCompleted){
+		this.stopSpinTimeoutArr = [];
+		for(let i=0;i<this.reels.length;i++){
+			var timeout = setTimeout(function () {
+				this.reels[i].replaceWithNewSymbols();
+				this.reels[i].stopStripSpin();
+			}.bind(this), i * 80);
+			this.stopSpinTimeoutArr.push(timeout);
+		}
+	}
+}
 
-//stop button code 
-view.stopSpinNow = function (matrix) {
+    stopSpinNow(matrix) {
 	this.reelsData = matrix;
 	this.anticipateAry = {};
 	this.forceStop = true;
@@ -395,33 +397,22 @@ view.stopSpinNow = function (matrix) {
 	this.isAnticipateActive = false;
 	clearTimeout(this.callNextReelInterval);
 	this.individualStripStop("stop", true);	
-};
-view.quickSpinStop = function (matrix) {
-	this.reelsData = matrix;
-	this.anticipateAry = {};
-	this.forceStop = true;
+}
 
-	if(this.isAnticipateActive && this.currentAnticipationReelId){
-		this.reels[this.currentAnticipationReelId].killAnticipation();
-	}
-	this.stopAnticipation();
-	this.isAnticipateActive = false;
-	clearTimeout(this.callNextReelInterval);
+    quickSpinStop() {
+	for(let i=0;i<this.reels.length;i++)
+		this.reels[i].forceStripToStop();
+}
 
-	for (var i = 0; i < this.reelConfig.data.noOfReels; i++) {
-		this.reels[i].stopSpin(this.reelsData[i], true);
-	}
-	
-};
-
-view.fadeReels = function (value) {
+    fadeReels(value) {
 	if (this.reelConfig.data.isSymbolFadeInWins) {
 		for (var i = 0; i < this.reels.length; i++) {
 			this.reels[i].alpha = value;
 		}
 	}
-};
-view.addTintOnSymbols = function (dataObj) {
+}
+
+    addTintOnSymbols(dataObj) {
 	var tintValue = (dataObj && dataObj.tintValue) || 0xFFFFFF;
 	var symbolArray = (dataObj && dataObj.symbolArray) || undefined;
 	if (symbolArray && symbolArray.length > 0) {
@@ -437,7 +428,8 @@ view.addTintOnSymbols = function (dataObj) {
 		}
 	}
 }
-view.fadeAllSymbols = function (value) {
+
+    fadeAllSymbols(value) {
 	if (isNaN(value)) {
 		value = 0.5;
 	}
@@ -445,7 +437,8 @@ view.fadeAllSymbols = function (value) {
 		this.reels[i].alpha = value;
 	}
 }
-view.fadeReelSymbols = function (lineAry) {
+
+    fadeReelSymbols(lineAry) {
 	this.fadeReels(0.3);
 	if (this.reelConfig.data.isSymbolFadeInWins) {
 		for (var i = 0; i < lineAry.pos.length; i++) {
@@ -454,67 +447,61 @@ view.fadeReelSymbols = function (lineAry) {
 			this.reels[posObj.column].symbolsArray[posObj.row + 1].visible = false;
 		}
 	}
-};
-// backup 
-// view.fadeReelSymbols = function (lineAry) {
-// 	this.fadeReels(0.3);
-// 	if (this.reelConfig.data.isSymbolFadeInWins) {
-// 		var count = 0;
-// 		for (var i = 0; i < this.reels.length; i++) {
-// 			if (lineAry.blink[i] == 1) {
-// 				var yPos = Math.floor(Number(lineAry.pos[count]) / Number(this.reelConfig.data.noOfReels));
-// 				this.reels[i].symbolsArray[yPos + 1].visible = false;
-// 				count++;
-// 			}
-// 		}
-// 	}
-// };
-view.hideReelSymbols = function (symbolArray, type) {
-	if(type === "eachReel"){
-		for (var i = 0; i < symbolArray.length; i++) {
-			this.reels[symbolArray[i][0]].symbolsArray[symbolArray[i][1]+1].visible = false;
-		}
-		return;
-	}
+}
+
+    hideReelSymbols(symbolArray, type) {
 	for (var i = 0; i < symbolArray.length; i++) {
 		var rowColumn = pixiLib.getRowColumn(symbolArray[i]);
-		this.reels[rowColumn.column].symbolsArray[rowColumn.row + 1].visible = false;
+		this.reels[rowColumn.column].symbolsArray[rowColumn.row].visible = false;
 	}
 }
-view.clearReelSymbols = function (lineAry) {
+
+    clearReelSymbols(lineAry) {
 	for (var i = 0; i < this.reels.length; i++) {
 		for (var j = 0; j < this.reels[i].symbolsArray.length; j++) {
 			this.reels[i].symbolsArray[j].visible = true;
 		}
 	}
-};
-view.endSpinImmediatly = function (argument) { };
-view.onSpinResponse = function (argument) { };
-view.onReelSpinStarted = function (argument) { };
-view.onAllReelsStopped = function (argument) { };
-view.onEachReelStop = function (reelNumber) { };
+}
 
+    endSpinImmediatly(argument) { }
 
+    onSpinResponse(argument) { }
 
+    onReelSpinStarted(argument) { }
 
-view.resize = function (argument) {
+    onAllReelsStopped() {
+	//console.log(" on all reels stopped ============================");
+	_sndLib.stop(_sndLib.sprite.reelSpinning);
+	// this.stopAnticipation();
+	clearTimeout(this.callNextReelInterval);
+
+	if(this.reelConfig.data.reelSpinConfig.hideTopSymbol){
+		this.toggleMask(false);
+	}
+}
+
+    onEachReelStop(reelNumber) { }
+
+    resize(argument) {
 	for (var i = 0; i < viewConfig.length; i++) {
 		UIUtils.setProperties(this[this.viewConfig[i].id], this.viewConfig[i].props);
 	}
-};
+}
 
-view.show = function (argument) {
+    show(argument) {
 	this.visible = true;
-};
+}
 
-view.hide = function (argument) {
+    hide(argument) {
 	this.visible = false;
-};
+}
 
-view.destroy = function (argument) {
+    destroy(argument) {
 	this.destroy();
-};
-view.checkIsScatter = function (matrix) {
+}
+
+    checkIsScatter(matrix) {
 	var scatters = _ng.GameConfig.aniticipateSymbol;
 	for (var i = 0; i < scatters.length; i++) {
 		if (matrix.indexOf(scatters[i]) >= 0) {
@@ -528,12 +515,13 @@ view.checkIsScatter = function (matrix) {
 		}
 	}
 	this.addGameSpecificCondition()
-};
+}
 
-view.addGameSpecificCondition = function () {
+    addGameSpecificCondition() {
 
 }
-view.addAnticipateReelAnim = function (reelId) {
+
+    addAnticipateReelAnim(reelId) {
 	if (this.reelConfig.data.anticipationSpine) {
 		this.addSpineAnticipationAnim(reelId);
 		var props = this.reelConfig.data.anticipationSpine.props;
@@ -557,11 +545,12 @@ view.addAnticipateReelAnim = function (reelId) {
 	this.reelFrame.animationSpeed = props.animationSpeed ? props.animationSpeed : 1;
 	this.updateAnticipationDynamicProp(reelId);
 }
-view.updateAnticipationDynamicProp = function (reelId) {
-	// add properties to fix position of anticipation animation if reels are not required.
-};
 
-view.addSpineAnticipationAnim = function (reelId) {
+    updateAnticipationDynamicProp(reelId) {
+	// add properties to fix position of anticipation animation if reels are not required.
+}
+
+    addSpineAnticipationAnim(reelId) {
 	//console.log("spin anticipation ==========");
 	if (!this.reelFrame && this.reelConfig.data.anticipationSpine) {
 		this.reelFrame = new PIXI.spine.Spine(PIXI.Loader.shared.resources[this.reelConfig.data.anticipationSpine.spineName].spineData);
@@ -575,7 +564,7 @@ view.addSpineAnticipationAnim = function (reelId) {
 	}
 }
 
-view.addSpritAnimation = function (reelId) {
+    addSpritAnimation(reelId) {
 	//console.log("frames  anticipation ==========");
 	if (!this.reelFrame) {
 		this.reelFrame = pixiLib.getElement("AnimatedSprite", this.reelConfig.data.anticipationFrames.frames);
@@ -587,17 +576,7 @@ view.addSpritAnimation = function (reelId) {
 	this.reelFrame.play();
 }
 
-view.onAllReelsStopped = function () {
-	//console.log(" on all reels stopped ============================");
-	_sndLib.stop(_sndLib.sprite.reelSpinning);
-	// this.stopAnticipation();
-	clearTimeout(this.callNextReelInterval);
-
-	if(this.reelConfig.data.reelSpinConfig.hideTopSymbol){
-		this.toggleMask(false);
-	}
-}
-view.stopAnticipation = function (){
+    stopAnticipation() {
 	if(!this.isAnticipateActive){
 		return;
 	}
@@ -611,142 +590,21 @@ view.stopAnticipation = function (){
 	}
 }
 
-
-// ============================================================================
-// Game-Specific Extensions & Prototype Overrides (GReelView.js)
-// ============================================================================
-var view = ReelView.prototype;
-
-view.createView = function (argument) {
-	this.forceStop = false;
-	this.reelsStarted=false;
-	this.reelConfig = _ng.GameConfig.ReelViewUiConfig;
-	this.isAnticipateSndPlaying = false;
-	this.createExtraBottomElements();
-	if (this.reelConfig.reelGridBottom) {
-		this.createBottomGrid();
-	}
-	if (this.reelConfig.fsReelGridBottom) {
-		this.createFSBottomGrid();
-	}
-	//actual gamereels 
-	this.createReels();
-	if (this.reelConfig.data.maskInfo.maskType == 1) {
-		this.createSingleMask();
-	} else if (this.reelConfig.data.maskInfo.maskType == 2){
-        this.createReelWiseMask();
-	} else if (this.reelConfig.data.maskInfo.maskType == 3){
-		this.createMaskWithSprite();
-	}	
-	if (this.reelConfig.reelGridTop) {
-		this.createTopGrid();
-	}
-	if (this.reelConfig.fsReelGridTop) {
-		this.createFSTopGrid();
-	}
-
-	if (this.reelConfig.reelGridTopAnim) {
-		this.createReelGridTopAnim();
-	}
-	//@todo can write extra elements code 
-	this.createAnticipation();
-	this.createExtraElements();
-    _mediator.subscribe("scaleReelMaskOnEachReelStop", this.updateReelWiseMask.bind(this));
-	_mediator.subscribe("forceStopBySpace",this.forceStopBySpace.bind(this));
-	// _mediator.subscribe("spinStartCheck",this.spinStartCheck.bind(this));
-	this.startSpinTimeoutArr = [];
-	this.stopSpinTimeoutArr = [];
-
-	setTimeout(function (){
-	    if(this.reelConfig.data.reelSpinConfig.hideTopSymbol){
-			this.toggleMask(false);
-		}
-	}.bind(this), 200);
-
-    _mediator.subscribe("FadeReels",this.fadeReels.bind(this))
-};
-
-view.createExtraElements = function () {
-	this.winSymbolsToRemove = {};
-	this.currentTumbleIndex = 0;
-	_mediator.subscribe("spinStart", () => {
-		this.currentTumbleIndex = 0;
-	});
-}
-
-view.createFSTopGrid = function (argument) {
-	this.fsTopGrid = pixiLib.getElement("Sprite", this.reelConfig.fsReelGridTop.image);
-	this.fsTopGrid.name = "fsTopGrid";
-	this.addChild(this.fsTopGrid);
-	pixiLib.setProperties(this.fsTopGrid, this.reelConfig.fsReelGridTop.props["VD"]);
-	this.fsTopGrid.visible = false;
-}
-
-view.fadeReels = function (value) {
-	if (this.reelConfig.data.isSymbolFadeInWins) {
-		for (var i = 0; i < this.reels.length; i++) {
-			this.reels[i].alpha = value;
-		}
-	}
-};
-view.startSpin = function (spinSpeed) {
-	if(_ng.externalUiController.getSpaceBarHoldStatus())	spinSpeed = "quick";
-	this.setSpinResponseStatus(false);
-	var reelSpinSound = _sndLib.sprite.reelStart;
-	reelSpinSound.volume = 1;
-	_sndLib.play(reelSpinSound);
-	this.startSpinTimeoutArr = [];
-	var reelStartIntervalDuration = ("quick" === spinSpeed) ? 0 : 80;
-	for(let i=0;i<this.reels.length;i++){
-		var timeout = setTimeout(function () {
-			this.reels[i].startStripSpin(spinSpeed);
-		}.bind(this), i * reelStartIntervalDuration);
-		this.startSpinTimeoutArr.push(timeout);
-	}
-};
-view.quickSpinStart = function () {
-	this.startSpin("quick");
-};
-view.setSpinResponseStatus = function (bool) {
+    setSpinResponseStatus(bool) {
 	this.spinResponseReceived = bool;
 }
-view.setReelFallStatus = function (bool) {
+
+    setReelFallStatus(bool) {
 	this.spinFallCompleted = bool;
 }
-view.stopSpin = function (msg) {
-	// Check allreelstopped... response recieved...
-	if(msg === "spinfallcompleted")
-		this.setReelFallStatus(true);
-	if(msg === "spinresponserecieved"){
-		this.setSpinResponseStatus(true);
-		console.log(msg)
-		_mediator.publish("showSpinStop"); // To enable stop button...
-	}
-	if(this.spinResponseReceived && this.spinFallCompleted){
-		this.stopSpinTimeoutArr = [];
-		for(let i=0;i<this.reels.length;i++){
-			var timeout = setTimeout(function () {
-				this.reels[i].replaceWithNewSymbols();
-				this.reels[i].stopStripSpin();
-			}.bind(this), i * 80);
-			this.stopSpinTimeoutArr.push(timeout);
-		}
-	}
-};
 
-view.allStripsFallingCompleted = function () {
+    allStripsFallingCompleted() {
 	_sndLib.stop(_sndLib.sprite.reelSpinning);
 	_mediator.publish("allReelsStopped");
 	this.reels.forEach(elem => elem.REEL_STATE = "idle");
 }
 
-view.quickSpinStop = function () {
-	for(let i=0;i<this.reels.length;i++)
-		this.reels[i].forceStripToStop();
-};
-
-view.forceStopBySpace=function()
-{
+    forceStopBySpace() {
 	this.startSpinTimeoutArr.forEach(function (timeout) {
 		clearTimeout(timeout);
 	});
@@ -756,7 +614,7 @@ view.forceStopBySpace=function()
 	this.quickSpinStop();
 }
 
-view.performTumble = function(currentStep = 0) {
+    performTumble(currentStep = 0) {
   let currentIndex = currentStep;
   var numberOfTumbles = coreApp.gameModel.obj.current_round.misc_prizes.count;
   this.winSymbolsToRemove = {};
@@ -793,8 +651,7 @@ view.performTumble = function(currentStep = 0) {
   }
 }
 
-
-view.onSymbolAnimationComplete = function() {
+    onSymbolAnimationComplete() {
   _mediator.publish("showTumbleWin",this.currentTumbleIndex);
   this.removeWinAnimations();
   this.removeWinSymbols(this.currentTumbleIndex);
@@ -804,13 +661,13 @@ view.onSymbolAnimationComplete = function() {
   }.bind(this), 10);
 }
 
-view.removeWinAnimations = function() {
+    removeWinAnimations() {
   this.reels.forEach(reel => {
     reel.removeSymbolAnimation();
   });
 }
 
-view.removeWinSymbols = function(currentIndex) {
+    removeWinSymbols(currentIndex) {
   console.log("start removing win symbols for tumble ", currentIndex);
   for(var reelId in this.winSymbolsToRemove) {
     var sortedWinSymbol = this.winSymbolsToRemove[reelId].sort(function(a, b) {return b-a});
@@ -820,7 +677,7 @@ view.removeWinSymbols = function(currentIndex) {
   }
 }
 
-view.addTumbleSymbols = function(tumbleIndex) {
+    addTumbleSymbols(tumbleIndex) {
   var newSymbols = coreApp.gameModel.obj.current_round.misc_prizes[tumbleIndex].new_symbols.split(";");
 
   var stripData = {};
@@ -840,7 +697,7 @@ view.addTumbleSymbols = function(tumbleIndex) {
   }
 }
 
-view.moveAllSymbols = function() {
+    moveAllSymbols() {
 	var moveDownSound = _sndLib.sprite.move_down;
 	moveDownSound.delay = ((_ng.isQuickSpinActive && _ng.GameConfig.FastAnim)) ? 0 : 100; 
 	_sndLib.play(moveDownSound);
@@ -849,12 +706,12 @@ view.moveAllSymbols = function() {
 		this.reels[i].moveSymbolsDown(this.onMoveSymbolsComplete.bind(this));
 }
 
-view.onMoveSymbolsComplete = async function() {
+    async onMoveSymbolsComplete() {
   this.currentTumbleIndex++;
   this.performTumble(this.currentTumbleIndex);
-};
+}
 
-view.playSymbolSoundOnce = function (soundType){
+    playSymbolSoundOnce(soundType) {
 	var currentIndex = this.currentTumbleIndex;
 	var currentTumbleData = coreApp.gameModel.obj.current_round.misc_prizes[currentIndex];
 	var currentWinSym = currentTumbleData.old_reel_symbol[0];
@@ -871,19 +728,9 @@ view.playSymbolSoundOnce = function (soundType){
 	_sndLib.play(soundObj);
 }
 
-view.hideReelSymbols = function (symbolArray, type) {
-	for (var i = 0; i < symbolArray.length; i++) {
-		var rowColumn = pixiLib.getRowColumn(symbolArray[i]);
-		this.reels[rowColumn.column].symbolsArray[rowColumn.row].visible = false;
-	}
 }
 
 
 
 
 
-
-
-// --- Consolidated Exports & Aliases ---
-var GReelView = ReelView;
-if (typeof window !== "undefined") { window.GReelView = ReelView; }

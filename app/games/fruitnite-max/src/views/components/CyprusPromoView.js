@@ -1,11 +1,13 @@
-function CyprusPromoView(argument) {
-    ViewContainer.apply(this, arguments);
+// ============================================================================
+// ES6 Class Definition: CyprusPromoView
+// ============================================================================
+
+class CyprusPromoView extends ViewContainer {
+    constructor(argument) {
+    super(...arguments);
 }
 
-CyprusPromoView.prototype = Object.create(ViewContainer.prototype);
-CyprusPromoView.prototype.constructor = CyprusPromoView;
-
-CyprusPromoView.prototype.createView = function () {
+    createView() {
 
 
 	var promoSpinStyle = new PIXI.TextStyle({
@@ -44,35 +46,34 @@ CyprusPromoView.prototype.createView = function () {
 	this.addEvents();
     this.resize();
 	this.visible = false;
-};
-
-CyprusPromoView.prototype.addEvents = function () {
 }
 
+    addEvents() {
+}
 
-CyprusPromoView.prototype.hide = function () {
+    hide() {
     this.visible = false;
 }
 
-CyprusPromoView.prototype.show = function () {
+    show() {
     this.visible = true;
 }
 
-CyprusPromoView.prototype.destroy = function () {
+    destroy() {
     this.removeChild(this);
 }
 
-CyprusPromoView.prototype.onUpdatePromoSpinLeft = function (spinLeft) {
+    onUpdatePromoSpinLeft(spinLeft) {
 	if(this.promoSpinLeft)
     	this.promoSpinLeft.text = "PROMO SPINS LEFT : " + spinLeft;
 }
 
-CyprusPromoView.prototype.onUpdatePromoWinText = function (winAmount) {
+    onUpdatePromoWinText(winAmount) {
 	if(this.winText)
     	this.winText.text = "WIN: " +  pixiLib.getFormattedAmount(winAmount);
 }
 
-CyprusPromoView.prototype.resize = function () {
+    resize() {
     // console.log("_viewInfoUtil.viewScale = ", _viewInfoUtil.viewScale);
     if (_viewInfoUtil.device === "Desktop") {
         // this.curTimeTxt.style.fontSize = 20 * 2;
@@ -87,4 +88,9 @@ CyprusPromoView.prototype.resize = function () {
         // this.scale.set(_viewInfoUtil.scale);
     }
 
-};
+}
+
+}
+
+
+

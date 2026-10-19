@@ -185,6 +185,7 @@ function setupFullscreenMode() {
 	if (desktopFullScreen == true || desktopFullScreen == "true") {
 
 		let renderer = pixiLib.getRenderer();
+		if (!renderer || !renderer.view) return;
 		let newWidth, newHeight;
 
 		renderer.view.style.width = "100%";

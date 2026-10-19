@@ -1,11 +1,13 @@
 // ============================================================================
-// Consolidated Parent (BigWinView.js) and Child (GBigWinView.js)
-// Base Class Definition & Implementation
+// ES6 Class Definition: BigWinView
 // ============================================================================
-function BigWinView(gameView) {
+
+class BigWinView extends ViewContainer {
+    constructor(gameView) {
+	super(gameView);
 	this.gameView = coreApp.gameView;
 	this.isResponsiveCalled = false;
-	ViewContainer.call(this);
+	
 	this.loopSoundHowlerIdsP = [];
 	this.loopSoundHowlerIdsS = [];
 	this.addSubscription();
@@ -15,12 +17,7 @@ function BigWinView(gameView) {
 	this.bigWinTimer;
 }
 
-BigWinView.prototype = Object.create(ViewContainer.prototype);
-BigWinView.prototype.constructor = BigWinView.prototype;
-
-var view = BigWinView.prototype;
-
-view.addSubscription = function () {
+    addSubscription() {
 	_mediator.subscribe("showBigWins", this.onShowBigWin.bind(this));
 	_mediator.subscribe(_events.core.onResize, this.onTotalWinResize.bind(this));
 	_mediator.subscribe("showTotalWin", this.onShowTotalWin.bind(this));
@@ -42,10 +39,11 @@ view.addSubscription = function () {
 			this.hideBigWin_click();
 		}
 	}.bind(this));
-};
+}
 
-view.createView = function (argument) { };
-view.wrapperBigwin = function () {
+    createView(argument) { }
+
+    wrapperBigwin() {
 	this.grayBg2 = pixiLib.getShape("rect", {
 		w: _viewInfoUtil.getWindowWidth(),
 		h: _viewInfoUtil.getWindowHeight()
@@ -57,16 +55,18 @@ view.wrapperBigwin = function () {
 	pixiLib.addEvent(this.grayBg2, this.hideBigWin_click.bind(this), "click");
 	coreApp.gameView.decoratorContainer.addChild(this.grayBg2);
 }
-view.hideBigWinClickBG = function () {
+
+    hideBigWinClickBG() {
 	if (this.grayBg2) {
 		TweenMax.to(this.grayBg2, .5, {
 			alpha: 0
 		});
 		this.grayBg2.interactive = false;
-		delete grayBg2;
+		delete this.grayBg2;
 	}
 }
-view.onShowTotalWin = function () {
+
+    onShowTotalWin() {
 	_ng.isTotalWinShown = true;
 	var winAmount = coreApp.gameModel.getTotalWin();
 	this.x = 0, this.y = 0;
@@ -123,8 +123,9 @@ view.onShowTotalWin = function () {
 		}
 		
 	}
-};
-view.hideTotalWin = function () {
+}
+
+    hideTotalWin() {
 	_mediator.publish("clearAllWins", { from: "onTotalWinShown" });
 	this.blackBg.visible = false;
 
@@ -141,8 +142,9 @@ view.hideTotalWin = function () {
 		}
 		_mediator.publish(_events.slot.updateBalance);
 	}, totalWinShownDealy);
-};
-view.onShowBigWin = function () {
+}
+
+    onShowBigWin() {
 	_mediator.publish("HIDE_TICKER");
 	this.isBigWinRunning = true;
 	var winAmount = coreApp.gameModel.getTotalWin();
@@ -262,8 +264,9 @@ view.onShowBigWin = function () {
 
 	this.runSpineAnimation(0, this.bigWinAmount);
 	_mediator.publish("showReelBlanket");
-};
-view.runSpineAnimation = function () {
+}
+
+    runSpineAnimation() {
 	if (1) {
 		var winAmount = coreApp.gameModel.getTotalWin();
 		var totalBet = coreApp.gameModel.getTotalBet();
@@ -445,8 +448,9 @@ view.runSpineAnimation = function () {
 			}.bind(this)
 		})
 	}
-};
-view.hideBigWinAnimation = function () {
+}
+
+    hideBigWinAnimation() {
 	var BigVariable = 2000;
 	if (commonConfig.holdBigWinAnimation) {
 		BigVariable = 20;
@@ -455,9 +459,9 @@ view.hideBigWinAnimation = function () {
 	this.stopLoopSound();
 	this.isBigWinRunning = false;
 	this.bigWinTimer = setTimeout(this.playBigWinOutAnim.bind(this), BigVariable);
-};
+}
 
-view.stopLoopSound = function () {
+    stopLoopSound() {
 	for (var i = 0; i < this.loopSoundHowlerIdsP.length; i++) {
 		_sndLib.primSndCtr.stop(this.loopSoundHowlerIdsP[i]);
 	}
@@ -467,7 +471,8 @@ view.stopLoopSound = function () {
 	this.loopSoundHowlerIdsP = [];
 	this.loopSoundHowlerIdsS = [];
 }
-view.setHowlerIds = function (data) {
+
+    setHowlerIds(data) {
 	if (data.idName === "counterLoop" || data.idName === "counterBigWinLoop" || data.idName === "counterMegaWinLoop" ||
 		data.idName === "counterSuperMegaWinLoop" || data.idName === "big_win_countUp_loop" || data.idName === "mad&extreme_win_countUp_loop") {
 		this.stopLoopSound();
@@ -480,7 +485,8 @@ view.setHowlerIds = function (data) {
 
 
 }
-view.playBigWinOutAnim = function () {
+
+    playBigWinOutAnim() {
 	if (this.currentBigwinName === "bigwin") {
 		this.bigWinState = "hideBigWin";
 		this.bigWinSpine.state.setAnimation(0, this.bigWinConfig.bigWin.bigWinOut, false);
@@ -493,8 +499,9 @@ view.playBigWinOutAnim = function () {
 	}
 	_sndLib.play(_sndLib.sprite.superMegaWinDisappear);
 	_mediator.publish("SHOW_TICKER");
-};
-view.hideBigWin = function () {
+}
+
+    hideBigWin() {
 	_mediator.publish("playSpineAnimation", "idleAnimation");
 	_mediator.publish("totalWinShownOnBigWinSettled");
 	_mediator.publish("hideReelBlanket");
@@ -506,8 +513,9 @@ view.hideBigWin = function () {
 		y: 0,
 		onComplete: this.hideBigAnimationComplete.bind(this)
 	});
-};
-view.hideBigWin_click = function () {
+}
+
+    hideBigWin_click() {
 	if (this.bigWinTimer) {
 		clearTimeout(this.bigWinTimer);
 	}
@@ -530,9 +538,9 @@ view.hideBigWin_click = function () {
 	coreApp.gameModel.isBigWin = false;
 	_mediator.publish("showPanelWin");
 	_mediator.publish("playSpineAnimation", "idleAnimation");
-};
+}
 
-view.hideBigAnimationComplete_click = function () {
+    hideBigAnimationComplete_click() {
 	coreApp.gameView.decoratorContainer.removeChild(this.grayBg);
 	coreApp.gameView.decoratorContainer.removeChild(this.grayBg2);
 	this.removeChild(this.bigWinAmtTxt);
@@ -545,8 +553,9 @@ view.hideBigAnimationComplete_click = function () {
 
 	this.isResponsiveCalled = false;
 	_mediator.publish("onBigWinShown");
-};
-view.hideBigAnimationComplete = function () {
+}
+
+    hideBigAnimationComplete() {
 	coreApp.gameView.decoratorContainer.removeChild(this.grayBg);
 	this.removeChild(this.bigWinAmtTxt);
 	this.removeChild(this.bigWinSpine);
@@ -558,8 +567,9 @@ view.hideBigAnimationComplete = function () {
 	this.isResponsiveCalled = false;
 	coreApp.gameModel.isBigWin = false;
 	_mediator.publish("onBigWinShown");
-};
-view.onTotalWinResize = function () {
+}
+
+    onTotalWinResize() {
 	if (this.grayBg) {
 		this.grayBg.width = _viewInfoUtil.getWindowWidth();
 		this.grayBg.height = _viewInfoUtil.getWindowHeight();
@@ -575,12 +585,16 @@ view.onTotalWinResize = function () {
 	if (this.bigWinConfig && this.bigWinConfig.setSize) {
 		this.setSize(0, 0);
 	}
-};
+}
 
-// ============================================================================
-// Game-Specific Extensions & Prototype Overrides (GBigWinView.js)
-// ============================================================================
-GBigview=BigWinView.prototype;
+}
+
+
+
+
+
+
+const GBigview = BigWinView.prototype;
 
 GBigview.onShowTotalWin = function () {
 	_ng.isTotalWinShown = true;
@@ -751,8 +765,6 @@ GBigview.onShowBigWin = function (){
 	this.runSpineAnimation(0, this.bigWinAmount);
 }
 
-
-
 GBigview.runSpineAnimation = function () {
     coreApp.CURRENTACTIVEPOPUP = "bigwinview";
     const gameModel = coreApp.gameModel;
@@ -893,7 +905,6 @@ GBigview.playSequentionalAnim = function(animArry, state) {
     playNextAnimation(0); // Start with the first animation in the array
 }
 
-
 GBigview.runSpineAnimation = function () {
     coreApp.CURRENTACTIVEPOPUP = "bigwinview";
     const gameModel = coreApp.gameModel;
@@ -1027,8 +1038,3 @@ GBigview.removeBigWin = function () {
     _mediator.publish("SHOW_TICKER");
     _mediator.publish("showPanelWin");
 };
-
-
-// --- Consolidated Exports & Aliases ---
-var GBigWinView = BigWinView;
-if (typeof window !== "undefined") { window.GBigWinView = BigWinView; }

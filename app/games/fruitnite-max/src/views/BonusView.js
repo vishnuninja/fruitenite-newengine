@@ -1,34 +1,40 @@
-function BonusView(argument) {
-	this.parent = argument.parent;
-	ViewContainer.call(this, arguments);
+// ============================================================================
+// ES6 Class Definition: BonusView
+// ============================================================================
+
+class BonusView extends ViewContainer {
+    constructor(argument) {
+	super(...arguments);
+	this.parent = argument ? argument.parent : undefined;
 }
 
-BonusView.prototype = Object.create(ViewContainer.prototype);
-BonusView.prototype.constructor = BonusView;
+    createView(argument) {
+}
 
-var view = BonusView.prototype;
-
-view.createView = function (argument) {
-};
-
-view.createAllEvents = function (argument) {
+    createAllEvents(argument) {
 	// body...
-};
+}
 
-view.resize = function (argument) {
-};
+    resize(argument) {
+}
 
-view.show = function (argument) {
+    show(argument) {
 	this.visible = true;
-};
+}
 
-view.hide = function (argument) {
+    hide(argument) {
 	this.visible = false;
-};
+}
 
-view.destroy = function (argument) {
+    destroy(argument) {
 	this.destroy();
-};
-view.onCloseBonusRound = function(){
+}
 
-};
+    onCloseBonusRound() {
+
+}
+
+}
+
+
+

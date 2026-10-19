@@ -1,9 +1,16 @@
+// ============================================================================
+// ES6 Class Definition: SlotService
+// ============================================================================
+
 var _ng = _ng || {};
 
 var _HAS_PROMO_ = false;
+
 var _Four_scatters_;
-_ng.SlotService = function () {
-	_ng.CoreService.call(this);
+
+class SlotService extends _ng.CoreService {
+    constructor() {
+	super();
 	this.sessionId = sessionStorage.sessionId;
 	// hardcode for back office by avinash
 	var isBo = getUrlVar('isBO');
@@ -80,14 +87,10 @@ _ng.SlotService = function () {
 	// is intentionally empty at constructor time for both Watch and history modes.
 
 }
-_ng.SlotService.prototype = Object.create(_ng.CoreService.prototype);
-_ng.SlotService.prototype.constructor = _ng.SlotService;
 
-var v = _ng.SlotService.prototype;
+    setModel(model) { this.slotModel = model; }
 
-v.setModel = function (model) { this.slotModel = model; };
-
-v.sendInitReq = function (obj) {
+    sendInitReq(obj) {
 
 	// Check if we're in replay mode
 	// if (this.isReplayMode && this.skipInitRequest) {
@@ -192,18 +195,18 @@ if (isHistoryMode) {
 }
 	this.requestType = 1;
 	this.callServer(apiUrl, obj);
-};
+}
 
-v.sendSMCollectReq = function (obj) {
+    sendSMCollectReq(obj) {
 	var obj = "game_id=" + _ng.GameConfig.gameId + "&request_type=7&amount_type=" + this.amountType + "&username=" + sessionStorage.userName;
 	if (this.isNewUrl) {
 		obj += "&session_id=" + this.sessionId + "&platform_type=" + (_viewInfoUtil.isDesktop ? "desktop" : "mobile");
 	}
 	this.requestType = 7;
 	this.callServer(this.spinUrl, obj);
-};
+}
 
-v.sendCoinFlipReq = async function (actionName, color, callback) {
+    async sendCoinFlipReq(actionName, color, callback) {
     var apiURL = commonConfig.serverIP + "/gambleOrCollect";
     var obj = {
         action: actionName,
@@ -223,10 +226,9 @@ v.sendCoinFlipReq = async function (actionName, color, callback) {
     if (typeof callback === "function") {
         callback(response);
     }
-};
+}
 
-
-v.sendReSpinReq = function (obj) {
+    sendReSpinReq(obj) {
 	this.requestType = 5;
 	var obj = "game_id=" + _ng.GameConfig.gameId + "&request_type=2&coin_value=" + coreApp.gameModel.getSelectedCoinValue() + "&num_coins=" + coreApp.gameModel.getSelectedNumCoins() + "&num_betlines=" + coreApp.gameModel.getSelectedLines() + "&amount_type=" + this.amountType + "&username=" + sessionStorage.userName;
 	if (this.isNewUrl) {
@@ -240,8 +242,9 @@ v.sendReSpinReq = function (obj) {
 	}
 
 	this.callServer(this.spinUrl, obj);
-};
-v.sendFSSpinReq = function (obj) {
+}
+
+    sendFSSpinReq(obj) {
 	// MOCK: Intercept freespin requests during PFS mock session
 	if (_ng && _ng.GameConfig && _ng.GameConfig.MOCK_PFS_FREESPINS && 
 	    coreApp && coreApp.gameModel && coreApp.gameModel.PFSData && 
@@ -326,8 +329,9 @@ v.sendFSSpinReq = function (obj) {
 	}
 
 	this.callServer(this.spinUrl, obj);
-};
-v.sendSpinReq = function (obj) {
+}
+
+    sendSpinReq(obj) {
 	this.requestType = 2;
 	var amountType = this.amountType;
 	if (coreApp.gameModel.getIsPFSActive()) {
@@ -359,8 +363,9 @@ v.sendSpinReq = function (obj) {
 	}
 
 	this.callServer(this.spinUrl, obj);
-};
-v.sendFeatureReq = function (obj) {
+}
+
+    sendFeatureReq(obj) {
 	//terra
 	this.requestType = 3;
 	this.featureId = obj.id;
@@ -370,7 +375,8 @@ v.sendFeatureReq = function (obj) {
 	}
 	this.callServer(this.spinUrl, obj);
 }
-v.sendGambleReq = function (obj) {
+
+    sendGambleReq(obj) {
 	this.requestType = 6;
 	var obj = "game_id=" + _ng.GameConfig.gameId + "&request_type=4&amount_type=" + this.amountType + "&username=" + sessionStorage.userName + "&pick_position=" + obj.position + "&bet_amount=" + obj.betAmount;
 	if (this.isNewUrl) {
@@ -378,9 +384,12 @@ v.sendGambleReq = function (obj) {
 	}
 	this.callServer(this.spinUrl, obj);
 }
-v.sendFreeSpinReq = function (obj) { };
-v.sendBonusReq = function (obj) { };
-v.callDemoServer = function (obj) {
+
+    sendFreeSpinReq(obj) { }
+
+    sendBonusReq(obj) { }
+
+    callDemoServer(obj) {
 	switch (this.requestType) {
 		case 1:
 			this.slotModel.saveInitData(JSON.stringify(this.demoData.init));
@@ -422,28 +431,7 @@ v.callDemoServer = function (obj) {
 	};
 }
 
-function parseQueryString(query) {
-	const params = {};
-	query.split('&').forEach(param => {
-		let [key, value] = param.split('=');
-		// Handle null or boolean values appropriately
-		if (value === 'null') {
-			value = null;
-		} else if (value === 'true') {
-			value = true;
-		} else if (value === 'false') {
-			value = false;
-		}
-		params[key] = value;
-	});
-	return params;
-}
-
-// ========================================
-// REPLAY MODE FUNCTIONS
-// ========================================
-
-v.checkReplayMode = function () {
+    checkReplayMode() {
 
 	// Parse URL parameters
 	const urlParams = new URLSearchParams(window.location.search);
@@ -487,9 +475,9 @@ v.checkReplayMode = function () {
 
 	// Note: no early safety timeout here — getReplayData is never called at constructor time.
 	// Watch mode fetches after init (sendInitReq timer). History mode fetches from continue button.
-};
+}
 
-v.getReplayData = function (callback) {
+    getReplayData(callback) {
 	this.replayDataArray = [];
 
 	try {
@@ -610,9 +598,9 @@ v.getReplayData = function (callback) {
 			callback();
 		}
 	}
-};
+}
 
-v.setReplayBetAndCurrency = function (record) {
+    setReplayBetAndCurrency(record) {
   if (!record) { return; }
   console.log("setting replay bet");
 
@@ -643,9 +631,9 @@ v.setReplayBetAndCurrency = function (record) {
 
   const formattedBet = pixiLib.getFormattedAmount(displayBet);
   window.externalUi.call('bet-amount', 'setText', formattedBet, '');
-};
+}
 
-v.injectReplayData = function () {
+    injectReplayData() {
 
 	if (this.replayDataArray.length === 0) {
 		return;
@@ -656,9 +644,9 @@ v.injectReplayData = function () {
 
 	// Start the replay sequence
 	this.startReplaySequence();
-};
+}
 
-v.startReplaySequence = function () {
+    startReplaySequence() {
 
 	if (this.currentReplayIndex >= this.replayDataArray.length) {
 		// Publish event to show completion popup
@@ -722,15 +710,15 @@ v.startReplaySequence = function () {
 			console.error("❌ Error sending replay response:", error);
 		}
 	}, 300);
-};
+}
 
-v.restartReplaySequence = function () {
+    restartReplaySequence() {
 	console.log("🎬 Restarting replay sequence");
 	this.currentReplayIndex = 0;
 	this.startReplaySequence();
-};
+}
 
-v.gambleRequestServer = async function (url, obj) {
+    async gambleRequestServer(url, obj) {
     try {
         const response = await fetch(url, {
             method: "POST",
@@ -756,9 +744,9 @@ v.gambleRequestServer = async function (url, obj) {
         });
         return null;
     }
-};
+}
 
-v.callServer = function (url, obj) {
+    callServer(url, obj) {
 
 	// Check if we're in replay/history mode and should use API response data instead of API call
 	if (this.isReplayMode && this.replayDataArray && this.replayDataArray.length > 0) {
@@ -840,9 +828,9 @@ v.callServer = function (url, obj) {
 		.catch(error => {
 			_mediator.publish(_events.core.error, { code: "NO_INTERNET" });
 		});
-};
-//time reduce call back method  
-v.callServerAfterSpin = function () {
+}
+
+    callServerAfterSpin() {
 	if (commonConfig.isGameEndService !== "true") {
 		return;
 	}
@@ -881,12 +869,12 @@ v.callServerAfterSpin = function () {
 		.catch(error => {
 			// Skip error publishing as in original code
 		});
-};
-v.onServerResCallBackEvent = function () {
 }
 
+    onServerResCallBackEvent() {
+}
 
-v.loadDemoServer = function (obj) {
+    loadDemoServer(obj) {
 	var parent = this;
 	fetch(this.demoUrl, {
 		method: "GET",
@@ -907,17 +895,9 @@ v.loadDemoServer = function (obj) {
 		.catch(error => {
 			console.error("Error loading demo server:", error);
 		});
-};
-
-
-// Track promo_free_spin state in the _ng object
-if (!_ng.promoState) {
-	_ng.promoState = {
-		nextRequestPromoFreeSpin: false
-	};
 }
 
-v.onServerResponse = function (resObj) {
+    onServerResponse(resObj) {
 	var jsonObj = JSON.parse(resObj);
 
 	if (jsonObj.error_number !== undefined) {
@@ -1003,8 +983,9 @@ v.onServerResponse = function (resObj) {
 		default:
 			break;
 	};
-};
-v.BuyFreeSpinRequest = function (obj) {
+}
+
+    BuyFreeSpinRequest(obj) {
 	this.requestType = 8;
 	var amountType = this.amountType;
 	_ng.BuyFSenabled = true;
@@ -1024,8 +1005,9 @@ v.BuyFreeSpinRequest = function (obj) {
 		}
 	}
 	this.callServer(this.spinUrl, obj);
-};
-v.superBuyFreeSpinRequest = function (obj) {
+}
+
+    superBuyFreeSpinRequest(obj) {
 	this.requestType = 8;
 	var amountType = this.amountType;
 	_ng.superBuyEnabled = true;
@@ -1045,9 +1027,9 @@ v.superBuyFreeSpinRequest = function (obj) {
 		}
 	}
 	this.callServer(this.spinUrl, obj);
-};
+}
 
-v.fetchReplayData = function () {
+    fetchReplayData() {
 
 	this.getReplayData(() => {
 		if (this.replayDataArray && this.replayDataArray.length > 0) {
@@ -1055,4 +1037,34 @@ v.fetchReplayData = function () {
 		}
 	});
 
+}
+
+}
+
+
+var _ng = _ng || {};
+_ng.SlotService = SlotService;
+
+
+function parseQueryString(query) {
+	const params = {};
+	query.split('&').forEach(param => {
+		let [key, value] = param.split('=');
+		// Handle null or boolean values appropriately
+		if (value === 'null') {
+			value = null;
+		} else if (value === 'true') {
+			value = true;
+		} else if (value === 'false') {
+			value = false;
+		}
+		params[key] = value;
+	});
+	return params;
+}
+
+if (!_ng.promoState) {
+	_ng.promoState = {
+		nextRequestPromoFreeSpin: false
+	};
 }

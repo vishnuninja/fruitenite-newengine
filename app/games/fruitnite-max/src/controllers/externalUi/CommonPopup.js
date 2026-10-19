@@ -1,11 +1,6 @@
 var _ng = _ng || {};
 
-_ng.CommonPopup = function() {
-    this.init();
-}
 
-_ng.CommonPopup.prototype.constructor = _ng.CommonPopup;
-var commonPopup = _ng.CommonPopup.prototype;
 
 
 var INTER_MEDIUM_PATH = `./${appPath}games/common/dist/fonts/Inter-Medium.ttf`;
@@ -251,77 +246,85 @@ h1{
 }
 `;
 
-commonPopup.init = function() {
-    // Check if popup already exists to avoid duplicate DOM elements
-  const main = document.createElement('div');
-main.innerHTML = template;
-document.body.appendChild(main);
-const div = document.createElement('div');
-div.innerHTML = '.';
-div.style.fontFamily = 'Inter Medium';
-div.style.position = 'absolute';
-div.style.opacity = '0';
-div.style.margin = '0';
-div.style.padding = '0';
-document.body.appendChild(div);
-const div2 = document.createElement('div');
-div2.innerHTML = '.';
-div2.style.fontFamily = 'Inter Black';
-div2.style.position = 'absolute';
-div2.style.opacity = '0';
-div2.style.margin = '0';
-div2.style.padding = '0';
-document.body.appendChild(div2);
-document.head.appendChild(style_elem);
-this.left = document.getElementById('btn-1')
-this.right = document.getElementById('btn-2')
-this.middle = document.getElementById('btn-3')
-this.title = document.getElementById('title')
-this.content = document.getElementById('content')
-this.popup = document.getElementsByClassName('wrapper')[0] 
-    this.hide();
-}
-
-
-commonPopup.show = function(info, buttons) {
-  this.popup.style.display = 'flex';
-  this.title.innerHTML = info.title || '';
-  this.content.innerHTML = info.message || '';
-  if (buttons.middle) {
-    if (buttons.left && buttons.right) {
-      this.right.style.display = 'flex';
-      this.left.style.display = 'flex';
-      this.middle.style.display = 'flex';
-      this.right.innerHTML = buttons.left.label;
-      this.right.onpointerdown = buttons.left.callback;
-      this.left.innerHTML = buttons.right.label;
-      this.left.onpointerdown = buttons.right.callback;
-      this.middle.innerHTML = buttons.middle.label;
-      this.middle.onpointerdown = buttons.middle.callback;
-    } else {
-      this.right.style.display = 'none';
-      this.left.style.display = 'none';
-      this.middle.style.display = 'flex';
-      this.middle.innerHTML = buttons.middle.label;
-      this.middle.onpointerdown = buttons.middle.callback;
+class CommonPopup {
+    constructor() {
+        this.init();
     }
-  } else {
-    this.middle.style.display = 'none';
-    if (buttons.left) {
-      this.left.style.display = 'flex';
-      this.left.innerHTML = buttons.left.label;
-      this.left.onpointerdown = buttons.left.callback;
-    }
-    if (buttons.right) {
-      this.right.style.display = 'flex';
-      this.right.innerHTML = buttons.right.label;
-      this.right.onpointerdown = buttons.right.callback;
-    }
-  }
-}
 
-/** Hide the popup */
-commonPopup.hide = function() {
-   
+    init() {
+        // Check if popup already exists to avoid duplicate DOM elements
+        const main = document.createElement('div');
+        main.innerHTML = template;
+        document.body.appendChild(main);
+        const div = document.createElement('div');
+        div.innerHTML = '.';
+        div.style.fontFamily = 'Inter Medium';
+        div.style.position = 'absolute';
+        div.style.opacity = '0';
+        div.style.margin = '0';
+        div.style.padding = '0';
+        document.body.appendChild(div);
+        const div2 = document.createElement('div');
+        div2.innerHTML = '.';
+        div2.style.fontFamily = 'Inter Black';
+        div2.style.position = 'absolute';
+        div2.style.opacity = '0';
+        div2.style.margin = '0';
+        div2.style.padding = '0';
+        document.body.appendChild(div2);
+        document.head.appendChild(style_elem);
+        this.left = document.getElementById('btn-1');
+        this.right = document.getElementById('btn-2');
+        this.middle = document.getElementById('btn-3');
+        this.title = document.getElementById('title');
+        this.content = document.getElementById('content');
+        this.popup = document.getElementsByClassName('wrapper')[0];
+        this.hide();
+    }
+
+    show(info, buttons) {
+        this.popup.style.display = 'flex';
+        this.title.innerHTML = info.title || '';
+        this.content.innerHTML = info.message || '';
+        if (buttons.middle) {
+            if (buttons.left && buttons.right) {
+                this.right.style.display = 'flex';
+                this.left.style.display = 'flex';
+                this.middle.style.display = 'flex';
+                this.right.innerHTML = buttons.left.label;
+                this.right.onpointerdown = buttons.left.callback;
+                this.left.innerHTML = buttons.right.label;
+                this.left.onpointerdown = buttons.right.callback;
+                this.middle.innerHTML = buttons.middle.label;
+                this.middle.onpointerdown = buttons.middle.callback;
+            } else {
+                this.right.style.display = 'none';
+                this.left.style.display = 'none';
+                this.middle.style.display = 'flex';
+                this.middle.innerHTML = buttons.middle.label;
+                this.middle.onpointerdown = buttons.middle.callback;
+            }
+        } else {
+            this.middle.style.display = 'none';
+            if (buttons.left) {
+                this.left.style.display = 'flex';
+                this.left.innerHTML = buttons.left.label;
+                this.left.onpointerdown = buttons.left.callback;
+            }
+            if (buttons.right) {
+                this.right.style.display = 'flex';
+                this.right.innerHTML = buttons.right.label;
+                this.right.onpointerdown = buttons.right.callback;
+            }
+        }
+    }
+
+    /** Hide the popup */
+    hide() {
         this.popup.style.display = 'none';
+    }
 }
+
+
+_ng.CommonPopup = CommonPopup;
+

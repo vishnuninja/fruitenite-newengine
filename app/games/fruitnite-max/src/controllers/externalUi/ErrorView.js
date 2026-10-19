@@ -1,12 +1,10 @@
-_ng.ErrorViewEUI = function() {
+class ErrorViewEUI {
+    constructor() {
     this.setConfig();
 	this.createListeners();
-}
+    }
 
-_ng.ErrorViewEUI.prototype.constructor = _ng.ErrorViewEUI;
-var errorView = _ng.ErrorViewEUI.prototype;
-
-errorView.setConfig = function() {
+    setConfig() {
     this.errorTranslations = {
 		en: {
 			"NO_INTERNET": {action: "reload", title: "Message", message: "No active internet! Please reload game.", buttonText: "Reload"},
@@ -49,24 +47,28 @@ errorView.setConfig = function() {
 		}
 	};
 	this.errorConfig = this.getErrorConfig();
-}
 
-errorView.getUserLocale = function() {
+    }
+
+    getUserLocale() {
     var locale = sessionStorage.getItem("Language") || sessionStorage.Language || 'en';
     return locale.toLowerCase();
-};
 
-errorView.getErrorConfig = function() {
+    }
+
+    getErrorConfig() {
 	var locale = this.getUserLocale();
 	var translations = this.errorTranslations[locale] || this.errorTranslations.en;
 	return translations;
-};
 
-errorView.createListeners = function () {
+    }
+
+    createListeners() {
 	_mediator.subscribe(_events.core.error, this.onError.bind(this));
-};
 
-errorView.onError = function(params) {
+    }
+
+    onError(params) {
 	var isOperatorErrorToHandle = false;
 	params = params || {};
 	this.code = params.code || "ERROR_OCCURED";
@@ -128,9 +130,10 @@ errorView.onError = function(params) {
 		_mediator.publish("STOP_SPIN_NOW");
 		_mediator.publish("STOP_REELS_ON_ERROR");
 	}.bind(this), 1000);
-}
 
-errorView.show = function(data) {
+    }
+
+    show(data) {
 	const title = data.title;
 	const message = data.message;
 	const buttonText = data.buttonText;
@@ -143,9 +146,10 @@ errorView.show = function(data) {
             callback: this.confirmButtonClicked.bind(this)
         }	
 	});
-}
 
-errorView.confirmButtonClicked = function() {
+    }
+
+    confirmButtonClicked() {
 	if (this.action === "reload") {
 		this.reload();
 	}
@@ -155,25 +159,36 @@ errorView.confirmButtonClicked = function() {
 	else if(this.action == "close") {
 		this.close();
 	}
-}
 
-errorView.reload = function() {
+    }
+
+    reload() {
 	pixiLib.reloadPage();
-}
 
-errorView.close = function() {	
+    }
+
+    close() {	
 	if(!coreApp.gameController.allReelsStopped) {
 		return;
 	}
 	_mediator.publish("errorClose", {event: this.eventToPublish});
 	this.hide();
-}
 
-errorView.gotolobby = function () {
+    }
+
+    gotolobby() {
 	_mediator.publish("openURL", { type: "lobby" });
-}
 
-errorView.hide = function () {
+    }
+
+    hide() {
 	_ng.externalUiController.commonPopup.hide();
 	_mediator.publish("errorClose", {event: this.eventToPublish});
-};
+
+    }
+
+}
+
+
+_ng.ErrorViewEUI = ErrorViewEUI;
+

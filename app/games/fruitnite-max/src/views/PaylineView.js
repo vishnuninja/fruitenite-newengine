@@ -1,13 +1,13 @@
-function PaylineView(argument) {
-	ViewContainer.call(this, arguments);
+// ============================================================================
+// ES6 Class Definition: PaylineView
+// ============================================================================
+
+class PaylineView extends ViewContainer {
+    constructor(argument) {
+	super(...arguments);
 }
 
-PaylineView.prototype = Object.create(ViewContainer.prototype);
-PaylineView.prototype.constructor = PaylineView.prototype;
-
-var view = PaylineView.prototype;
-
-view.createView = function (argument) {
+    createView(argument) {
 	this.paylinesAry = [];
 	/*
 	payline types: 
@@ -30,8 +30,9 @@ view.createView = function (argument) {
 	if(_ng.isSecondaryAssetsLoaded){
 		this.createpaylines();
 	}	
-};
-view.createpaylines = function (){
+}
+
+    createpaylines() {
 	this.paylineConfig = _ng.GameConfig.paylinesConfig ? _ng.GameConfig.paylinesConfig : [];
 	this.paylinesAry = [];
 
@@ -56,14 +57,15 @@ view.createpaylines = function (){
 	// this.visible = false;	
 }
 
-view.hideAllLinesNew = function () {
+    hideAllLinesNew() {
 	if(this.paylinesAry.length>0){
 		for (var i = 0; i < this.paylinesAry.length; i++) {
 			this.paylinesAry[i].visible = false;
 		}
 	}
-};
-view.getTextures = function (obj) {
+}
+
+    getTextures(obj) {
 	var ary = [];
 	for (var i = 1; i <= obj.end; i++) {
 		var counter = i<10? "0"+i : i;
@@ -72,17 +74,16 @@ view.getTextures = function (obj) {
 	return ary;
 }
 
-
-view.showAllLines = function () {
+    showAllLines() {
 	for (var i = 0; i < this.paylinesAry.length; i++) {
 		this.paylinesAry[i].visible = true;
 		if(this.paylinesAry[i].type === "spine"){
-			this.paylinesAry[i].state.setAnimation(0, this.paylinesAry[id-1].animName, false);
+			this.paylinesAry[i].state.setAnimation(0, this.paylinesAry[i].animName, false);
 		}
 	}
-};
+}
 
-view.showMultiLines = function (winLinesAry) {
+    showMultiLines(winLinesAry) {
 	if(this.paylinesAry.length>0){
 		this.hideAllLines();
 		for (var i = 0; i < this.paylinesAry.length; i++) {
@@ -90,16 +91,16 @@ view.showMultiLines = function (winLinesAry) {
 				if(winLinesAry[j] == i){
 					this.paylinesAry[i].visible = true;
 					if(this.paylinesAry[i].type === "spine"){
-						this.paylinesAry[i].state.setAnimation(0, this.paylinesAry[id-1].animName, false);
+						this.paylinesAry[i].state.setAnimation(0, this.paylinesAry[i].animName, false);
 					}	
 				}
 			}
 			
 		}
 	}
-};
+}
 
-view.showSingleLine = function (id) {
+    showSingleLine(id) {
 	this.hideAllLines();
 	if(this.paylinesAry.length>0){
 		this.paylinesAry[id-1].visible = true;
@@ -107,25 +108,27 @@ view.showSingleLine = function (id) {
 			this.paylinesAry[id-1].state.setAnimation(0, this.paylinesAry[id-1].animName, false);
 		}
 	}
-};
+}
 
+    hideAllLines() {
+}
 
-view.hideAllLines = function () {
-};
+    resize(argument) {
+}
 
-
-
-view.resize = function (argument) {
-};
-
-view.show = function () {
+    show() {
 	this.visible = true;
-};
+}
 
-view.hide = function () {
+    hide() {
 	this.visible = false;
-};
+}
 
-view.destroy = function () {
+    destroy() {
 	this.destroy();
-};
+}
+
+}
+
+
+

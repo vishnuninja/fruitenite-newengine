@@ -1,8 +1,10 @@
 // ============================================================================
-// Consolidated Parent (IntroView.js) and Child (GIntroView.js)
-// Base Class Definition & Implementation
+// ES6 Class Definition: IntroView
 // ============================================================================
-function IntroView(bgParent, elementParent) {
+
+class IntroView extends ViewContainer {
+    constructor(bgParent, elementParent) {
+    super(...arguments);
     //"this" is already added to elementParent.
     //So anything added to this will already be in scalling container
     //For adding BG, use bgParent
@@ -11,31 +13,60 @@ function IntroView(bgParent, elementParent) {
     this.elementsForSetSize = [];
     this.dontShowNextTime = false;
     this.elementParent = elementParent;
-    ViewContainer.call(this, arguments);
+    
     this.addEvents();
 }
 
-IntroView.prototype = Object.create(ViewContainer.prototype);
-IntroView.prototype.constructor = IntroView;
-
-var sView = IntroView.prototype;
-sView.createView = function () {
+    createView() {
+    //this.createIndiButton();
     if (!this.isIntroScreen()) { return; }
     this.config = _ng.GameConfig.gameIntroScreen;
-    var alpha = (this.config.overlayAlpha !== undefined) ? this.config.overlayAlpha : 0.9;
+
+    var alpha = (this.config.overlayAlpha !== undefined) ? this.config.overlayAlpha : 0.5;
     this.rectBG = pixiLib.getElement("Graphics", { w: 1280, h: 720, alpha: alpha });
     this.bgParent.addChildAt(this.rectBG, 0);
     this.rectBG.visible = false;
-
-
+    this.setTimeoutsArr =[];
+    this.intervelTime = 3000;
+    this.srcHitTime = 6000;
     this.addBG();
     this.addElements();
     this.createContinueButton();
 
     this.visible = false;
     this.onIntroResize();
+    // Initialize a property to keep track of the current step
+    this.currentStep = 1;
+    //hit area of indi button is turned into button for interactivity
+    if (this.indiButtonHitArea1) {
+        this.indiButtonHitArea1.alpha = 0;
+        this.indiButtonHitArea1.interactive = true;
+        this.indiButtonHitArea1.buttonMode = true;
+        pixiLib.addEvent(this.indiButtonHitArea1, () => this.onClickIndicator(1));
+    }
+    
+    if (this.indiButtonHitArea2) {
+        this.indiButtonHitArea2.alpha = 0;
+        this.indiButtonHitArea2.interactive = true;
+        this.indiButtonHitArea2.buttonMode = true;
+        pixiLib.addEvent(this.indiButtonHitArea2, () => this.onClickIndicator(2));
+    }
+    if (this.indiButtonHitArea3) {
+        this.indiButtonHitArea3.alpha = 0;
+        this.indiButtonHitArea3.interactive = true;
+        this.indiButtonHitArea3.buttonMode = true;
+        pixiLib.addEvent(this.indiButtonHitArea3, () => this.onClickIndicator(3));
+       
+    }
+    this.Indicator_off1.visible=false;
+    this.Text_screen_1.visible = true;
+    this.Text_screen_2.visible= false;
+    this.mSym.visible = false;
+    this.Text_screen_3.visible= false;
+    this.callTime();
 }
-sView.addEvents = function () {
+
+    addEvents() {
     _mediator.subscribe("showIntroScreen", this.onShowIntroScreen.bind(this));
     _mediator.subscribe(_events.core.onResize, this.onIntroResize.bind(this));
     _mediator.subscribe("hideIntroScreen", function () {
@@ -43,14 +74,18 @@ sView.addEvents = function () {
     }.bind(this));
 
 }
-sView.addSpecificElements = function () { }
-sView.addBG = function () { }
-sView.addElements = function () {
+
+    addSpecificElements() { }
+
+    addBG() { }
+
+    addElements() {
     this.getLayout(this.config[_viewInfoUtil.device], this);
     this.radioButtonOn.visible = false;
     this.addSpecificElements();
 }
-sView.createContinueButton = function () {
+
+    createContinueButton() {
     if (this.continueButton) {
         pixiLib.addEvent(this.continueButton, this.hideIntroScreen.bind(this));
     }
@@ -62,7 +97,8 @@ sView.createContinueButton = function () {
         pixiLib.addEvent(this.radioButtonHitArea, this.onClickRadioButton.bind(this));
     }
 }
-sView.onClickRadioButton = function () {
+
+    onClickRadioButton() {
     _sndLib.play(_sndLib.sprite.btnClick);
     if (this.dontShowNextTime) {
         this.radioButtonOn.visible = false;
@@ -71,12 +107,13 @@ sView.onClickRadioButton = function () {
         pixiLib.setLocalStorageItem("noIntro", "false");
     } else {
         this.radioButtonOn.visible = true;
-        this.radioButtonOff.visible = false;
+        // this.radioButtonOff.visible = false;
         this.dontShowNextTime = true;
         pixiLib.setLocalStorageItem("noIntro", "true");
     }
 }
-sView.onShowIntroScreen = function () {
+
+    onShowIntroScreen() {
     if (this.isIntroScreen()) {
         this.visible = true;
         this.rectBG.visible = true;
@@ -93,10 +130,12 @@ sView.onShowIntroScreen = function () {
         _mediator.publish("showPopupContainer");
     }
 }
-sView.addIntroAnimation = function () {
+
+    addIntroAnimation() {
 
 }
-sView.hideIntroScreen = function () {
+
+    hideIntroScreen() {
     _mediator.publish("setSpaceBarEvent", "idle");
     clearTimeout(this.spaceBarEventTimer);
     //Enabling sound for mobile when player clicks on Intro Screen.
@@ -114,10 +153,12 @@ sView.hideIntroScreen = function () {
     _mediator.publish("showPopupContainer");
     _mediator.publish("introScreenHidden");
 }
-sView.killIntroAnimation = function () {
+
+    killIntroAnimation() {
 
 }
-sView.isIntroScreen = function () {
+
+    isIntroScreen() {
 	// Skip intro screen if round_id exists in URL (unfinished game/resume mode)
 	try {
 		var urlParams = new URLSearchParams(window.location.search);
@@ -135,7 +176,8 @@ sView.isIntroScreen = function () {
     }
     return false;
 }
-sView.onIntroResize = function () {
+
+    onIntroResize() {
     if (this.rectBG) {
         this.rectBG.width = _viewInfoUtil.getWindowWidth();
         this.rectBG.height = _viewInfoUtil.getWindowHeight();
@@ -155,8 +197,7 @@ sView.onIntroResize = function () {
     }
 }
 
-
-sView.getLayout = function (config, parent) {
+    getLayout(config, parent) {
     for (var element in config) {
         var elemConfig = config[element];
         var e = null;
@@ -216,9 +257,7 @@ sView.getLayout = function (config, parent) {
     }
 }
 
-
-
-sView.resizeLayout = function () {
+    resizeLayout() {
     var scaleX, scaleY;
     for (var i = 0; i < this.elementsForResize.length; i++) {
         if (this[this.elementsForResize[i]] && this[this.elementsForResize[i]].makeResponsive) {
@@ -240,79 +279,19 @@ sView.resizeLayout = function () {
     }
     this.specificResizeLayout();
 }
-sView.specificResizeLayout = function () { }
 
-// ============================================================================
-// Game-Specific Extensions & Prototype Overrides (GIntroView.js)
-// ============================================================================
-
-var sIntroView = IntroView.prototype;
-
-sIntroView.createView= function () {
-    //this.createIndiButton();
-    if (!this.isIntroScreen()) { return; }
-    this.config = _ng.GameConfig.gameIntroScreen;
-
-    var alpha = (this.config.overlayAlpha !== undefined) ? this.config.overlayAlpha : 0.5;
-    this.rectBG = pixiLib.getElement("Graphics", { w: 1280, h: 720, alpha: alpha });
-    this.bgParent.addChildAt(this.rectBG, 0);
-    this.rectBG.visible = false;
-    this.setTimeoutsArr =[];
-    this.intervelTime = 3000;
-    this.srcHitTime = 6000;
-    this.addBG();
-    this.addElements();
-    this.createContinueButton();
-
-    this.visible = false;
-    this.onIntroResize();
-    // Initialize a property to keep track of the current step
-    this.currentStep = 1;
-    //hit area of indi button is turned into button for interactivity
-    if (this.indiButtonHitArea1) {
-        this.indiButtonHitArea1.alpha = 0;
-        this.indiButtonHitArea1.interactive = true;
-        this.indiButtonHitArea1.buttonMode = true;
-        pixiLib.addEvent(this.indiButtonHitArea1, () => this.onClickIndicator(1));
-    }
-    
-    if (this.indiButtonHitArea2) {
-        this.indiButtonHitArea2.alpha = 0;
-        this.indiButtonHitArea2.interactive = true;
-        this.indiButtonHitArea2.buttonMode = true;
-        pixiLib.addEvent(this.indiButtonHitArea2, () => this.onClickIndicator(2));
-    }
-    if (this.indiButtonHitArea3) {
-        this.indiButtonHitArea3.alpha = 0;
-        this.indiButtonHitArea3.interactive = true;
-        this.indiButtonHitArea3.buttonMode = true;
-        pixiLib.addEvent(this.indiButtonHitArea3, () => this.onClickIndicator(3));
-       
-    }
-    this.Indicator_off1.visible=false;
-    this.Text_screen_1.visible = true;
-    this.Text_screen_2.visible= false;
-    this.mSym.visible = false;
-    this.Text_screen_3.visible= false;
-    this.callTime();
-}
-
-sIntroView.onClickRadioButton = function () {
-    _sndLib.play(_sndLib.sprite.btnClick);
-    if (this.dontShowNextTime) {
-        this.radioButtonOn.visible = false;
-        this.radioButtonOff.visible = true;
-        this.dontShowNextTime = false;
-        pixiLib.setLocalStorageItem("noIntro", "false");
+    specificResizeLayout() { 
+    if(!this.isIntroScreen()) return;
+    if (this.currentStep === 1) {
+        this.src1Active();
+    } else if (this.currentStep === 2) {
+        this.src2Active();
     } else {
-        this.radioButtonOn.visible = true;
-        // this.radioButtonOff.visible = false;
-        this.dontShowNextTime = true;
-        pixiLib.setLocalStorageItem("noIntro", "true");
+        this.src3Active();
     }
 }
 
-sIntroView.callTime = function () {
+    callTime() {
     this.timer = 1;
     if (this.interval) {
         clearInterval(this.interval);
@@ -327,8 +306,7 @@ sIntroView.callTime = function () {
     }, this.intervelTime * 3);
 }
 
-//function for onCick on indicator buttons
-sIntroView.onClickIndicator = function (indicatorNumber) {
+    onClickIndicator(indicatorNumber) {
     clearInterval(this.interval);
     this.currentStep = indicatorNumber;
 
@@ -345,7 +323,7 @@ sIntroView.onClickIndicator = function (indicatorNumber) {
     }, this.srcHitTime);
 }
 
-sIntroView.src1Active = function () {
+    src1Active() {
     this.screen_1.alpha = 0;
     TweenMax.to(this.screen_1, 2, { alpha: 1 });
     this.screen_1.visible = true;
@@ -360,9 +338,9 @@ sIntroView.src1Active = function () {
     this.Indicator_off2.visible= true;
     this.Indicator_off3.visible= true;
 
-};
+}
 
-sIntroView.src2Active = function () {  
+    src2Active() {  
     this.screen_2.alpha=0;
     TweenMax.to(this.screen_2, 2, { alpha: 1 });
     this.screen_2.visible = true;
@@ -377,9 +355,9 @@ sIntroView.src2Active = function () {
     this.Indicator_off1.visible= true;
     this.Indicator_off3.visible= true;
 
-};
+}
 
-sIntroView.src3Active = function () {  
+    src3Active() {  
     this.screen_3.alpha=0;
     TweenMax.to(this.screen_3, 2, { alpha: 1 });
     this.screen_3.visible = true;
@@ -394,20 +372,11 @@ sIntroView.src3Active = function () {
     this.Indicator_off1.visible= true;
     this.Indicator_off2.visible= true;
 
-};
+}
 
-sIntroView.specificResizeLayout = function () { 
-    if(!this.isIntroScreen()) return;
-    if (this.currentStep === 1) {
-        this.src1Active();
-    } else if (this.currentStep === 2) {
-        this.src2Active();
-    } else {
-        this.src3Active();
-    }
 }
 
 
-// --- Consolidated Exports & Aliases ---
-var GIntroView = IntroView;
-if (typeof window !== "undefined") { window.GIntroView = IntroView; }
+
+
+

@@ -1,8 +1,7 @@
-
-
 var _ng = _ng || {};
 
-_ng.ExternalUiController = function() {
+class ExternalUiController {
+    constructor() {
   this.musicEui = new _ng.Music();
   this.settingsUi = new _ng.SettingsUi(this);
   this.betUi = new _ng.BetUi();
@@ -22,30 +21,34 @@ _ng.ExternalUiController = function() {
   this.isSpaceBarOnHold = false;
   this.spaceBarTimeoutRef = null;
   this.isHistoryOpen = false;
-}
+    }
 
-_ng.ExternalUiController.prototype.constructor = _ng.ExternalUiController;
-var euc = _ng.ExternalUiController.prototype;
- 
-euc.setGameConfig = function() {
+    setGameConfig() {
     if (!window.externalUi) return;
 
       const params = new URLSearchParams(window.location.search);
     
+    var viewInfo = (typeof _viewInfoUtil !== "undefined" && _viewInfoUtil) ? _viewInfoUtil : (typeof coreApp !== "undefined" && coreApp && coreApp.viewInfoUtil);
+    if (!viewInfo) return;
+    var renderer = (typeof coreApp !== "undefined" && coreApp && coreApp.gameView && coreApp.gameView.renderer) ? pixiLib.getRenderer() : null;
+    var resolution = (renderer && renderer.resolution) ? renderer.resolution : (window.devicePixelRatio || 1);
+
     window.externalUi.call('game_ui', 'setGameConfig', {
-      width: _viewInfoUtil.getWindowWidth() * pixiLib.getRenderer().resolution * .8,
-      height: _viewInfoUtil.getWindowHeight() * pixiLib.getRenderer().resolution * .8,
+      width: viewInfo.getWindowWidth() * resolution * .8,
+      height: viewInfo.getWindowHeight() * resolution * .8,
       lang: params.get('user_locale') || 'en',
       gameName: _ng.GameConfig.gameName,
     });
     this.resize();
-}
 
-euc.setCurrency = function() {
+    }
+
+    setCurrency() {
     window.externalUi.call('ui-help-popup', 'setCurrency', coreApp.gameModel.getCurrencyCode());
-}
 
-euc.handleUIButton = function(e){
+    }
+
+    handleUIButton(e) {
     const {detail} = e;
     switch (detail) {
       case 'settings-button':
@@ -136,18 +139,21 @@ euc.handleUIButton = function(e){
       default:
         break;
     }
-}
 
-euc.resetSpaceBarStatus = function() {
+    }
+
+    resetSpaceBarStatus() {
   this.isSpaceBarOnHold = false;
   this.spaceHoldCounter = 0;
-}
 
-euc.getSpaceBarHoldStatus = function() {
+    }
+
+    getSpaceBarHoldStatus() {
   return this.isSpaceBarOnHold;
-}
 
-euc.addEventListeners = function() {
+    }
+
+    addEventListeners() {
   window.addEventListener('ui-button-click', (e) => this.handleUIButton(e));
 
   _mediator.subscribe("showMainGame", this.setBalance.bind(this));
@@ -163,17 +169,20 @@ euc.addEventListeners = function() {
   _mediator.subscribe("allReelsStopped", this.onAllReelStopped.bind(this));
   _mediator.subscribe("showSpinStop", this.onShowSpinStop.bind(this));
 
-}
 
-euc.show = function() {
+    }
+
+    show() {
   window.externalUi.call('game_ui', 'show');
-}
 
-euc.hide = function() {
+    }
+
+    hide() {
   window.externalUi.call('game_ui', 'hide');
-}
 
-euc.spinActive = function (value){
+    }
+
+    spinActive(value) {
   if(isHistoryMode) {
     return;
   }
@@ -181,8 +190,12 @@ euc.spinActive = function (value){
   window.externalUi.call('spin-button', value ? 'disable' : 'enable');
   window.externalUi.call('spin-stop-button', value ? 'show' : 'hide');
   window.externalUi.call('autoplay-button', value ? 'disable' : 'enable');
-  window.externalUi.call("plus-button", value || coreApp.gameModel.getIsPFSActive()? "disable" : "enable");
-  window.externalUi.call("minus-button", value || coreApp.gameModel.getIsPFSActive()? "disable" : "enable");
+  if (value || (coreApp && coreApp.gameModel && coreApp.gameModel.getIsPFSActive())) {
+    window.externalUi.call("plus-button", "disable");
+    window.externalUi.call("minus-button", "disable");
+  } else if (this.betUi) {
+    this.betUi.updateUi();
+  }
 
   const visible = window.externalUi.call('autoplay-stop-button', 'isVisible');
   if (!value && visible) {
@@ -190,9 +203,10 @@ euc.spinActive = function (value){
     window.externalUi.call('autoplay-stop-button', 'hide');
     window.externalUi.call('autoplay-button', 'show');
   }
-}
 
-euc.setPanelForBuyFreeSpin = function(value, status){
+    }
+
+    setPanelForBuyFreeSpin(value, status) {
   if(!_ng.buyFeaturePopupStatus)
   {
       this.setPanelForNormalSpin();
@@ -200,22 +214,25 @@ euc.setPanelForBuyFreeSpin = function(value, status){
   }
   window.externalUi.call('spin-button', 'disable');
   window.externalUi.call('autoplay-button', 'disable');
-}
 
-euc.setPanelForNormalSpin = function(){
+    }
+
+    setPanelForNormalSpin() {
   if(_ng.BuyFSenabled) return;
   window.externalUi.call('spin-button', 'enable');
   window.externalUi.call('autoplay-button', 'enable');
-}
 
-euc.toggleTurbo = function (value){
+    }
+
+    toggleTurbo(value) {
   // GlobalStore.turbo = value;
   window.externalUi.call('ui-popup-settings', 'setToggle', 'turbo', value);
   window.externalUi.call('turbo-off-button', value ? 'hide' : 'show');
   window.externalUi.call('turbo-on-button', value ? 'show' : 'hide');
-}
 
-euc.resize = function() {
+    }
+
+    resize() {
   if (_viewInfoUtil.isDesktop) return;
   window.externalUi.call('game_ui', 'setMode', 'mobile', '');
   if (_viewInfoUtil.viewType=== "VP") {
@@ -223,16 +240,18 @@ euc.resize = function() {
   } else {
     window.externalUi.call('game_ui', 'setMode', 'mobile', 'landscape');
   }
-}
 
-euc.setBalance = function() {
+    }
+
+    setBalance() {
   if(isHistoryMode) {
     return;
   }
   window.externalUi.call('balance-amount', 'setText', pixiLib.getFormattedAmount(coreApp.gameModel.getBalance()));
-}
 
-euc.setIdle = function(data) {
+    }
+
+    setIdle(data) {
   switch (data) {  
     case 'spinClick':        
       if(coreApp.gameController.allReelsStopped) {
@@ -244,14 +263,23 @@ euc.setIdle = function(data) {
     default:
       break;
   }
-}
 
-euc.onAllReelStopped = function() {
+    }
+
+    onAllReelStopped() {
   this.isStopClickAllowed = false;
-}
 
-euc.onShowSpinStop = function() {
+    }
+
+    onShowSpinStop() {
   if(!_ng.isQuickSpinActive && !coreApp.gameController.isSpaceBarHeld) {
       this.isStopClickAllowed = true;
   }
+
+    }
+
 }
+
+
+_ng.ExternalUiController = ExternalUiController;
+

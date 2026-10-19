@@ -1,7 +1,12 @@
+// ============================================================================
+// ES6 Class Definition: PanelBGStrip
+// ============================================================================
+
 var _ng = _ng || {};
 
-_ng.PanelBGStrip = function(params, parent) {
-    PIXI.Container.call(this);
+class PanelBGStrip extends PIXI.Container {
+    constructor(params, parent) {
+    super();
 
     this.params = params.params;
     this.params.margin = this.params.margin || 0;
@@ -43,11 +48,7 @@ _ng.PanelBGStrip = function(params, parent) {
     this.onResize();
 }
 
-_ng.PanelBGStrip.constructor = _ng.PanelBGStrip;
-_ng.PanelBGStrip.prototype = Object.create(PIXI.Container.prototype);
-var p = _ng.PanelBGStrip.prototype;
-
-p.onResize = function() {
+    onResize() {
     var windowWidth = _viewInfoUtil.getWindowWidth();
     var windowHeight = _viewInfoUtil.getWindowHeight();
     var xRatio = _viewInfoUtil.viewScaleX;
@@ -108,3 +109,10 @@ p.onResize = function() {
                     (windowWidth - this.params.margin * xRatio - this.initialWidth * scaleFactor);
     }
 }
+
+}
+
+
+var _ng = _ng || {};
+_ng.PanelBGStrip = PanelBGStrip;
+

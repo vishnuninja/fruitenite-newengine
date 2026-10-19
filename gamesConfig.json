@@ -10,8 +10,8 @@
             "controllers/GWinController.js",
             "controllers/GPanelController.js",
             "configs/ReelViewUIConfig.js",
-            "configs/PaytableViewUIConfig.js",
             "views/GReelSymbol.js",
+            "views/BuyPanelView.js",
             "views/GView.js",
             "views/GReelView.js",
             "views/GWinView.js",
@@ -34,7 +34,6 @@
             "utils/wagerNormalization.js",
             "views/GHistoryPanelView.js",
             "controllers/GHistoryPanelController.js",
-            "controllers/GambleController.js",
             "views/GHistoryPanelMobileView.js"
         ]
     }

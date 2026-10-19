@@ -39,7 +39,7 @@ ViewContainer.prototype.getElement = function (config) {
         return pixiLib.getButton(config.image);
     } else if (config.type === "text") {
         var textStyle = config.textStyle;
-        if (typeof config.textStyle == "string" && _ng.PaytableViewUIConfig.textStyle) {
+        if (typeof config.textStyle == "string" && _ng.PaytableViewUIConfig && _ng.PaytableViewUIConfig.textStyle) {
             textStyle = _ng.PaytableViewUIConfig.textStyle[textStyle];
         }
         return pixiLib.getElement("Text", textStyle);
@@ -53,7 +53,7 @@ ViewContainer.prototype.getElement = function (config) {
         return pixiLib.getElement("Spine", config.image);
     } else if (config.type === "MSText"){
         var textStyle = config.textStyle;
-        if (typeof config.textStyle == "string" && _ng.PaytableViewUIConfig.textStyle) {
+        if (typeof config.textStyle == "string" && _ng.PaytableViewUIConfig && _ng.PaytableViewUIConfig.textStyle) {
             textStyle = _ng.PaytableViewUIConfig.textStyle[textStyle];
         }
         return pixiLib.getElement("MSText", textStyle, config.style);
@@ -65,7 +65,7 @@ ViewContainer.prototype.getElementByType = function (obj) {
         return pixiLib.getElement("Sprite", obj.props.img);
     } else if (obj.type === "Text") {
         var textStyle = obj.props.style;
-        if (typeof obj.props.style == "string" && _ng.PaytableViewUIConfig.textStyle) {
+        if (typeof obj.props.style == "string" && _ng.PaytableViewUIConfig && _ng.PaytableViewUIConfig.textStyle) {
             textStyle = _ng.PaytableViewUIConfig.textStyle[textStyle];
         }
         return pixiLib.getElement("Text", textStyle, obj.props.text);
@@ -82,7 +82,7 @@ ViewContainer.prototype.getElementByType = function (obj) {
         return pixiLib.getButton(obj.props.img, options);
     } else if (obj.type === "MSText"){
         var textStyle = obj.props.style;
-        if (typeof obj.props.style == "string" && _ng.PaytableViewUIConfig.textStyle) {
+        if (typeof obj.props.style == "string" && _ng.PaytableViewUIConfig && _ng.PaytableViewUIConfig.textStyle) {
             textStyle = _ng.PaytableViewUIConfig.textStyle[textStyle];
         }
         var text = pixiLib.getElement("MSText", textStyle, obj.props.text);

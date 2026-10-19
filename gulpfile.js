@@ -66,7 +66,6 @@ var vgSlotList = [
   "app/games/" + argv.gamename + "/src/model/FeatureModel.js",
   "app/games/" + argv.gamename + "/src/model/GambleModel.js",
   "app/games/" + argv.gamename + "/src/model/CyprusGambleModel.js",
-  "app/games/" + argv.gamename + "/src/model/PromoFreeSpinModel.js",
   "app/games/" + argv.gamename + "/src/model/CyprusPromoFreeSpinModel.js",
   "app/games/" + argv.gamename + "/src/services/DemoSlotService.js",
   "app/games/" + argv.gamename + "/src/controllers/BGController.js",
@@ -100,13 +99,9 @@ var vgSlotList = [
   "app/games/common/src/commonConfig.js"
 ];
 
-var vgMobileAddonsList = [
-  "app/games/" + argv.gamename + "/src/controllers/PanelMobileController.js",
-];
+var vgMobileAddonsList = [];
 
-var vgDesktopAddonsList = [
-  "app/games/" + argv.gamename + "/src/controllers/PanelDesktopController.js",
-];
+var vgDesktopAddonsList = [];
 
 /* -----------------------------------------------------------------
    CLI args & globals
@@ -232,7 +227,8 @@ function vgSlot() {
     .pipe(gulp.dest(buildPath + "/core/"));
 }
 
-function vgDesktop() {
+function vgDesktop(done) {
+  if (!vgDesktopAddonsList || !vgDesktopAddonsList.length) return done();
   logMissing(vgDesktopAddonsList, "vgDesktop");
   return gulp
     .src(vgDesktopAddonsList, { allowEmpty: true })
@@ -242,7 +238,8 @@ function vgDesktop() {
     .pipe(gulp.dest(buildPath + "/core/"));
 }
 
-function vgMobile() {
+function vgMobile(done) {
+  if (!vgMobileAddonsList || !vgMobileAddonsList.length) return done();
   logMissing(vgMobileAddonsList, "vgMobile");
   return gulp
     .src(vgMobileAddonsList, { allowEmpty: true })
@@ -309,10 +306,7 @@ function getGameFiles(gameName) {
   var ary = [
     gConfig.gamePath + gameName + "/src/configs/GameConfig.js",
     gConfig.gamePath + gameName + "/src/configs/LoadConfig.js",
-    gConfig.gamePath + gameName + "/src/configs/PanelConfig.js",
-    gConfig.gamePath + gameName + "/src/configs/UIConfig.js",
-    gConfig.gamePath + gameName + "/src/configs/"
-
+    gConfig.gamePath + gameName + "/src/configs/UIConfig.js"
   ];
   var gameArr = gConfig.gameFiles[gameName] || [];
   for (let i = 0; i < gameArr.length; i++) {

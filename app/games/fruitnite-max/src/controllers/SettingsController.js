@@ -4,26 +4,23 @@
 
 var _ng = _ng || {};
 
-function DummySettingsView() {
-    this.name = "DummySettingsView";
-}
-var dsv = DummySettingsView.prototype;
-dsv.createView = function() {};
-dsv.openSettingsPanel = function() {};
-dsv.closeSettingsPanel = function() {};
-dsv.volumeChange = function() {};
-dsv.enableMenu = function() {};
-dsv.onResize = function() {};
-dsv.onSoundOffHandler = function() {};
-dsv.onHistoryPanelClick = function() {};
-dsv.onHistoryTitleClick = function() {};
+class DummySettingsView {
+    constructor() {
+        this.name = "DummySettingsView";
+    }
 
-SettingsView = DummySettingsView;
-SettingsDesktopView = DummySettingsView;
-SettingsMobileView = DummySettingsView;
-GSettingView = DummySettingsView;
-GSettingsDesktopView = DummySettingsView;
-GSettingsMobileView = DummySettingsView;
+    createView() {}
+    openSettingsPanel() {}
+    closeSettingsPanel() {}
+    volumeChange() {}
+    enableMenu() {}
+    onResize() {}
+    onSoundOffHandler() {}
+    onHistoryPanelClick() {}
+    onHistoryTitleClick() {}
+}
+
+
 
 if (typeof window !== "undefined") {
     window.SettingsView = DummySettingsView;
@@ -34,60 +31,59 @@ if (typeof window !== "undefined") {
     window.GSettingsMobileView = DummySettingsView;
 }
 
-_ng.SettingsController = function () {
-    this.view = new DummySettingsView();
-    this.addEvents();
-};
+class SettingsController {
+    constructor() {
+        this.view = new DummySettingsView();
+        this.addEvents();
+    }
 
-var sc = _ng.SettingsController.prototype;
+    addEvents() {
+        _mediator.subscribe(_events.core.onResize, this.onResize.bind(this));
+        _mediator.subscribe("openSettingsPanel", this.onOpenSettingsPanel.bind(this));
+        _mediator.subscribe("closeSettingsPanel", this.onCloseSettingsPanel.bind(this));
+        _mediator.subscribe("spinStart", this.onSpinClickHandler.bind(this));
+        _mediator.subscribe("EnablePanel", this.onEnablePanelHandler.bind(this));
+        _mediator.subscribe("DisablePanel", this.onDisablePanel.bind(this));
+        _mediator.subscribe("setVolume", this.onVolumeChange.bind(this));
+    }
 
-sc.addEvents = function(){
-    _mediator.subscribe(_events.core.onResize, this.onResize.bind(this));
-    _mediator.subscribe("openSettingsPanel", this.onOpenSettingsPanel.bind(this));
-    _mediator.subscribe("closeSettingsPanel", this.onCloseSettingsPanel.bind(this));
-    _mediator.subscribe("spinStart", this.onSpinClickHandler.bind(this));
-    _mediator.subscribe("EnablePanel", this.onEnablePanelHandler.bind(this));
-    _mediator.subscribe("DisablePanel", this.onDisablePanel.bind(this));
-    _mediator.subscribe("setVolume", this.onVolumeChange.bind(this));
-};
+    onVolumeChange(val) {
+        if (this.view && this.view.volumeChange) this.view.volumeChange(val);
+    }
 
-sc.onVolumeChange = function(val){
-    if (this.view && this.view.volumeChange) this.view.volumeChange(val);
-};
+    onSpinClickHandler() {
+        if (this.view && this.view.enableMenu) this.view.enableMenu(false);
+    }
 
-sc.onSpinClickHandler = function(){
-    if (this.view && this.view.enableMenu) this.view.enableMenu(false);
-};
+    onDisablePanel() {
+        if (this.view && this.view.enableMenu) this.view.enableMenu(false);
+    }
 
-sc.onDisablePanel = function(){
-    if (this.view && this.view.enableMenu) this.view.enableMenu(false);
-};
+    onEnablePanelHandler() {
+        if (this.view && this.view.enableMenu) this.view.enableMenu(true);
+    }
 
-sc.onEnablePanelHandler = function(){
-    if (this.view && this.view.enableMenu) this.view.enableMenu(true);
-};
+    setView(view) {
+        this.view = view || new DummySettingsView();
+    }
 
-sc.setView = function(view){
-    this.view = view || new DummySettingsView();
-};
+    setVariables(coreApp) {
+        this.controller = coreApp ? coreApp.gameController : null;
+    }
 
-sc.setVariables = function(coreApp){
-    this.controller = coreApp ? coreApp.gameController : null;
-};
+    onOpenSettingsPanel() {
+        if (this.view && this.view.openSettingsPanel) this.view.openSettingsPanel();
+    }
 
-sc.onOpenSettingsPanel = function(){
-    if (this.view && this.view.openSettingsPanel) this.view.openSettingsPanel();
-};
+    onCloseSettingsPanel() {
+        if (this.view && this.view.closeSettingsPanel) this.view.closeSettingsPanel();
+    }
 
-sc.onCloseSettingsPanel = function(){
-    if (this.view && this.view.closeSettingsPanel) this.view.closeSettingsPanel();
-};
-
-sc.onResize = function(){
-    if (this.view && this.view.onResize) this.view.onResize();
-};
-
-var SettingsController = _ng.SettingsController;
-if (typeof window !== "undefined") {
-    window.SettingsController = _ng.SettingsController;
+    onResize() {
+        if (this.view && this.view.onResize) this.view.onResize();
+    }
 }
+
+
+_ng.SettingsController = SettingsController;
+

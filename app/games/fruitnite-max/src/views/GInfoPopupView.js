@@ -1,8 +1,10 @@
 // ============================================================================
-// Consolidated Parent (CyprusInfoPopupView.js) and Child (GInfoPopupView.js)
-// Base Class Definition & Implementation
+// ES6 Class Definition: InfoPopupView
 // ============================================================================
-function InfoPopupView(gameView) {
+
+class InfoPopupView extends ViewContainer {
+    constructor(gameView) {
+  super(gameView);
   this.gameView = coreApp.gameView;
   this.hideInfoEventType = "";
   this.hideInfoDelay = 0;
@@ -27,7 +29,7 @@ function InfoPopupView(gameView) {
   }
 
 
-  ViewContainer.call(this);
+  
   this.addSubscription();
   this.createRealityCheckPopup();
   this.startRealityInterval();
@@ -35,33 +37,49 @@ function InfoPopupView(gameView) {
   this.timer = 0;
 }
 
-InfoPopupView.prototype = Object.create(ViewContainer.prototype);
-InfoPopupView.prototype.constructor = InfoPopupView;
+    addSubscription() {
+	_mediator.subscribe("showRealityCheckPopup", this.showRealityCheckPopup.bind(this));
+	_mediator.subscribe("showFreeSpinAwarded", this.showFreeSpinAwarded.bind(this));
+	_mediator.subscribe("showFreeSpinEnded", this.showFreeSpinEnded.bind(this));
+	_mediator.subscribe(_events.core.onResize, this.onViewResize.bind(this));
+	_mediator.subscribe("showBonusAwardedMsg", this.onShowBonusAward.bind(this));
+	_mediator.subscribe("showBonusWinMsg", this.onShowBonusWin.bind(this));
+	//error messages
+	_mediator.subscribe("showErrorMsg", this.onShowErrorMsg.bind(this));
+	//Spacebar Events
+	_mediator.subscribe("hideInfoPopup", this.hideInfoPopup.bind(this, this.hideInfoEventType, this.hideInfoDelay));
+	_mediator.subscribe("onFSContinueClick", this.onFSContinueClick.bind(this));
+	_mediator.subscribe("onBonusAwardContinueClick", this.onBonusAwardContinueClick.bind(this));
+	_mediator.subscribe("onBonusWinContinueClick", this.onBonusWinContinueClick.bind(this));
+	_mediator.subscribe("onFsCloseHandler", this.onFsCloseHandler.bind(this));
+	_mediator.subscribe("gotolobby", this.gotoLobby.bind(this));
+	_mediator.subscribe("showFreeSpinEndedZeroBalance", this.showFreeSpinEndedZeroBalance.bind(this));
+	_mediator.subscribe("buyFreeSpinPopup", this.buyFreeSpinPopup.bind(this));
+	_mediator.subscribe("showGambleWindow", this.showGambleWindow.bind(this));
+	_mediator.subscribe("buyFreeSuperSpinPopup", this.buyFreeSuperSpinPopup.bind(this));
+	_mediator.subscribe("ExtraFSAwardpopup", this.ExtraFSAwardpopup.bind(this));
+	_mediator.subscribe("closeBuyFSPopup", this.closeBuyFSPopup.bind(this));
+	_mediator.subscribe("spinStart", this.closeBuyFSPopup.bind(this));
+	_mediator.subscribe("WinExceededPopup", this.WinExceededPopup.bind(this));
+	_mediator.subscribe("resizeBuypopup", this.resizeBuypopup.bind(this));
+	_mediator.subscribe("setFsPlayedcnt", this.setFsPlayedcnt.bind(this));
+	_mediator.subscribe("updateFreeSpinCost", this.updateFreeSpinCost.bind(this));
+	_mediator.subscribe("updateSuperSpinCost", this.updateSuperSpinCost.bind(this));
+	//bet adjustment 
+	_mediator.subscribe("createTotalBetSelector", this.createTotalBetSelector.bind(this));
+	_mediator.subscribe("updateSelectorContainerBet", this.updateSelectorContainerBet.bind(this));
+	_mediator.subscribe("selectorPlusInteraction", this.selectorPlusInteraction.bind(this));
+	_mediator.subscribe("selectorMinusInteraction", this.selectorMinusInteraction.bind(this));
+	_mediator.subscribe("countExitForCongratulation", this.CountExit.bind(this));
+	_mediator.subscribe("showHistoryModePopup", this.showHistoryModePopup.bind(this));
+	//FOR PFS
 
-var view = InfoPopupView.prototype;
+	this.exceed = false;
+	// this.onViewResize();
 
-view.addSubscription = function () {
-  _mediator.subscribe("showRealityCheckPopup", this.showRealityCheckPopup.bind(this));
-  _mediator.subscribe("showFreeSpinAwarded", this.showFreeSpinAwarded.bind(this));
-  _mediator.subscribe("showFreeSpinEnded", this.showFreeSpinEnded.bind(this));
-  _mediator.subscribe(_events.core.onResize, this.onViewResize.bind(this));
-  _mediator.subscribe("showBonusAwardedMsg", this.onShowBonusAward.bind(this));
-  _mediator.subscribe("showBonusWinMsg", this.onShowBonusWin.bind(this));
-  //error messages
-  _mediator.subscribe("showErrorMsg", this.onShowErrorMsg.bind(this));
-  //Spacebar Events
-  _mediator.subscribe("hideInfoPopup", this.hideInfoPopup.bind(this, this.hideInfoEventType, this.hideInfoDelay));
-  _mediator.subscribe("onFSContinueClick", this.onFSContinueClick.bind(this));
-  _mediator.subscribe("onBonusAwardContinueClick", this.onBonusAwardContinueClick.bind(this));
-  _mediator.subscribe("onBonusWinContinueClick", this.onBonusWinContinueClick.bind(this));
-  _mediator.subscribe("onFsCloseHandler", this.onFsCloseHandler.bind(this));
-  _mediator.subscribe("gotolobby", this.gotoLobby.bind(this));
-  _mediator.subscribe("showFreeSpinEndedZeroBalance", this.showFreeSpinEndedZeroBalance.bind(this));
+}
 
-  //FOR PFS
-
-};
-view.showFreeSpinEndedZeroBalance = function (events) {
+    showFreeSpinEndedZeroBalance(events) {
   _sndLib.play(_sndLib.sprite.fsWinPopup);
 
   var fsPopupConfig = _ng.GameConfig.infoPopupView.errorPopup;
@@ -99,7 +117,8 @@ view.showFreeSpinEndedZeroBalance = function (events) {
   this.onViewResize();
   this.showInfoPopup();
 }
-view.onShowBonusAward = function (str) {
+
+    onShowBonusAward(str) {
   var fsPopupConfig = _ng.GameConfig.infoPopupView.bonusAwardPopup || _ng.GameConfig.infoPopupView.freeSpinPopup;
 
   this.grayBg = pixiLib.getShape("rect", { w: _viewInfoUtil.getWindowWidth(), h: _viewInfoUtil.getWindowHeight() });
@@ -141,14 +160,15 @@ view.onShowBonusAward = function (str) {
   this.showInfoPopup();
   // _sndLib.play(_sndLib.sprite.bonusPopup);
   _sndLib.play(_sndLib.sprite.bonusPopup);
-};
+}
 
-view.onBonusAwardContinueClick = function () {
+    onBonusAwardContinueClick() {
   this.hideInfoEventType = "showBonusGame";
   this.hideInfoDelay = 0;
   this.hideInfoPopup("showBonusGame");
-};
-view.onShowBonusWin = function (str) {
+}
+
+    onShowBonusWin(str) {
   _sndLib.play(_sndLib.sprite.bonusPopup);
   var fsPopupConfig = _ng.GameConfig.infoPopupView.bonusWinPopup || _ng.GameConfig.infoPopupView.freeSpinPopup;
 
@@ -189,15 +209,15 @@ view.onShowBonusWin = function (str) {
 
   this.onViewResize();
   this.showInfoPopup();
-};
+}
 
-view.onBonusWinContinueClick = function () {
+    onBonusWinContinueClick() {
   this.hideInfoEventType = "closeBonus";
   this.hideInfoDelay = 0;
   this.hideInfoPopup("closeBonus");
-};
+}
 
-view.onShowErrorMsg = function (str, eventType, isUnfinished) {
+    onShowErrorMsg(str, eventType, isUnfinished) {
   var fsPopupConfig = _ng.GameConfig.infoPopupView.errorPopup;
 
   this.grayBg = pixiLib.getShape("rect", { w: _viewInfoUtil.getWindowWidth(), h: _viewInfoUtil.getWindowHeight() });
@@ -245,52 +265,111 @@ view.onShowErrorMsg = function (str, eventType, isUnfinished) {
   } else {
     _sndLib.play(_sndLib.sprite.errorPopup);
   }
-};
-view.addAdditionalMessage = function () { };
+}
 
-view.createView = function (argument) { };
+    addAdditionalMessage() { }
 
-view.showFreeSpinAwarded = function (numSpins, nextAction) {
-  _sndLib.play(_sndLib.sprite.fsAwardPopup);
-  this.nextAction = nextAction;
-  var fsPopupConfig = _ng.GameConfig.infoPopupView.freeSpinPopup;
-  var numSpins = Number.isInteger(parseInt(numSpins)) ? numSpins : coreApp.gameModel.getTotalFSTriggered();
+    createView(argument) { }
 
-  this.grayBg = pixiLib.getShape("rect", { w: _viewInfoUtil.getWindowWidth(), h: _viewInfoUtil.getWindowHeight() });
-  this.grayBg.alpha = 0.6;
-  this.grayBg.interactive = true;
-  coreApp.gameView.popupContainer.addChildAt(this.grayBg, 0);
+    showFreeSpinAwarded(numSpins, nextAction) {
+	this.isShowing_popup = true;
 
-  this.popupParent = pixiLib.getElement();
-  this.addChild(this.popupParent);
+	_mediator.publish("CreateScatterWinAnim");
+	setTimeout(() => {
 
-  var fsAwardedScreen = pixiLib.getElement("Sprite", fsPopupConfig.background.bgImage);
-  this.popupParent.addChild(fsAwardedScreen);
-  pixiLib.setProperties(fsAwardedScreen, fsPopupConfig.background.props);
+		this.nextAction = nextAction;
+        var awardedConfig = _ng.GameConfig.infoPopupView.freeSpinPopup;
+		var numSpins = coreApp.gameModel.getTotalFreeSpins();
+		
+		this.grayBg = pixiLib.getShape("rect", { w: _viewInfoUtil.getWindowWidth(), h: _viewInfoUtil.getWindowHeight() });
+		this.grayBg.alpha = 0.2;
+		this.grayBg.interactive = false;
+		this.grayBg.buttonMode = false;
+		coreApp.gameView.decoratorContainer.addChildAt(this.grayBg, 0);
 
-  this.descriptionText = pixiLib.getElement("Text", fsPopupConfig.descriptionText.textStyle);
-  var mText = pixiLib.getLiteralText(fsPopupConfig.descriptionText.text);
-  mText = numSpins + " " + mText;
-  pixiLib.setText(this.descriptionText, mText);
-  this.popupParent.addChild(this.descriptionText);
-  pixiLib.setProperties(this.descriptionText, fsPopupConfig.descriptionText.props);
+		this.popupParent = pixiLib.getElement();
+		this.addChild(this.popupParent);
 
-  var continueBtn = pixiLib.getButton(fsPopupConfig.continueButton.bgImage, fsPopupConfig.continueButton.options);
-  this.popupParent.addChild(continueBtn);
-  pixiLib.setProperties(continueBtn, fsPopupConfig.continueButton.props);
+		var fsAwarded = pixiLib.getElement("Spine", awardedConfig.background.bgImage);
+        fsAwarded.name = "fsAwarded";
+        fsAwarded.state.setAnimation(0, awardedConfig.background.inAnimation, false);
+        this.popupParent.addChild(fsAwarded);
+        pixiLib.setProperties(fsAwarded, awardedConfig.background.props);
 
-  setTimeout(function () {
-    //Adding timeout so popup will be shown fully then enable spacebar
-    _mediator.publish("setSpaceBarEvent", "onFSContinueClick");
-  }, 500);
-  pixiLib.addEvent(continueBtn, this.onFSContinueClick.bind(this));
-  _ngFluid.call(this, fsPopupConfig.params);
+        var text1 = pixiLib.getElement("Text", awardedConfig.text1.textStyle);
+        text1.name = "text1";
+        pixiLib.setText(text1, awardedConfig.text1.text);
+        pixiLib.setProperties(text1, awardedConfig.text1.props);
+        this.attachToSlot(fsAwarded, "congrad_10_text", text1);
 
-  this.onViewResize();
-  this.showInfoPopup();
-};
+        var text2 = pixiLib.getElement("Text", awardedConfig.text2.textStyle);
+        text2.name = "text2";
+        pixiLib.setText(text2, awardedConfig.text2.text);
+        pixiLib.setProperties(text2, awardedConfig.text2.props);
+        this.attachToSlot(fsAwarded, "congrad_10_text_2", text2);
 
-view.showInfoPopup = function () {
+        var text3 = pixiLib.getElement("Text", awardedConfig.text3.textStyle);
+        text3.name = "text3";
+        pixiLib.setText(text3, awardedConfig.text3.text);
+        pixiLib.setProperties(text3, awardedConfig.text3.props);
+        this.attachToSlot(fsAwarded, "press_text", text3);
+
+        var text4 = pixiLib.getElement("Text", awardedConfig.text4.textStyle);
+        text4.name = "text4";
+        pixiLib.setText(text4, awardedConfig.text4.text);
+        pixiLib.setProperties(text4, awardedConfig.text4.props);
+        this.attachToSlot(fsAwarded, "press_text", text4);
+
+
+        var fsValue = pixiLib.getElement("Text", awardedConfig.fsValue.textStyle);
+        fsValue.name = "fsValue";
+        pixiLib.setText(fsValue, numSpins);
+        pixiLib.setProperties(fsValue, awardedConfig.fsValue.props);
+        this.attachToSlot(fsAwarded, "congrad_10_summ", fsValue);
+
+        fsAwarded.state.tracks[0].listener = {
+            complete: (trackEntry) => {
+                if (trackEntry.animation.name === awardedConfig.background.inAnimation) {
+                    fsAwarded.state.setAnimation(0, awardedConfig.background.loopAnimation, true);
+                    this.grayBg.interactive = true;
+		            this.grayBg.buttonMode = true;
+                }
+            }
+        }
+
+		setTimeout(function () {
+			//Adding timeout so popup will be shown fully then enable spacebar
+			_mediator.publish("setSpaceBarEvent", "onFSContinueClick");
+		}, 500);
+	
+		pixiLib.addEvent(this.grayBg,()=>{
+			this.grayBg.interactive = false;
+			this.grayBg.buttonMode = false;
+			this.onFSContinueClick();
+		})
+		_ngFluid.call(this, awardedConfig.params);
+
+		this.onViewResize();
+		this.showInfoPopup();
+		coreApp.CURRENTACTIVEPOPUP = "congratulations_awarded";
+
+		//skipping the popup
+		if (_ng.autoPlayBeforeFg == true) {
+			// pixiLib.setInteraction(continueBtn, false);
+			this.grayBg.interactive = false;
+			this.grayBg.buttonMode = false;
+			setTimeout(function () {
+				_mediator.publish("onFSContinueClick");
+			}, 1000);
+		}
+
+		_sndLib.play(_sndLib.sprite.fsAwardPopup);
+
+	}, 2300);
+
+}
+
+    showInfoPopup() {
   this.popupParent.scale.set(0);
   this.grayBg.alpha = 0;
   TweenMax.to(this.grayBg, 0.3, { alpha: 0.6 });
@@ -300,92 +379,178 @@ view.showInfoPopup = function () {
   }
 
   TweenMax.to(this.popupParent.scale, 0.3, { x: 1, y: 1, ease: Back.easeOut.config(1.5) });
-};
+}
 
-view.onFSContinueClick = function () {
-  if (this.nextAction == "closeBonus") {
-    _mediator.publish("closeBonus");
-  }
-  //If Freespins are Re-Triggered, don't show starting Freespins message in Ticker
-  if (coreApp.gameModel.getTotalFSTriggered() == coreApp.gameModel.getTotalFreeSpins()) {
-    _mediator.publish("SHOW_TICKER_MESSAGE", gameLiterals.startfree);
-    _mediator.publish("SHOW_TICKER");
-  }
-  this.hideInfoEventType = "startFreeSpins";
-  this.hideInfoDelay = 500;
-  this.hideInfoPopup("startFreeSpins", 500);
-};
+    onFSContinueClick() {
+	coreApp.CURRENTACTIVEPOPUP = "";
+	_mediator.publish("ToggleTurbo", false);
+	_mediator.publish("_hideAndShowOfTwoXButton", false);
+	var fsCount = coreApp.gameModel.getTotalFreeSpins();
+	if (this.nextAction == "closeBonus") {
+		_mediator.publish("closeBonus");
+	}
+	//If Freespins are Re-Triggered, don't show starting Freespins message in Ticker
+	if (coreApp.gameModel.getTotalFSTriggered() == coreApp.gameModel.getTotalFreeSpins()) {
+		_mediator.publish("showNewMessage", "Starting Freespins");
+		_mediator.publish("SHOW_TICKER");
+	}
+	_mediator.publish('showMultipler', 0);
+	this.hideInfoEventType = "startFreeSpins";
+	this.hideInfoDelay = 500;
+	this.hideInfoPopup("startFreeSpins", 500);
+}
 
-view.hideInfoPopup = function (eventToPublish, delay) {
-  _sndLib.play(_sndLib.sprite.hidePopup);
-  TweenMax.to(this.grayBg, 0.3, { alpha: 0 });
-  TweenMax.to(this.popupParent.scale, 0.3, {
-    x: 0,
-    y: 0,
-    onComplete: function () {
-      this.popupParent.destroy();
-      delete this.popupParent;
+    hideInfoPopup(eventToPublish, delay) {
+	_sndLib.play(_sndLib.sprite.hidePopup);
+	var delay = 0 || delay;
+	if (this.grayBg) {
+		TweenMax.to(this.grayBg, 0.3, { alpha: 0 });
+	}
+	if (this.popupParent) {
+		TweenMax.to(this.popupParent.scale, 0.3, {
+			x: 0, y: 0,
+			onComplete: function () {
 
-      this.grayBg.destroy();
-      delete this.grayBg;
-      if (this.hideInfoEventType) {
-        setTimeout(
-          function () {
-            _mediator.publish(this.hideInfoEventType);
-          }.bind(this),
-          this.hideInfoDelay
-        );
-      }
-    }.bind(this)
-  });
-};
+				if (this.popupParent) {
+					this.popupParent.destroy();
+					delete this.popupParent;
+				}
 
-view.showFreeSpinEnded = function () {
-  _sndLib.play(_sndLib.sprite.fsWinPopup);
+				if (this.grayBg) {
+					this.grayBg.destroy();
+					delete this.grayBg;
+				}
+				if (this.hideInfoEventType) {
+					setTimeout(function () {
+						_mediator.publish(this.hideInfoEventType);
+					}.bind(this), this.hideInfoDelay);
+				}
+			}.bind(this)
+		})
+	}
+}
 
-  var winAmount = coreApp.gameModel.getTotalFSWin();
-  var fsPopupConfig = _ng.GameConfig.infoPopupView.freeSpinEndPopup;
-  this.fsEndTextStyle = fsPopupConfig.descriptionText.textStyle;
+    showFreeSpinEnded() {
+	coreApp.CURRENTACTIVEPOPUP = "congratulations_rewarded";
+	// Check if round_id exists in URL params to determine if it's history/replay mode
+	const urlParams = new URLSearchParams(window.location.search);
+	const roundId = urlParams.get('round_id');
 
-  this.grayBg = pixiLib.getShape("rect", { w: _viewInfoUtil.getWindowWidth(), h: _viewInfoUtil.getWindowHeight() });
-  this.grayBg.alpha = 0.6;
-  this.grayBg.name = "grayBg";
-  this.grayBg.interactive = true;
-  coreApp.gameView.popupContainer.addChildAt(this.grayBg, 0);
+	/*reseting after free spin ended*/
+	if (_ng.BuyFSenabled === true) {
+		_ng.BuyFSenabled = false
+	}
+	if (_ng.GameConfig.superBuyEnabled === true) {
+		_ng.GameConfig.superBuyEnabled = false
+	}
+	_mediator.publish("showNewMessage", "");
+	_sndLib.play(_sndLib.sprite.fsWinPopup);
+	var winAmount = coreApp.gameModel.getTotalFSWin();
+	if ((this.exceed == false) && (Number(coreApp.gameModel.getTotalFSWin())) >= coreApp.gameModel.spinData.max_win_cap * (Number(coreApp.gameModel.getTotalBet()))) {
+		console.log("win exceeded");
+		this.WinExceededPopup((Number(coreApp.gameModel.getTotalBet())));
+	}
+	else {
+		if (this.exceed) { this.exceed = false; }
+		var fsPopupConfig = _ng.GameConfig.infoPopupView.freeSpinEndPopup;
+		this.grayBg = pixiLib.getShape("rect", { w: _viewInfoUtil.getWindowWidth(), h: _viewInfoUtil.getWindowHeight() });
+		this.grayBg.alpha = 0.6;
+		this.grayBg.interactive = true;
+		this.grayBg.buttonMode = true;
+		// pixiLib.addEvent(this.grayBg, this.onCollectButtonClick.bind(this,"collect"));
+		coreApp.gameView.decoratorContainer.addChildAt(this.grayBg, 0);
 
-  this.popupParent = pixiLib.getElement();
-  this.addChild(this.popupParent);
+		this.popupParent = pixiLib.getElement();
+		this.addChild(this.popupParent);
 
-  var fsEndedScreen = pixiLib.getElement("Sprite", fsPopupConfig.background.bgImage);
-  this.popupParent.addChild(fsEndedScreen);
-  pixiLib.setProperties(fsEndedScreen, fsPopupConfig.background.props);
+		var fsRewarded = pixiLib.getElement("Spine", fsPopupConfig.background.bgImage);
+		fsRewarded.name = "fsRewarded";
+		fsRewarded.state.setAnimation(0, fsPopupConfig.background.inAnimation, false);
+		this.popupParent.addChild(fsRewarded);
+		pixiLib.setProperties(fsRewarded, fsPopupConfig.background.props);
 
-  var winAmountTxt = pixiLib.getElement("Text", fsPopupConfig.fsWinValue.textStyle);
-  this.popupParent.addChild(winAmountTxt);
-  pixiLib.setProperties(winAmountTxt, fsPopupConfig.fsWinValue.props);
-  pixiLib.setText(winAmountTxt, pixiLib.getFormattedAmount(winAmount));
+		
+		var text2 = pixiLib.getElement("Text", fsPopupConfig.text2.textStyle);
+		text2.name = "text2";
+		pixiLib.setText(text2, fsPopupConfig.text2.text);
+		pixiLib.setProperties(text2, fsPopupConfig.text2.props);
+		this.attachToSlot(fsRewarded, "congrad_10_text_2", text2);
 
-  var descriptionText = pixiLib.getElement("Text", fsPopupConfig.descriptionText.textStyle);
-  pixiLib.setText(descriptionText, fsPopupConfig.descriptionText.text);
-  this.popupParent.addChild(descriptionText);
-  pixiLib.setProperties(descriptionText, fsPopupConfig.descriptionText.props);
+		var text3 = pixiLib.getElement("Text", fsPopupConfig.text3.textStyle);
+		text3.name = "text3";
+		pixiLib.setText(text3, fsPopupConfig.text3.text);
+		pixiLib.setProperties(text3, fsPopupConfig.text3.props);
+		this.attachToSlot(fsRewarded, "press_text", text3);
+		text3.text = text3.text.replace("XXXX", coreApp.gameModel.freeSpinData.totalFreeSpins);
 
-  var continueBtn = pixiLib.getButton(fsPopupConfig.continueButton.bgImage, fsPopupConfig.continueButton.options);
-  this.popupParent.addChild(continueBtn);
-  pixiLib.setProperties(continueBtn, fsPopupConfig.continueButton.props);
+		// var text4 = pixiLib.getElement("Text", fsPopupConfig.text4.textStyle);
+		// text4.name = "text4";
+		// pixiLib.setText(text4, fsPopupConfig.text4.text);
+		// pixiLib.setProperties(text4, fsPopupConfig.text4.props);
+		// this.attachToSlot(fsRewarded, "press_text", text4);
 
-  setTimeout(function () {
-    //Adding timeout so popup will be shown fully then enable spacebar
-    _mediator.publish("setSpaceBarEvent", "onFsCloseHandler");
-  }, 500);
-  pixiLib.addEvent(continueBtn, this.onFsCloseHandler.bind(this));
-  _ngFluid.call(this, fsPopupConfig.params);
 
-  this.onViewResize();
-  this.showInfoPopup();
-};
+		
+		this.winAmountTxt = pixiLib.getElement("Text", fsPopupConfig.winAmountTxt.textStyle);
+		this.winAmountTxt.name = "winAmountTxt";
+		pixiLib.setProperties(this.winAmountTxt, fsPopupConfig.winAmountTxt.props);
+		this.attachToSlot(fsRewarded, "congrad_10_summ", this.winAmountTxt);
 
-view.showSuperMeterPopup = function () {
+	
+		
+		this.endcontinueBtn = pixiLib.getButton(fsPopupConfig.continueButton.bgImage);
+		this.attachToSlot(fsRewarded, "btn_1", this.endcontinueBtn);
+		pixiLib.setProperties(this.endcontinueBtn, fsPopupConfig.continueButton.props);
+		
+		//Collect text
+		var collectText = pixiLib.getElement("Text", fsPopupConfig.collectText.textStyle);
+		this.endcontinueBtn.addChild(collectText);
+		pixiLib.setProperties(collectText, fsPopupConfig.collectText.props);
+		pixiLib.setText(collectText, gameLiterals.collectBtnText);
+		
+		this.doubleRewardBtn = pixiLib.getButton(fsPopupConfig.doubleButton.bgImage);
+		this.attachToSlot(fsRewarded, "btn_2", this.doubleRewardBtn);
+		pixiLib.setProperties(this.doubleRewardBtn, fsPopupConfig.doubleButton.props);
+		if(coreApp.gameModel.getTotalFSWin() <= 0) pixiLib.setInteraction(this.doubleRewardBtn, false); //incase of 0
+	
+		
+		
+		var rewardText = pixiLib.getElement("Text", fsPopupConfig.rewardText.textStyle);
+		this.doubleRewardBtn.addChild(rewardText);
+		pixiLib.setProperties(rewardText, fsPopupConfig.rewardText.props);
+		pixiLib.setText(rewardText, gameLiterals.doubleYourRewardText);
+
+		if (roundId) {
+			pixiLib.setInteraction(this.doubleRewardBtn, false);
+			pixiLib.setInteraction(this.endcontinueBtn, false);
+		}
+		this.counterWinAmount(this, 0, this.winAmountTxt, 3000);
+
+		fsRewarded.state.tracks[0].listener = {
+            complete: (trackEntry) => {
+                if (trackEntry.animation.name === fsPopupConfig.background.inAnimation) {
+                    fsRewarded.state.setAnimation(0, fsPopupConfig.background.loopAnimation, true);
+                }
+            }
+        }
+		
+		setTimeout(function () {
+			//Adding timeout so popup will be shown fully then enable spacebar
+			_mediator.publish("setSpaceBarEvent", "onFsCloseHandler");
+		}, 3000);
+		pixiLib.addEvent(this.endcontinueBtn, this.onCollectButtonClick.bind(this,"collect"));
+		pixiLib.addEvent(this.doubleRewardBtn, this.on2XBtnClick.bind(this,"gamble"));
+		_ngFluid.call(this, fsPopupConfig.params);
+
+		this.onViewResize();
+		this.showInfoPopup();
+
+		/*skiping rewarded popup*/
+		// this.skipFreeSpinRewarded();
+	}
+}
+
+    showSuperMeterPopup() {
 
   var smPopupConfig = _ng.GameConfig.infoPopupView.superMeterPopup;
 
@@ -429,16 +594,16 @@ view.showSuperMeterPopup = function () {
 
   this.onViewResize();
   this.showInfoPopup();
-};
+}
 
-view.onSmNoHandler = function () {
+    onSmNoHandler() {
   this.hideInfoEventType = "onSMPopupShown";
   this.hideInfoDelay = 0;
   _sndLib.play(_sndLib.sprite.hidePopup);
   this.hideInfoPopup("onSMPopupShown");
-};
+}
 
-view.onSmYesHandler = function () {
+    onSmYesHandler() {
 
   _mediator.publish("SM_COLLECT")
 
@@ -446,118 +611,104 @@ view.onSmYesHandler = function () {
   this.hideInfoDelay = 0;
   _sndLib.play(_sndLib.sprite.hidePopup);
   this.hideInfoPopup("onSMPopupShown");
-};
+}
 
+    createRealityCheckPopup() {
+	var realityCheckConfig = _ng.GameConfig.realityCheck;
 
-view.createRealityCheckPopup = function () {
-  var realityCheckConfig = _ng.GameConfig.realityCheck;
+	this.overlay = pixiLib.getShape("rect", { w: _viewInfoUtil.getWindowWidth(), h: _viewInfoUtil.getWindowHeight() });
+	this.overlay.alpha = 0.001;
+	this.overlay.interactive = true;
+	coreApp.gameView.popupContainer.addChildAt(this.overlay, 0);
 
-  this.overlay = pixiLib.getShape("rect", { w: _viewInfoUtil.getWindowWidth(), h: _viewInfoUtil.getWindowHeight() });
-  this.overlay.alpha = 0.001;
-  this.overlay.interactive = true;
-  coreApp.gameView.popupContainer.addChildAt(this.overlay, 0);
+	this.container = pixiLib.getElement();
+	this.addChild(this.container);
 
-  this.container = pixiLib.getElement();
-  this.addChild(this.container);
+	// var bg = pixiLib.getShape("rect", { w: 640, h: 300 });
+	var bg = pixiLib.getElement("Sprite", realityCheckConfig.background.bgImage);
+	this.container.addChild(bg);
+	pixiLib.setProperties(bg, realityCheckConfig.background.props);
 
-  // var bg = pixiLib.getShape("rect", { w: 640, h: 300 });
-  var bg = pixiLib.getElement("Sprite", realityCheckConfig.background.bgImage);
-  this.container.addChild(bg);
-  pixiLib.setProperties(bg, realityCheckConfig.background.props);
+	this.container.contentTxt = pixiLib.getElement("Text", realityCheckConfig.contentTxt.textStyle);
+	this.container.addChild(this.container.contentTxt);
+	pixiLib.setProperties(this.container.contentTxt, realityCheckConfig.contentTxt.props);
 
-  this.container.contentTxt = pixiLib.getElement("Text", realityCheckConfig.contentTxt.textStyle);
-  this.container.addChild(this.container.contentTxt);
-  pixiLib.setProperties(this.container.contentTxt, realityCheckConfig.contentTxt.props);
+	this.container.totalBetTxt = pixiLib.getElement("Text", realityCheckConfig.totalBetTxt.textStyle);
+	this.container.addChild(this.container.totalBetTxt);
+	pixiLib.setProperties(this.container.totalBetTxt, realityCheckConfig.totalBetTxt.props);
 
-  this.container.totalBetTxt = pixiLib.getElement("Text", realityCheckConfig.totalBetTxt.textStyle);
-  this.container.addChild(this.container.totalBetTxt);
-  pixiLib.setProperties(this.container.totalBetTxt, realityCheckConfig.totalBetTxt.props);
+	this.container.totalWinTxt = pixiLib.getElement("Text", realityCheckConfig.totalWinTxt.textStyle);
+	this.container.addChild(this.container.totalWinTxt);
+	pixiLib.setProperties(this.container.totalWinTxt, realityCheckConfig.totalWinTxt.props);
 
-  this.container.totalWinTxt = pixiLib.getElement("Text", realityCheckConfig.totalWinTxt.textStyle);
-  this.container.addChild(this.container.totalWinTxt);
-  pixiLib.setProperties(this.container.totalWinTxt, realityCheckConfig.totalWinTxt.props);
+	var closeBtn = pixiLib.getButton(realityCheckConfig.closeBtn.bgImage, realityCheckConfig.closeBtn.options);
+	this.container.addChild(closeBtn);
+	pixiLib.setProperties(closeBtn, realityCheckConfig.closeBtn.props);
 
-  var closeBtn = pixiLib.getButton(realityCheckConfig.closeBtn.bgImage, realityCheckConfig.closeBtn.options);
-  this.container.addChild(closeBtn);
-  pixiLib.setProperties(closeBtn, realityCheckConfig.closeBtn.props);
+	var continueBtn = pixiLib.getButton(realityCheckConfig.continueBtn.bgImage, realityCheckConfig.continueBtn.options);
+	this.container.addChild(continueBtn);
+	pixiLib.setProperties(continueBtn, realityCheckConfig.continueBtn.props);
 
-  var continueBtn = pixiLib.getButton(realityCheckConfig.continueBtn.bgImage, realityCheckConfig.continueBtn.options);
-  this.container.addChild(continueBtn);
-  pixiLib.setProperties(continueBtn, realityCheckConfig.continueBtn.props);
+	pixiLib.addEvent(closeBtn, this.onRCCloseHandler.bind(this));
+	pixiLib.addEvent(continueBtn, this.onRCContinueHandler.bind(this));
+	_ngFluid.call(this, realityCheckConfig.params);
 
-  pixiLib.addEvent(closeBtn, this.onRCCloseHandler.bind(this));
-  pixiLib.addEvent(continueBtn, this.onRCContinueHandler.bind(this));
-  _ngFluid.call(this, realityCheckConfig.params);
+	this.container.visible = false;
+	this.overlay.visible = false;
+	this.y = 330;
 
-  this.container.visible = false;
-  this.overlay.visible = false;
+}
 
-  // setInterval(function () {
-  //   this.rcTotalTime++;
-  //   var mText = pixiLib.getLiteralText(_ng.GameConfig.realityCheck.contentTxt.text);
-  //   pixiLib.setText(this.container.contentTxt, mText.replace("%A1%", parseFloat(this.rcTotalTime.toFixed(2))));
-  // }.bind(this), 1 * 60000);
+    startRealityInterval() {
+	if (commonConfig.noRCPPopupMobile && _viewInfoUtil.device === "Mobile") {
+		return;
+	}
+	if (commonConfig.noRCPPopupDesktop && _viewInfoUtil.device === "Desktop") {
+		return;
+	}
+	this.realityInterval = setInterval(function () {
+		this.rcpTimeElapsed = this.rcpTimeout;
+		if (this.rcpIsFirstDisplay) {
+			this.rcTotalTime = this.rcpTimeout;
+			var mText = pixiLib.getLiteralText(_ng.GameConfig.realityCheck.contentTxt.text);
+			pixiLib.setText(this.container.contentTxt, mText.replace("%A1%", parseFloat(this.rcTotalTime.toFixed(2))));
+			setInterval(function () {
+				this.rcTotalTime++;
+				var mText = pixiLib.getLiteralText(_ng.GameConfig.realityCheck.contentTxt.text);
+				pixiLib.setText(this.container.contentTxt, mText.replace("%A1%", parseFloat(this.rcTotalTime.toFixed(2))));
+			}.bind(this), 1 * 60000);
+		}
+		_mediator.publish("showRealityCheckPopup");
+		this.rcpIsFirstDisplay = false;
+	}.bind(this), this.rcpTimeElapsed * 60000);
 
-};
+}
 
-view.startRealityInterval = function () {
-  if (commonConfig.noRCPPopupMobile && _viewInfoUtil.device === "Mobile") {
-    return;
-  }
-  if (commonConfig.noRCPPopupDesktop && _viewInfoUtil.device === "Desktop") {
-    return;
-  }
-  this.realityInterval = setInterval(function () {
-    this.rcpTimeElapsed = this.rcpTimeout;
-    if (this.rcpIsFirstDisplay) {
-      this.rcTotalTime = this.rcpTimeout;
-      var mText = pixiLib.getLiteralText(_ng.GameConfig.realityCheck.contentTxt.text);
-      pixiLib.setText(this.container.contentTxt, mText.replace("%A1%", parseFloat(this.rcTotalTime.toFixed(2))));
-      setInterval(function () {
-        this.rcTotalTime++;
-        var mText = pixiLib.getLiteralText(_ng.GameConfig.realityCheck.contentTxt.text);
-        pixiLib.setText(this.container.contentTxt, mText.replace("%A1%", parseFloat(this.rcTotalTime.toFixed(2))));
-      }.bind(this), 1 * 60000);
-    }
-    _mediator.publish("showRealityCheckPopup");
-    this.rcpIsFirstDisplay = false;
-  }.bind(this), this.rcpTimeElapsed * 60000);
+    showRealityCheckPopup() {
 
-};
+	if (!_ng.GameConfig.realityCheck.isRealiyCheck) {
+		return;
+	}
+	coreApp.gameModel.isRealityCheckActive = true;
+	clearInterval(this.realityInterval);
+	this.onViewResize();
+	if (!this.container.visible) {
+		this.showPopup();
+		var mText = pixiLib.getLiteralText(_ng.GameConfig.realityCheck.totalBetTxt.text);
+		if (mText.indexOf("%A1%") == -1) mText += " %A1%";
+		var lossAmount = (coreApp.gameModel.getAllTotalBet() - coreApp.gameModel.getAllTotalWin())
 
-view.showRealityCheckPopup = function () {
+		lossAmount = lossAmount < 0 ? 0 : lossAmount;
 
-  if (!_ng.GameConfig.realityCheck.isRealiyCheck) {
-    return;
-  }
-  // this.rcPopupCount++;
-  // setTimeout(function () {
-  //     //Adding timeout so popup will be shown fully then enable spacebar
-  //     _mediator.publish("setSpaceBarEvent", "onRCCloseHandler");
-  // }, 500);
-  coreApp.gameModel.isRealityCheckActive = true;
-  clearInterval(this.realityInterval);
-  this.onViewResize();
-  if (!this.container.visible) {
-    this.showPopup();
-    // var mText = pixiLib.getLiteralText(_ng.GameConfig.realityCheck.contentTxt.text);
-    // pixiLib.setText(this.container.contentTxt, mText.replace("%A1%", parseFloat(this.rcTotalTime.toFixed(2))));
+		pixiLib.setText(this.container.totalBetTxt, mText.replace("%A1%", pixiLib.getFormattedAmount(lossAmount)));
 
-    var mText = pixiLib.getLiteralText(_ng.GameConfig.realityCheck.totalBetTxt.text);
-    if (mText.indexOf("%A1%") == -1) mText += " %A1%";
-    var lossAmount  = (coreApp.gameModel.getAllTotalBet()-coreApp.gameModel.getAllTotalWin())
+		mText = pixiLib.getLiteralText(_ng.GameConfig.realityCheck.totalWinTxt.text);
+		if (mText.indexOf("%A1%") == -1) mText += " %A1%";
+		pixiLib.setText(this.container.totalWinTxt, mText.replace("%A1%", pixiLib.getFormattedAmount(coreApp.gameModel.getAllTotalWin())));
+	}
+}
 
-    lossAmount = lossAmount<0? 0 : lossAmount;
-
-    pixiLib.setText(this.container.totalBetTxt, mText.replace("%A1%", pixiLib.getFormattedAmount(lossAmount)));
-
-    mText = pixiLib.getLiteralText(_ng.GameConfig.realityCheck.totalWinTxt.text);
-    if (mText.indexOf("%A1%") == -1) mText += " %A1%";
-    pixiLib.setText(this.container.totalWinTxt, mText.replace("%A1%", pixiLib.getFormattedAmount(coreApp.gameModel.getAllTotalWin())));
-  }
-};
-
-view.showPopup = function () {
+    showPopup() {
   _sndLib.play(_sndLib.sprite.showPopup);
 
   this.container.visible = true;
@@ -567,9 +718,9 @@ view.showPopup = function () {
 
   TweenMax.to(this.overlay, 0.3, { alpha: 0.6 });
   TweenMax.to(this.container.scale, 0.3, { x: 1, y: 1, ease: Back.easeOut.config(1.5) });
-};
+}
 
-view.hidePopup = function () {
+    hidePopup() {
   _sndLib.play(_sndLib.sprite.btnClick);
   _sndLib.play(_sndLib.sprite.hidePopup);
   TweenMax.to(this.overlay, 0.3, { alpha: 0 });
@@ -580,52 +731,132 @@ view.hidePopup = function () {
       this.startRealityInterval();
     }.bind(this)
   });
-};
+}
 
-view.onRCCloseHandler = function () {
-  this.hideInfoEventType = undefined;
-  _sndLib.play(_sndLib.sprite.btnClick);
-  coreApp.gameModel.isRealityCheckActive = false;
-  this.hidePopup();
-  this.gotoLobby();
-};
+    onRCCloseHandler() {
+	this.hideInfoEventType = undefined;
+	_sndLib.play(_sndLib.sprite.btnClick);
+	coreApp.gameModel.isRealityCheckActive = false;
 
-view.gotoLobby = function () {
+	this.hidePopup();
+	// this.gotoLobby();
+}
+
+    gotoLobby() {
   _mediator.publish("openURL", { type: "lobby" });
 }
-view.onRCContinueHandler = function () {
+
+    onRCContinueHandler() {
   coreApp.gameModel.isRealityCheckActive = false;
   _sndLib.play(_sndLib.sprite.btnClick);
   this.hideInfoEventType = undefined;
   this.hidePopup();
-};
+}
 
+    onFsCloseHandler(eventType) {
+	coreApp.CURRENTACTIVEPOPUP = "";
+	_mediator.publish('showMultipler', 0);
+	_mediator.publish("ToggleTurbo", true);
+	// _mediator.publish("_hideAndShowOfTwoXButton", true);
+	// _mediator.publish("enableBuyFeature");
+	_mediator.publish("bringspinbtnback");
+	_mediator.publish("UpdateWin", "");
+	_mediator.publish(_events.slot.updateBalance);
+	_mediator.publish("toggleTumbleBox", false);
+	_mediator.publish("toggleFadeContainer", true);
+	_mediator.publish("setSpaceBarEvent", "idle");
+	this.hideInfoEventType =(eventType == "collect") ? "onFSEndShown" : "showGambleWindow";
+	if(eventType == "onBackButtonClicked")
+		this.hideInfoEventType = "showFreeSpinEnded"
+	this.hideInfoDelay = 0;
+	_sndLib.play(_sndLib.sprite.hidePopup);
+	this.hideInfoPopup("onFSEndShown");
+	_mediator.publish("SHOW_IDLE_MESSAGE");
+	_mediator.publish("checkBalanceForBuyFeature");/* Added recently  */
 
-view.onFsCloseHandler = function () {
-  this.hideInfoEventType = "onFSEndShown";
-  this.hideInfoDelay = 0;
-  _sndLib.play(_sndLib.sprite.hidePopup);
-  this.hideInfoPopup("onFSEndShown");
-};
+	//TODO : try to implement with call next game state
+	if(eventType == 'collect') {
+		if(coreApp.gameModel.getIsPFSEnded()) {
+			_mediator.publish("promoFreeSpinRewarded");
+		}
+	}
+}
 
-view.onViewResize = function () {
-  if (this.grayBg) {
-    this.grayBg.width = _viewInfoUtil.getWindowWidth();
-    this.grayBg.height = _viewInfoUtil.getWindowHeight();
+    onViewResize() {
+	// console.log("🔄 [GInfoPopupView] onViewResize called - handling orientation change");
+	if(this.backBtn){
+		var gambleConfig = _ng.GameConfig.infoPopupView.gamblePopup;
+		pixiLib.setProperties(this.backBtn, gambleConfig.backButton.props[_viewInfoUtil.viewType]);
+	}
 
-    // this.updateSize();
-    this.setSize(0, 0);
-  }
-  if (this.overlay) {
-    this.overlay.width = _viewInfoUtil.getWindowWidth();
-    this.overlay.height = _viewInfoUtil.getWindowHeight();
-    this.setSize(0, 0);
-  }
-};
+	// Update grayBg size if it exists (for congratulations popup and other popups)
+	if (this.grayBg) {
+		const newWidth = _viewInfoUtil.getWindowWidth();
+		const newHeight = _viewInfoUtil.getWindowHeight();
+		this.grayBg.width = newWidth;
+		this.grayBg.height = newHeight;
+		if (this.setSize) {
+			this.setSize(0, 0);
+		}
+	}
 
-/**************************************/
-/*POPUP FOR PROMO FREE SPIN AWARDED*/
-view.promoFreeSpinAwarded = function() {
+	// Update mobile history mode popup if it's showing
+	if (this.historyModePopupContainer && this.historyModePopupContainer.visible) {
+		// console.log("🔄 [GInfoPopupView] Updating mobile history mode popup on resize");
+
+		const actualWindowWidth = window.innerWidth || 375;
+		const actualWindowHeight = window.innerHeight || 667;
+		const isSmallScreen = actualWindowWidth <= 768;
+		const isPortraitLayout = actualWindowWidth <= actualWindowHeight && isSmallScreen;
+
+		// Update overlay size using stored reference
+		if (this.historyModePopupOverlay && this.historyModePopupOverlay.width !== undefined) {
+			this.historyModePopupOverlay.width = actualWindowWidth;
+			this.historyModePopupOverlay.height = actualWindowHeight;
+		} else if (this.historyModePopupContainer.children.length > 0) {
+			// Fallback: use first child if reference not available
+			const overlay = this.historyModePopupContainer.children[0];
+			if (overlay && overlay.width !== undefined) {
+				overlay.width = actualWindowWidth;
+				overlay.height = actualWindowHeight;
+			}
+		}
+
+		// Update content container position (centered) using stored reference
+		if (this.historyModePopupContentContainer) {
+			this.historyModePopupContentContainer.x = actualWindowWidth / 2;
+			this.historyModePopupContentContainer.y = actualWindowHeight / 2;
+		} else if (this.historyModePopupContainer.children.length > 1) {
+			// Fallback: use second child if reference not available
+			const contentContainer = this.historyModePopupContainer.children[1];
+			if (contentContainer) {
+				contentContainer.x = actualWindowWidth / 2;
+				contentContainer.y = actualWindowHeight / 2;
+			}
+		}
+
+		// console.log("🔄 [GInfoPopupView] Mobile history popup updated:", {
+		// 	width: actualWindowWidth,
+		// 	height: actualWindowHeight,
+		// 	isPortrait: isPortraitLayout,
+		// 	viewType: _viewInfoUtil ? _viewInfoUtil.viewType : "VD",
+		// 	orientation: _viewInfoUtil ? _viewInfoUtil.orientation : "unknown"
+		// });
+	}
+
+	// Update overlay for other popups (reality check, etc.)
+	if (this.overlay) {
+		this.overlay.width = _viewInfoUtil.getWindowWidth();
+		this.overlay.height = _viewInfoUtil.getWindowHeight();
+		if (this.setSize) {
+			this.setSize(0, 0);
+		}
+	}
+	this.onSelectorResize();
+	// console.log("🔄 [GInfoPopupView] onViewResize completed - viewType:", _viewInfoUtil ? _viewInfoUtil.viewType : "VD", "orientation:", _viewInfoUtil ? _viewInfoUtil.orientation : "unknown");
+}
+
+    promoFreeSpinAwarded() {
  
   const yesButtonStyle = new PIXI.TextStyle({
       fontFamily: "Arial Black",
@@ -760,8 +991,7 @@ view.promoFreeSpinAwarded = function() {
   this.onViewResize();
 }
 
-/*use later button of PROMO FREESPIN AWARDED*/
-view.onLaterButtonClick = function() {
+    onLaterButtonClick() {
   this.removeChild(this.promoPopup);
   coreApp.gameView.popupContainer.removeChild(this.grayBg);
   coreApp.gameModel.PFSData = new PromoFreeSpinModel();
@@ -770,8 +1000,7 @@ view.onLaterButtonClick = function() {
   _mediator.publish("ToggleSpin",true);
 }
 
-/*yes button of PROMO FREESPIN AWARDED*/
-view.onYesButtonClick = function(){
+    onYesButtonClick() {
   this.removeChild(this.promoPopup);
   coreApp.gameView.popupContainer.removeChild(this.grayBg);
   _mediator.publish("runGameInit");
@@ -780,15 +1009,12 @@ view.onYesButtonClick = function(){
 
 }
 
-/*for closing PROMO FREESPIN AWARDED*/
-view.closePromoFreeSpinAwarded = function() {
+    closePromoFreeSpinAwarded() {
   this.removeChild(this.promoPopup);
   coreApp.gameView.popupContainer.removeChild(this.grayBg);
 }
 
- /**************************************/
-/*POPUP FOR PROMO FREE SPIN UNFINISHED*/
-view.unfinishedPromoFreeSpin = function() {
+    unfinishedPromoFreeSpin() {
  
   const headingStyle = new PIXI.TextStyle({
       fontFamily: "Arial Black",
@@ -865,7 +1091,7 @@ view.unfinishedPromoFreeSpin = function() {
   this.onViewResize();
 }
 
-view.unFinishedContinueButtonClick = function() {
+    unFinishedContinueButtonClick() {
   this.removeChild(this.promoPopup);
   coreApp.gameView.popupContainer.removeChild(this.grayBg);
   _mediator.publish("runGameInit");
@@ -873,9 +1099,7 @@ view.unFinishedContinueButtonClick = function() {
   _mediator.publish("showPromoView");   /*FOR SHOWING TOP STRIP*/
 }
 
- /*************************************/
-/*POPUP FOR PROMO FREE SPIN REWARDED - end*/
-view.promoFreeSpinRewarded = function() {
+    promoFreeSpinRewarded() {
   const headingStyle = new PIXI.TextStyle({
       fontFamily: "Arial Black",
       fill: "#24a8eb",
@@ -977,7 +1201,7 @@ view.promoFreeSpinRewarded = function() {
   }
 }
 
-view.rewardedContinueClick = function() {
+    rewardedContinueClick() {
   this.removeChild(this.promoPopup);
   coreApp.gameView.popupContainer.removeChild(this.grayBg);
   coreApp.gameModel.PFSData.isPFSEnded = false;
@@ -995,9 +1219,7 @@ view.rewardedContinueClick = function() {
   _mediator.publish("showAutoPlayButton");
 }
 
-
-/*for timer*/
-view.startDateTimer = function() {
+    startDateTimer() {
 
   // Example Unix timestamp received from the backend (in seconds)
   var backendTime = coreApp.gameModel.PFSData.endDateTime;
@@ -1011,11 +1233,7 @@ view.startDateTimer = function() {
   
 }
 
-// Update interval (1 second)
-var interval = 1500; // ms
-this.timerId; // to store the setTimeout ID
-
-view.step = function() {
+    step() {
 
   // console.log("tshsgshgshs",this.step);
     var interval = 1500; // ms
@@ -1051,204 +1269,12 @@ view.step = function() {
     // this.timerId;
 }
 
-view.updateTimerText = function(tempText) {
+    updateTimerText(tempText) {
   if( this.timeText)
     this.timeText.text = tempText;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ============================================================================
-// Game-Specific Extensions & Prototype Overrides (GInfoPopupView.js)
-// ============================================================================
-var view = InfoPopupView.prototype;
-
-view.addSubscription = function () {
-	_mediator.subscribe("showRealityCheckPopup", this.showRealityCheckPopup.bind(this));
-	_mediator.subscribe("showFreeSpinAwarded", this.showFreeSpinAwarded.bind(this));
-	_mediator.subscribe("showFreeSpinEnded", this.showFreeSpinEnded.bind(this));
-	_mediator.subscribe(_events.core.onResize, this.onViewResize.bind(this));
-	_mediator.subscribe("showBonusAwardedMsg", this.onShowBonusAward.bind(this));
-	_mediator.subscribe("showBonusWinMsg", this.onShowBonusWin.bind(this));
-	//error messages
-	_mediator.subscribe("showErrorMsg", this.onShowErrorMsg.bind(this));
-	//Spacebar Events
-	_mediator.subscribe("hideInfoPopup", this.hideInfoPopup.bind(this, this.hideInfoEventType, this.hideInfoDelay));
-	_mediator.subscribe("onFSContinueClick", this.onFSContinueClick.bind(this));
-	_mediator.subscribe("onBonusAwardContinueClick", this.onBonusAwardContinueClick.bind(this));
-	_mediator.subscribe("onBonusWinContinueClick", this.onBonusWinContinueClick.bind(this));
-	_mediator.subscribe("onFsCloseHandler", this.onFsCloseHandler.bind(this));
-	_mediator.subscribe("gotolobby", this.gotoLobby.bind(this));
-	_mediator.subscribe("showFreeSpinEndedZeroBalance", this.showFreeSpinEndedZeroBalance.bind(this));
-	_mediator.subscribe("buyFreeSpinPopup", this.buyFreeSpinPopup.bind(this));
-	_mediator.subscribe("showGambleWindow", this.showGambleWindow.bind(this));
-	_mediator.subscribe("buyFreeSuperSpinPopup", this.buyFreeSuperSpinPopup.bind(this));
-	_mediator.subscribe("ExtraFSAwardpopup", this.ExtraFSAwardpopup.bind(this));
-	_mediator.subscribe("closeBuyFSPopup", this.closeBuyFSPopup.bind(this));
-	_mediator.subscribe("spinStart", this.closeBuyFSPopup.bind(this));
-	_mediator.subscribe("WinExceededPopup", this.WinExceededPopup.bind(this));
-	_mediator.subscribe("resizeBuypopup", this.resizeBuypopup.bind(this));
-	_mediator.subscribe("setFsPlayedcnt", this.setFsPlayedcnt.bind(this));
-	_mediator.subscribe("updateFreeSpinCost", this.updateFreeSpinCost.bind(this));
-	_mediator.subscribe("updateSuperSpinCost", this.updateSuperSpinCost.bind(this));
-	//bet adjustment 
-	_mediator.subscribe("createTotalBetSelector", this.createTotalBetSelector.bind(this));
-	_mediator.subscribe("updateSelectorContainerBet", this.updateSelectorContainerBet.bind(this));
-	_mediator.subscribe("selectorPlusInteraction", this.selectorPlusInteraction.bind(this));
-	_mediator.subscribe("selectorMinusInteraction", this.selectorMinusInteraction.bind(this));
-	_mediator.subscribe("countExitForCongratulation", this.CountExit.bind(this));
-	/*for quick spin info*/
-	_mediator.subscribe("quickSpinInfoPopup", this.quickSpinInfoPopup.bind(this));
-	_mediator.subscribe("closeQuickSpinInfo", this.closeQuickSpinInfo.bind(this));
-	_mediator.subscribe("showHistoryModePopup", this.showHistoryModePopup.bind(this));
-	//FOR PFS
-
-	this.exceed = false;
-	// this.onViewResize();
-
-};
-view.showFreeSpinAwarded = function (numSpins, nextAction) {
-	this.isShowing_popup = true;
-
-	_mediator.publish("CreateScatterWinAnim");
-	setTimeout(() => {
-
-		this.nextAction = nextAction;
-        var awardedConfig = _ng.GameConfig.infoPopupView.freeSpinPopup;
-		var numSpins = coreApp.gameModel.getTotalFreeSpins();
-		
-		this.grayBg = pixiLib.getShape("rect", { w: _viewInfoUtil.getWindowWidth(), h: _viewInfoUtil.getWindowHeight() });
-		this.grayBg.alpha = 0.2;
-		this.grayBg.interactive = false;
-		this.grayBg.buttonMode = false;
-		coreApp.gameView.decoratorContainer.addChildAt(this.grayBg, 0);
-
-		this.popupParent = pixiLib.getElement();
-		this.addChild(this.popupParent);
-
-		var fsAwarded = pixiLib.getElement("Spine", awardedConfig.background.bgImage);
-        fsAwarded.name = "fsAwarded";
-        fsAwarded.state.setAnimation(0, awardedConfig.background.inAnimation, false);
-        this.popupParent.addChild(fsAwarded);
-        pixiLib.setProperties(fsAwarded, awardedConfig.background.props);
-
-        var text1 = pixiLib.getElement("Text", awardedConfig.text1.textStyle);
-        text1.name = "text1";
-        pixiLib.setText(text1, awardedConfig.text1.text);
-        pixiLib.setProperties(text1, awardedConfig.text1.props);
-        this.attachToSlot(fsAwarded, "congrad_10_text", text1);
-
-        var text2 = pixiLib.getElement("Text", awardedConfig.text2.textStyle);
-        text2.name = "text2";
-        pixiLib.setText(text2, awardedConfig.text2.text);
-        pixiLib.setProperties(text2, awardedConfig.text2.props);
-        this.attachToSlot(fsAwarded, "congrad_10_text_2", text2);
-
-        var text3 = pixiLib.getElement("Text", awardedConfig.text3.textStyle);
-        text3.name = "text3";
-        pixiLib.setText(text3, awardedConfig.text3.text);
-        pixiLib.setProperties(text3, awardedConfig.text3.props);
-        this.attachToSlot(fsAwarded, "press_text", text3);
-
-        var text4 = pixiLib.getElement("Text", awardedConfig.text4.textStyle);
-        text4.name = "text4";
-        pixiLib.setText(text4, awardedConfig.text4.text);
-        pixiLib.setProperties(text4, awardedConfig.text4.props);
-        this.attachToSlot(fsAwarded, "press_text", text4);
-
-
-        var fsValue = pixiLib.getElement("Text", awardedConfig.fsValue.textStyle);
-        fsValue.name = "fsValue";
-        pixiLib.setText(fsValue, numSpins);
-        pixiLib.setProperties(fsValue, awardedConfig.fsValue.props);
-        this.attachToSlot(fsAwarded, "congrad_10_summ", fsValue);
-
-        fsAwarded.state.tracks[0].listener = {
-            complete: (trackEntry) => {
-                if (trackEntry.animation.name === awardedConfig.background.inAnimation) {
-                    fsAwarded.state.setAnimation(0, awardedConfig.background.loopAnimation, true);
-                    this.grayBg.interactive = true;
-		            this.grayBg.buttonMode = true;
-                }
-            }
-        }
-
-		setTimeout(function () {
-			//Adding timeout so popup will be shown fully then enable spacebar
-			_mediator.publish("setSpaceBarEvent", "onFSContinueClick");
-		}, 500);
-	
-		pixiLib.addEvent(this.grayBg,()=>{
-			this.grayBg.interactive = false;
-			this.grayBg.buttonMode = false;
-			this.onFSContinueClick();
-		})
-		_ngFluid.call(this, awardedConfig.params);
-
-		this.onViewResize();
-		this.showInfoPopup();
-		coreApp.CURRENTACTIVEPOPUP = "congratulations_awarded";
-
-		//skipping the popup
-		if (_ng.autoPlayBeforeFg == true) {
-			// pixiLib.setInteraction(continueBtn, false);
-			this.grayBg.interactive = false;
-			this.grayBg.buttonMode = false;
-			setTimeout(function () {
-				_mediator.publish("onFSContinueClick");
-			}, 1000);
-		}
-
-		_sndLib.play(_sndLib.sprite.fsAwardPopup);
-
-	}, 2300);
-
-};
-
-view.hideInfoPopup = function (eventToPublish, delay) {
-	_sndLib.play(_sndLib.sprite.hidePopup);
-	var delay = 0 || delay;
-	if (this.grayBg) {
-		TweenMax.to(this.grayBg, 0.3, { alpha: 0 });
-	}
-	if (this.popupParent) {
-		TweenMax.to(this.popupParent.scale, 0.3, {
-			x: 0, y: 0,
-			onComplete: function () {
-
-				if (this.popupParent) {
-					this.popupParent.destroy();
-					delete this.popupParent;
-				}
-
-				if (this.grayBg) {
-					this.grayBg.destroy();
-					delete this.grayBg;
-				}
-				if (this.hideInfoEventType) {
-					setTimeout(function () {
-						_mediator.publish(this.hideInfoEventType);
-					}.bind(this), this.hideInfoDelay);
-				}
-			}.bind(this)
-		})
-	}
-};
-view.counterWinAmount = function (th, startValue, obj, time) {
+    counterWinAmount(th, startValue, obj, time) {
 	const urlParams = new URLSearchParams(window.location.search);
 	const roundId = urlParams.get('round_id');
 	var endValue = (coreApp.gameModel.getTotalFSWin() / 100); //startValue + bonusValue;
@@ -1275,131 +1301,13 @@ view.counterWinAmount = function (th, startValue, obj, time) {
 			obj.text = pixiLib.getFormattedAmount(BoundedVal * 100); //Math.round(initValue + (currentStep * incrementer));//
 		}
 	}.bind(this), 50);
-};
-view.showFreeSpinEnded = function () {
-	coreApp.CURRENTACTIVEPOPUP = "congratulations_rewarded";
-	// Check if round_id exists in URL params to determine if it's history/replay mode
-	const urlParams = new URLSearchParams(window.location.search);
-	const roundId = urlParams.get('round_id');
+}
 
-	/*reseting after free spin ended*/
-	if (_ng.BuyFSenabled === true) {
-		_ng.BuyFSenabled = false
-	}
-	if (_ng.GameConfig.superBuyEnabled === true) {
-		_ng.GameConfig.superBuyEnabled = false
-	}
-	_mediator.publish("showNewMessage", "");
-	_sndLib.play(_sndLib.sprite.fsWinPopup);
-	var winAmount = coreApp.gameModel.getTotalFSWin();
-	if ((this.exceed == false) && (Number(coreApp.gameModel.getTotalFSWin())) >= coreApp.gameModel.spinData.max_win_cap * (Number(coreApp.gameModel.getTotalBet()))) {
-		console.log("win exceeded");
-		this.WinExceededPopup((Number(coreApp.gameModel.getTotalBet())));
-	}
-	else {
-		if (this.exceed) { this.exceed = false; }
-		var fsPopupConfig = _ng.GameConfig.infoPopupView.freeSpinEndPopup;
-		this.grayBg = pixiLib.getShape("rect", { w: _viewInfoUtil.getWindowWidth(), h: _viewInfoUtil.getWindowHeight() });
-		this.grayBg.alpha = 0.6;
-		this.grayBg.interactive = true;
-		this.grayBg.buttonMode = true;
-		// pixiLib.addEvent(this.grayBg, this.onCollectButtonClick.bind(this,"collect"));
-		coreApp.gameView.decoratorContainer.addChildAt(this.grayBg, 0);
-
-		this.popupParent = pixiLib.getElement();
-		this.addChild(this.popupParent);
-
-		var fsRewarded = pixiLib.getElement("Spine", fsPopupConfig.background.bgImage);
-		fsRewarded.name = "fsRewarded";
-		fsRewarded.state.setAnimation(0, fsPopupConfig.background.inAnimation, false);
-		this.popupParent.addChild(fsRewarded);
-		pixiLib.setProperties(fsRewarded, fsPopupConfig.background.props);
-
-		
-		var text2 = pixiLib.getElement("Text", fsPopupConfig.text2.textStyle);
-		text2.name = "text2";
-		pixiLib.setText(text2, fsPopupConfig.text2.text);
-		pixiLib.setProperties(text2, fsPopupConfig.text2.props);
-		this.attachToSlot(fsRewarded, "congrad_10_text_2", text2);
-
-		var text3 = pixiLib.getElement("Text", fsPopupConfig.text3.textStyle);
-		text3.name = "text3";
-		pixiLib.setText(text3, fsPopupConfig.text3.text);
-		pixiLib.setProperties(text3, fsPopupConfig.text3.props);
-		this.attachToSlot(fsRewarded, "press_text", text3);
-		text3.text = text3.text.replace("XXXX", coreApp.gameModel.freeSpinData.totalFreeSpins);
-
-		// var text4 = pixiLib.getElement("Text", fsPopupConfig.text4.textStyle);
-		// text4.name = "text4";
-		// pixiLib.setText(text4, fsPopupConfig.text4.text);
-		// pixiLib.setProperties(text4, fsPopupConfig.text4.props);
-		// this.attachToSlot(fsRewarded, "press_text", text4);
-
-
-		
-		this.winAmountTxt = pixiLib.getElement("Text", fsPopupConfig.winAmountTxt.textStyle);
-		this.winAmountTxt.name = "winAmountTxt";
-		pixiLib.setProperties(this.winAmountTxt, fsPopupConfig.winAmountTxt.props);
-		this.attachToSlot(fsRewarded, "congrad_10_summ", this.winAmountTxt);
-
-	
-		
-		this.endcontinueBtn = pixiLib.getButton(fsPopupConfig.continueButton.bgImage);
-		this.attachToSlot(fsRewarded, "btn_1", this.endcontinueBtn);
-		pixiLib.setProperties(this.endcontinueBtn, fsPopupConfig.continueButton.props);
-		
-		//Collect text
-		var collectText = pixiLib.getElement("Text", fsPopupConfig.collectText.textStyle);
-		this.endcontinueBtn.addChild(collectText);
-		pixiLib.setProperties(collectText, fsPopupConfig.collectText.props);
-		pixiLib.setText(collectText, gameLiterals.collectBtnText);
-		
-		this.doubleRewardBtn = pixiLib.getButton(fsPopupConfig.doubleButton.bgImage);
-		this.attachToSlot(fsRewarded, "btn_2", this.doubleRewardBtn);
-		pixiLib.setProperties(this.doubleRewardBtn, fsPopupConfig.doubleButton.props);
-		if(coreApp.gameModel.getTotalFSWin() <= 0) pixiLib.setInteraction(this.doubleRewardBtn, false); //incase of 0
-	
-		
-		
-		var rewardText = pixiLib.getElement("Text", fsPopupConfig.rewardText.textStyle);
-		this.doubleRewardBtn.addChild(rewardText);
-		pixiLib.setProperties(rewardText, fsPopupConfig.rewardText.props);
-		pixiLib.setText(rewardText, gameLiterals.doubleYourRewardText);
-
-		if (roundId) {
-			pixiLib.setInteraction(this.doubleRewardBtn, false);
-			pixiLib.setInteraction(this.endcontinueBtn, false);
-		}
-		this.counterWinAmount(this, 0, this.winAmountTxt, 3000);
-
-		fsRewarded.state.tracks[0].listener = {
-            complete: (trackEntry) => {
-                if (trackEntry.animation.name === fsPopupConfig.background.inAnimation) {
-                    fsRewarded.state.setAnimation(0, fsPopupConfig.background.loopAnimation, true);
-                }
-            }
-        }
-		
-		setTimeout(function () {
-			//Adding timeout so popup will be shown fully then enable spacebar
-			_mediator.publish("setSpaceBarEvent", "onFsCloseHandler");
-		}, 3000);
-		pixiLib.addEvent(this.endcontinueBtn, this.onCollectButtonClick.bind(this,"collect"));
-		pixiLib.addEvent(this.doubleRewardBtn, this.on2XBtnClick.bind(this,"gamble"));
-		_ngFluid.call(this, fsPopupConfig.params);
-
-		this.onViewResize();
-		this.showInfoPopup();
-
-		/*skiping rewarded popup*/
-		// this.skipFreeSpinRewarded();
-	}
-};
-
-view.on2XBtnClick = function (action){
+    on2XBtnClick(action) {
 	this.CountExit(action);
 }
-view.onCollectButtonClick = function (action){
+
+    onCollectButtonClick(action) {
 	var fsPopupConfig = _ng.GameConfig.infoPopupView.freeSpinEndPopup;
 	_sndLib.stop(_sndLib.sprite.counterBigWinLoop);
 	var winAmount = coreApp.gameModel.getTotalFSWin();
@@ -1422,7 +1330,8 @@ view.onCollectButtonClick = function (action){
 	}
 		
 }
-view.CountExit = function (eventAction) {
+
+    CountExit(eventAction) {
 	_sndLib.stop(_sndLib.sprite.counterBigWinLoop);
 	var fsPopupConfig = _ng.GameConfig.infoPopupView.freeSpinEndPopup;
 
@@ -1443,55 +1352,7 @@ view.CountExit = function (eventAction) {
 		}
 }
 
-view.onFSContinueClick = function () {
-	coreApp.CURRENTACTIVEPOPUP = "";
-	_mediator.publish("ToggleTurbo", false);
-	_mediator.publish("_hideAndShowOfTwoXButton", false);
-	var fsCount = coreApp.gameModel.getTotalFreeSpins();
-	if (this.nextAction == "closeBonus") {
-		_mediator.publish("closeBonus");
-	}
-	//If Freespins are Re-Triggered, don't show starting Freespins message in Ticker
-	if (coreApp.gameModel.getTotalFSTriggered() == coreApp.gameModel.getTotalFreeSpins()) {
-		_mediator.publish("showNewMessage", "Starting Freespins");
-		_mediator.publish("SHOW_TICKER");
-	}
-	_mediator.publish('showMultipler', 0);
-	this.hideInfoEventType = "startFreeSpins";
-	this.hideInfoDelay = 500;
-	this.hideInfoPopup("startFreeSpins", 500);
-};
-view.onFsCloseHandler = function (eventType) {
-	coreApp.CURRENTACTIVEPOPUP = "";
-	_mediator.publish('showMultipler', 0);
-	_mediator.publish("ToggleTurbo", true);
-	// _mediator.publish("_hideAndShowOfTwoXButton", true);
-	// _mediator.publish("enableBuyFeature");
-	_mediator.publish("bringspinbtnback");
-	_mediator.publish("UpdateWin", "");
-	_mediator.publish(_events.slot.updateBalance);
-	_mediator.publish("toggleTumbleBox", false);
-	_mediator.publish("toggleFadeContainer", true);
-	_mediator.publish("setSpaceBarEvent", "idle");
-	this.hideInfoEventType =(eventType == "collect") ? "onFSEndShown" : "showGambleWindow";
-	if(eventType == "onBackButtonClicked")
-		this.hideInfoEventType = "showFreeSpinEnded"
-	this.hideInfoDelay = 0;
-	_sndLib.play(_sndLib.sprite.hidePopup);
-	this.hideInfoPopup("onFSEndShown");
-	_mediator.publish("SHOW_IDLE_MESSAGE");
-	_mediator.publish("checkBalanceForBuyFeature");/* Added recently  */
-
-	//TODO : try to implement with call next game state
-	if(eventType == 'collect') {
-		if(coreApp.gameModel.getIsPFSEnded()) {
-			_mediator.publish("promoFreeSpinRewarded");
-		}
-	}
-}
-
-/* Latest code  */
-view.buyFreeSpinPopup = function () {
+    buyFreeSpinPopup() {
 
     _sndLib.play(_sndLib.sprite.buypopup_open);
 
@@ -1572,7 +1433,8 @@ view.buyFreeSpinPopup = function () {
 
     _ngFluid.call(this, buyConfig.params);
 }
-view.buyFreeSuperSpinPopup = function () {
+
+    buyFreeSuperSpinPopup() {
 
     _sndLib.play(_sndLib.sprite.buypopup_open);
 
@@ -1632,10 +1494,12 @@ view.buyFreeSuperSpinPopup = function () {
 
     _ngFluid.call(this, superbuyConfig.params);
 }
-view.resizeBuypopup = function () {
+
+    resizeBuypopup() {
 	//Add positions here , for rotating vp to vl or vl to vp
 }
-view.closeBuyFSPopup = function () {
+
+    closeBuyFSPopup() {
 	if (this.BuypopupCon) {
 		this.BuypopupCon.visible = false;
 		this.BuypopupPanel.visible = false;
@@ -1643,7 +1507,7 @@ view.closeBuyFSPopup = function () {
 	}
 }
 
-view.WinExceededPopup = function (totalBet) {
+    WinExceededPopup(totalBet) {
 
 	if (this.winPopupPanel) {
 		this.winPopupCon.visible = true;
@@ -1718,7 +1582,8 @@ view.WinExceededPopup = function (totalBet) {
 		}
 	}
 }
-view.BuyServerReq = function (type) {
+
+    BuyServerReq(type) {
 
 	switch (type) {
 		case "BuyFreeSpinContent":
@@ -1735,7 +1600,7 @@ view.BuyServerReq = function (type) {
 	_mediator.publish("spinStart");
 }
 
-view.ExtraFSAwardpopup = function (callback) {
+    ExtraFSAwardpopup(callback) {
 
 	var extraFsConfig = _ng.GameConfig.infoPopupView.extraFsPopup;
 
@@ -1769,17 +1634,16 @@ view.ExtraFSAwardpopup = function (callback) {
 		}
 	};
 	setTimeout(onComplete, 3000); 
-};
+}
 
-view.setFsPlayedcnt = function (value) {
+    setFsPlayedcnt(value) {
 	this.val = value;
 	// if(this.TotalFSCount){
 	//     pixiLib.setText(this.TotalFSCount, val);
 	// }
 }
 
-//bet changing option for buy feature
-view.createTotalBetSelector = function () {
+    createTotalBetSelector() {
 
 	this.selectorContainer = pixiLib.getContainer();
 	this.selectorContainer.name = "Panel Bet selectorContainer";
@@ -1844,39 +1708,39 @@ view.createTotalBetSelector = function () {
 
 }
 
-view.updateSelectorContainerBet = function (value) {
+    updateSelectorContainerBet(value) {
 	var betval = pixiLib.getFormattedAmount(value);
 	if (this.selectorValue)
 		pixiLib.setText(this.selectorValue, betval);
 }
 
-view.onPlusClick = function () {
+    onPlusClick() {
 	_mediator.publish("setIncrement");
 	_mediator.publish("ToggleSpin", false);
 }
 
-view.onMinusClick = function () {
+    onMinusClick() {
 	_mediator.publish("setDecrement");
 	_mediator.publish("ToggleSpin", false);
 }
 
-view.removeSelector = function () {
+    removeSelector() {
 	if (this.selectorContainer.parent) {
 		this.selectorContainer.parent.removeChild(this.selectorContainer);
 	}
 }
 
-view.selectorPlusInteraction = function (value) {
+    selectorPlusInteraction(value) {
 	if (this.plusButton)
 		pixiLib.setInteraction(this.plusButton, value);
 }
 
-view.selectorMinusInteraction = function (value) {
+    selectorMinusInteraction(value) {
 	if (this.minusButton)
 		pixiLib.setInteraction(this.minusButton, value);
 }
 
-view.onSelectorResize = function () {
+    onSelectorResize() {
 	if (this.selectorContainer) {
 		if (_viewInfoUtil.viewType == "VL") {
 			this.selectorContainer.position.set(0, 320);
@@ -1897,186 +1761,11 @@ view.onSelectorResize = function () {
 	}
 }
 
-//for overwriting info popup y position
-
-view.createRealityCheckPopup = function () {
-	var realityCheckConfig = _ng.GameConfig.realityCheck;
-
-	this.overlay = pixiLib.getShape("rect", { w: _viewInfoUtil.getWindowWidth(), h: _viewInfoUtil.getWindowHeight() });
-	this.overlay.alpha = 0.001;
-	this.overlay.interactive = true;
-	coreApp.gameView.popupContainer.addChildAt(this.overlay, 0);
-
-	this.container = pixiLib.getElement();
-	this.addChild(this.container);
-
-	// var bg = pixiLib.getShape("rect", { w: 640, h: 300 });
-	var bg = pixiLib.getElement("Sprite", realityCheckConfig.background.bgImage);
-	this.container.addChild(bg);
-	pixiLib.setProperties(bg, realityCheckConfig.background.props);
-
-	this.container.contentTxt = pixiLib.getElement("Text", realityCheckConfig.contentTxt.textStyle);
-	this.container.addChild(this.container.contentTxt);
-	pixiLib.setProperties(this.container.contentTxt, realityCheckConfig.contentTxt.props);
-
-	this.container.totalBetTxt = pixiLib.getElement("Text", realityCheckConfig.totalBetTxt.textStyle);
-	this.container.addChild(this.container.totalBetTxt);
-	pixiLib.setProperties(this.container.totalBetTxt, realityCheckConfig.totalBetTxt.props);
-
-	this.container.totalWinTxt = pixiLib.getElement("Text", realityCheckConfig.totalWinTxt.textStyle);
-	this.container.addChild(this.container.totalWinTxt);
-	pixiLib.setProperties(this.container.totalWinTxt, realityCheckConfig.totalWinTxt.props);
-
-	var closeBtn = pixiLib.getButton(realityCheckConfig.closeBtn.bgImage, realityCheckConfig.closeBtn.options);
-	this.container.addChild(closeBtn);
-	pixiLib.setProperties(closeBtn, realityCheckConfig.closeBtn.props);
-
-	var continueBtn = pixiLib.getButton(realityCheckConfig.continueBtn.bgImage, realityCheckConfig.continueBtn.options);
-	this.container.addChild(continueBtn);
-	pixiLib.setProperties(continueBtn, realityCheckConfig.continueBtn.props);
-
-	pixiLib.addEvent(closeBtn, this.onRCCloseHandler.bind(this));
-	pixiLib.addEvent(continueBtn, this.onRCContinueHandler.bind(this));
-	_ngFluid.call(this, realityCheckConfig.params);
-
-	this.container.visible = false;
-	this.overlay.visible = false;
-	this.y = 330;
-
-};
-
-view.startRealityInterval = function () {
-	if (commonConfig.noRCPPopupMobile && _viewInfoUtil.device === "Mobile") {
-		return;
-	}
-	if (commonConfig.noRCPPopupDesktop && _viewInfoUtil.device === "Desktop") {
-		return;
-	}
-	this.realityInterval = setInterval(function () {
-		this.rcpTimeElapsed = this.rcpTimeout;
-		if (this.rcpIsFirstDisplay) {
-			this.rcTotalTime = this.rcpTimeout;
-			var mText = pixiLib.getLiteralText(_ng.GameConfig.realityCheck.contentTxt.text);
-			pixiLib.setText(this.container.contentTxt, mText.replace("%A1%", parseFloat(this.rcTotalTime.toFixed(2))));
-			setInterval(function () {
-				this.rcTotalTime++;
-				var mText = pixiLib.getLiteralText(_ng.GameConfig.realityCheck.contentTxt.text);
-				pixiLib.setText(this.container.contentTxt, mText.replace("%A1%", parseFloat(this.rcTotalTime.toFixed(2))));
-			}.bind(this), 1 * 60000);
-		}
-		_mediator.publish("showRealityCheckPopup");
-		this.rcpIsFirstDisplay = false;
-	}.bind(this), this.rcpTimeElapsed * 60000);
-
-};
-
-view.showRealityCheckPopup = function () {
-
-	if (!_ng.GameConfig.realityCheck.isRealiyCheck) {
-		return;
-	}
-	coreApp.gameModel.isRealityCheckActive = true;
-	clearInterval(this.realityInterval);
-	this.onViewResize();
-	if (!this.container.visible) {
-		this.showPopup();
-		var mText = pixiLib.getLiteralText(_ng.GameConfig.realityCheck.totalBetTxt.text);
-		if (mText.indexOf("%A1%") == -1) mText += " %A1%";
-		var lossAmount = (coreApp.gameModel.getAllTotalBet() - coreApp.gameModel.getAllTotalWin())
-
-		lossAmount = lossAmount < 0 ? 0 : lossAmount;
-
-		pixiLib.setText(this.container.totalBetTxt, mText.replace("%A1%", pixiLib.getFormattedAmount(lossAmount)));
-
-		mText = pixiLib.getLiteralText(_ng.GameConfig.realityCheck.totalWinTxt.text);
-		if (mText.indexOf("%A1%") == -1) mText += " %A1%";
-		pixiLib.setText(this.container.totalWinTxt, mText.replace("%A1%", pixiLib.getFormattedAmount(coreApp.gameModel.getAllTotalWin())));
-	}
-};
-
-
-view.onViewResize = function () {
-	// console.log("🔄 [GInfoPopupView] onViewResize called - handling orientation change");
-	if(this.backBtn){
-		var gambleConfig = _ng.GameConfig.infoPopupView.gamblePopup;
-		pixiLib.setProperties(this.backBtn, gambleConfig.backButton.props[_viewInfoUtil.viewType]);
-	}
-
-	// Update grayBg size if it exists (for congratulations popup and other popups)
-	if (this.grayBg) {
-		const newWidth = _viewInfoUtil.getWindowWidth();
-		const newHeight = _viewInfoUtil.getWindowHeight();
-		this.grayBg.width = newWidth;
-		this.grayBg.height = newHeight;
-		if (this.setSize) {
-			this.setSize(0, 0);
-		}
-	}
-
-	// Update mobile history mode popup if it's showing
-	if (this.historyModePopupContainer && this.historyModePopupContainer.visible) {
-		// console.log("🔄 [GInfoPopupView] Updating mobile history mode popup on resize");
-
-		const actualWindowWidth = window.innerWidth || 375;
-		const actualWindowHeight = window.innerHeight || 667;
-		const isSmallScreen = actualWindowWidth <= 768;
-		const isPortraitLayout = actualWindowWidth <= actualWindowHeight && isSmallScreen;
-
-		// Update overlay size using stored reference
-		if (this.historyModePopupOverlay && this.historyModePopupOverlay.width !== undefined) {
-			this.historyModePopupOverlay.width = actualWindowWidth;
-			this.historyModePopupOverlay.height = actualWindowHeight;
-		} else if (this.historyModePopupContainer.children.length > 0) {
-			// Fallback: use first child if reference not available
-			const overlay = this.historyModePopupContainer.children[0];
-			if (overlay && overlay.width !== undefined) {
-				overlay.width = actualWindowWidth;
-				overlay.height = actualWindowHeight;
-			}
-		}
-
-		// Update content container position (centered) using stored reference
-		if (this.historyModePopupContentContainer) {
-			this.historyModePopupContentContainer.x = actualWindowWidth / 2;
-			this.historyModePopupContentContainer.y = actualWindowHeight / 2;
-		} else if (this.historyModePopupContainer.children.length > 1) {
-			// Fallback: use second child if reference not available
-			const contentContainer = this.historyModePopupContainer.children[1];
-			if (contentContainer) {
-				contentContainer.x = actualWindowWidth / 2;
-				contentContainer.y = actualWindowHeight / 2;
-			}
-		}
-
-		// console.log("🔄 [GInfoPopupView] Mobile history popup updated:", {
-		// 	width: actualWindowWidth,
-		// 	height: actualWindowHeight,
-		// 	isPortrait: isPortraitLayout,
-		// 	viewType: _viewInfoUtil ? _viewInfoUtil.viewType : "VD",
-		// 	orientation: _viewInfoUtil ? _viewInfoUtil.orientation : "unknown"
-		// });
-	}
-
-	// Update overlay for other popups (reality check, etc.)
-	if (this.overlay) {
-		this.overlay.width = _viewInfoUtil.getWindowWidth();
-		this.overlay.height = _viewInfoUtil.getWindowHeight();
-		if (this.setSize) {
-			this.setSize(0, 0);
-		}
-	}
-	this.onSelectorResize();
-	// console.log("🔄 [GInfoPopupView] onViewResize completed - viewType:", _viewInfoUtil ? _viewInfoUtil.viewType : "VD", "orientation:", _viewInfoUtil ? _viewInfoUtil.orientation : "unknown");
-};
-view.returnPopupStatus = function () {
+    returnPopupStatus() {
 	return this.BuypopupPanel;
 }
 
-
-/*for skipping free spin rewarded popup if autoplay is enabled
-After free game is finished
-*/
-view.skipFreeSpinRewarded = function () {
+    skipFreeSpinRewarded() {
 	if (_ng.autoPlayBeforeFg == true) {
 		if (this.endcontinueBtn) {
 			pixiLib.setInteraction(this.endcontinueBtn, false);
@@ -2089,7 +1778,8 @@ view.skipFreeSpinRewarded = function () {
 		_mediator.publish("showAutoStopBtn");
 	}
 }
-view.updateFreeSpinCost = function (Updatevalue) {
+
+    updateFreeSpinCost(Updatevalue) {
 	if (!this.amtTxt)
 		return;
 	var buyConfig = _ng.GameConfig.infoPopupView.buyConfig;
@@ -2098,7 +1788,8 @@ view.updateFreeSpinCost = function (Updatevalue) {
     pixiLib.setProperties(this.amtTxt, buyConfig.text3.props);
 	this.freespinCost = pixiLib.getFormattedAmount(Updatevalue * coreApp.gameModel.spinData.buyfg);
 }
-view.updateSuperSpinCost = function (Updatevalue) {
+
+    updateSuperSpinCost(Updatevalue) {
 	if (!this.superBuyDescription)
 		return;
 	var superbuyConfig = _ng.GameConfig.infoPopupView.superbuyConfig;
@@ -2108,162 +1799,7 @@ view.updateSuperSpinCost = function (Updatevalue) {
 	this.superBuyCost = pixiLib.getFormattedAmount(Updatevalue * coreApp.gameModel.spinData.superBuyfg);
 }
 
-/*
-this popup will shown only once in a reload,
-*/
-view.quickSpinInfoPopup = function () {
-
-	_sndLib.play(_sndLib.sprite.notification);
-
-	_ng.GameConfig.quickSpinInfoPopupShown = true;
-	_ng.GameConfig.quickSpinInfoTriggered = false;
-
-	var buttonStyle = {
-		fill: "#ffffff",
-		fontFamily: "Arial Black",
-		fontWeight: "bolder",
-		fontSize: 44,
-		strokeThickness: 2
-	}
-
-	var infoStyle = {
-		fill: "#fafafa",
-		fontFamily: "Verdana, Geneva, sans-serif",
-		stroke: "#0f0f0f",
-		strokeThickness: 2,
-		fontSize: 26,
-		align: "center"
-	}
-
-	var headingStyle = {
-		fill: "#e7c30d",
-		fontFamily: "Verdana, Geneva, sans-serif",
-		fontWeight: "bolder",
-		stroke: "#0f0f0f",
-		strokeThickness: 2
-	}
-
-	var quickSpinStyle = {
-		fill: "#f2f2f2",
-		fontFamily: "Arial Black",
-		fontSize: 16,
-		fontWeight: "bolder",
-		lineHeight: 30,
-		stroke: "#151414",
-		strokeThickness: 3
-	}
-
-	this.quickSpinInfoContainer = pixiLib.getContainer();
-	this.quickSpinInfoContainer.name = "quickSpinInfoContainer";
-	this.quickSpinInfoContainer.position.set(26, 0);
-	this.addChild(this.quickSpinInfoContainer);
-
-	var popupBg = pixiLib.getElement("Sprite", "Rectangle 8");
-	popupBg.name = "popupBg";
-	popupBg.anchor.set(0.5);
-	popupBg.scale.set(1.1, 0.78);
-	this.quickSpinInfoContainer.addChild(popupBg);
-
-	var quickSpinInfoClose = pixiLib.getButton("bet_close");
-	quickSpinInfoClose.name = "quickSpinInfoClose";
-	quickSpinInfoClose.position.set(292, -161);
-	this.quickSpinInfoContainer.addChild(quickSpinInfoClose);
-	pixiLib.addEvent(quickSpinInfoClose, this.closeQuickSpinInfo.bind(this));
-
-	var headingTxt = pixiLib.getElement("Text", headingStyle);
-	headingTxt.name = "headingTxt";
-	headingTxt.anchor.set(0.5);
-	headingTxt.position.set(0, -168);
-	pixiLib.setText(headingTxt, gameLiterals.headingTxt);
-	this.quickSpinInfoContainer.addChild(headingTxt);
-
-	var infoTextOne = pixiLib.getElement("Text", infoStyle);
-	infoTextOne.name = "infoTextOne";
-	infoTextOne.anchor.set(0.5);
-	infoTextOne.position.set(0, -65);
-	pixiLib.setText(infoTextOne, gameLiterals.info1);
-	this.quickSpinInfoContainer.addChild(infoTextOne);
-
-	var infoTextTwo = pixiLib.getElement("Text", infoStyle);
-	infoTextTwo.name = "infoTextTwo";
-	infoTextTwo.anchor.set(0.5);
-	infoTextTwo.position.set(0, 6);
-	pixiLib.setText(infoTextTwo, gameLiterals.info2);
-	this.quickSpinInfoContainer.addChild(infoTextTwo);
-
-	var tickBox = pixiLib.getElement("Sprite", "Tick_box");
-	tickBox.name = "tickBox";
-	tickBox.position.set(-6.5, 65);
-	tickBox.anchor.set(0.5);
-	tickBox.scale.set(0.9);
-	this.quickSpinInfoContainer.addChild(tickBox);
-
-	tickBox.interactive = true;
-	pixiLib.addEvent(tickBox, this.tickBoxClicked.bind(this));
-
-	this.tick = pixiLib.getElement("Sprite", "Tick");
-	this.tick.name = "tick";
-	this.tick.position.set(0, 0);
-	this.tick.anchor.set(0.5);
-	tickBox.addChild(this.tick);
-	this.tick.visible = false;
-
-	var quickSpinText = pixiLib.getElement("Text", quickSpinStyle);
-	quickSpinText.name = "quickSpinText";
-	quickSpinText.anchor.set(0.5);
-	quickSpinText.position.set(75, 65);
-	pixiLib.setText(quickSpinText, gameLiterals.quickSpinText);
-	this.quickSpinInfoContainer.addChild(quickSpinText);
-
-	var buttonBg = pixiLib.getElement("Sprite", "Rectangle 27");
-	buttonBg.name = "buttonBg";
-	buttonBg.position.set(0, 159);
-	buttonBg.anchor.set(0.5);
-	buttonBg.scale.set(0.8);
-	this.quickSpinInfoContainer.addChild(buttonBg);
-
-	buttonBg.interactive = true;
-	pixiLib.addEvent(buttonBg, this.closeQuickSpinInfo.bind(this));
-
-	var okButtonTxt = pixiLib.getElement("Text", buttonStyle);
-	okButtonTxt.name = "okButtonTxt";
-	okButtonTxt.anchor.set(0.5);
-	pixiLib.setText(okButtonTxt, gameLiterals.okButtonTxt);
-	buttonBg.addChild(okButtonTxt);
-
-}
-
-view.tickBoxClicked = function () {
-
-	if (commonConfig.disableQuickSpin) {  /*for GERMAN regulations*/
-		return;
-	}
-
-	this.tick.visible = !_ng.isQuickSpinActive;
-
-	if (_ng.isQuickSpinActive) {
-		_mediator.publish("onSloAnimQuickSpinOff");
-	} else {
-		_mediator.publish("onSloAnimQuickSpinOn");
-	}
-}
-
-view.closeQuickSpinInfo = function () {
-	if (this.quickSpinInfoContainer) {
-		coreApp.gameView.panel.fakeButton.visible = false;
-		this.removeChild(this.quickSpinInfoContainer);
-	}
-}
-
-view.onRCCloseHandler = function () {
-	this.hideInfoEventType = undefined;
-	_sndLib.play(_sndLib.sprite.btnClick);
-	coreApp.gameModel.isRealityCheckActive = false;
-
-	this.hidePopup();
-	// this.gotoLobby();
-};
-view.showBuyPopupAnimation = function () {
+    showBuyPopupAnimation() {
 
 	this.popupParent.scale.set(1);
 	TweenMax.to(this.popupParent.scale, 1, {
@@ -2275,7 +1811,7 @@ view.showBuyPopupAnimation = function () {
 	});
 }
 
-view.onBuyFeatureClick = function () {
+    onBuyFeatureClick() {
 	if (coreApp.gameController.allReelsStopped) {
 		this.hideInfoEventType = "";
 		this.hideInfoPopup();
@@ -2292,7 +1828,8 @@ view.onBuyFeatureClick = function () {
 			_mediator.publish("hideAndShowBuyControlls", true);//Only for portrait   
 	}
 }
-view.superBuyFeatureClick = function () {
+
+    superBuyFeatureClick() {
 	if (coreApp.gameController.allReelsStopped) {
 		this.hideInfoEventType = "";
 		this.hideInfoPopup();
@@ -2309,20 +1846,7 @@ view.superBuyFeatureClick = function () {
 	}
 }
 
-view.superBuyCancelClicked = function () {
-	this.hideInfoEventType = "";
-	this.hideInfoPopup();
-	_ng.buyFeaturePopupStatus = false;
-	_mediator.publish("ToggleMobPanel", true);
-	_mediator.publish("ToggleSpin", true)
-	_mediator.publish("hideMobPanel")
-	_mediator.publish("hideAndShowBuyControlls", true);
-	_mediator.publish("checkBalanceForBuyFeature");
-	setTimeout(() => {
-		_mediator.publish("onCloseBtn")
-	}, 300);
-}
-view.buyFeatureCancelClicked = function () {
+    superBuyCancelClicked() {
 	this.hideInfoEventType = "";
 	this.hideInfoPopup();
 	_ng.buyFeaturePopupStatus = false;
@@ -2336,7 +1860,21 @@ view.buyFeatureCancelClicked = function () {
 	}, 300);
 }
 
-view.showHistoryModePopup = function(roundId) {
+    buyFeatureCancelClicked() {
+	this.hideInfoEventType = "";
+	this.hideInfoPopup();
+	_ng.buyFeaturePopupStatus = false;
+	_mediator.publish("ToggleMobPanel", true);
+	_mediator.publish("ToggleSpin", true)
+	_mediator.publish("hideMobPanel")
+	_mediator.publish("hideAndShowBuyControlls", true);
+	_mediator.publish("checkBalanceForBuyFeature");
+	setTimeout(() => {
+		_mediator.publish("onCloseBtn")
+	}, 300);
+}
+
+    showHistoryModePopup(roundId) {
 
 	const gameWidth = _ng.GameConfig.gameLayout[_viewInfoUtil.viewType].width;
 	const gameHeight = _ng.GameConfig.gameLayout[_viewInfoUtil.viewType].height;
@@ -2569,7 +2107,7 @@ view.showHistoryModePopup = function(roundId) {
 
 }
 
-view.showMobileHistoryModePopup = function(roundId) {
+    showMobileHistoryModePopup(roundId) {
 
 	_sndLib.play(_sndLib.sprite.btnClick);
 
@@ -2796,7 +2334,7 @@ view.showMobileHistoryModePopup = function(roundId) {
 
 }
 
-view.showCopiedToast = function(parentContainer, lang) {
+    showCopiedToast(parentContainer, lang) {
 
 	if (this.copiedToast) {
 		if (this.copiedToast.parent) {
@@ -2858,7 +2396,7 @@ view.showCopiedToast = function(parentContainer, lang) {
 	}, 2000);
 }
 
-view.copyReplayLink = function(roundId, linkTextElement, linkBtn, chainIcon) {
+    copyReplayLink(roundId, linkTextElement, linkBtn, chainIcon) {
 
 	const userLocale = sessionStorage.getItem("Language") || sessionStorage.Language || 'en';
 
@@ -2960,7 +2498,7 @@ view.copyReplayLink = function(roundId, linkTextElement, linkBtn, chainIcon) {
 
 }
 
-view.copyToClipboard = function(text) {
+    copyToClipboard(text) {
 
 	if (navigator.clipboard && window.isSecureContext) {
 		navigator.clipboard.writeText(text).then(() => {
@@ -2975,7 +2513,7 @@ view.copyToClipboard = function(text) {
 	}
 }
 
-view.fallbackCopyToClipboard = function(text) {
+    fallbackCopyToClipboard(text) {
 
 	const textArea = document.createElement("textarea");
 	textArea.value = text;
@@ -3000,7 +2538,7 @@ view.fallbackCopyToClipboard = function(text) {
 	document.body.removeChild(textArea);
 }
 
-view.restartReplay = function() {
+    restartReplay() {
 
 	const urlParams = new URLSearchParams(window.location.search);
 	const roundId = urlParams.get('round_id');
@@ -3067,7 +2605,7 @@ view.restartReplay = function() {
 	window.location.href = replayUrl.toString();
 }
 
-view.closeHistoryModePopup = function() {
+    closeHistoryModePopup() {
 	if (this.historyModePopupContainer) {
 
 		if (coreApp && coreApp.gameView && coreApp.gameView.popupContainer && this.historyModePopupContainer.parent === coreApp.gameView.popupContainer) {
@@ -3084,7 +2622,7 @@ view.closeHistoryModePopup = function() {
 	}
 }
 
-view.showGambleWindow = function () {
+    showGambleWindow() {
   const urlParams = new URLSearchParams(window.location.search);
   const roundId = urlParams.get('round_id');
   var gambleConfig = _ng.GameConfig.infoPopupView.gamblePopup;
@@ -3179,24 +2717,25 @@ view.showGambleWindow = function () {
   _sndLib.play(_sndLib.sprite.basketShuffle);
 }
 
-view.onRedButtonClick = function () {
+    onRedButtonClick() {
 	_sndLib.play(_sndLib.sprite.basketSelect);
 
 	var gambleConfig = _ng.GameConfig.infoPopupView.gamblePopup;
 
 	this.popupBG.state.setAnimation(0, gambleConfig.background.animationState.Idle_R, true);
     this.colorType = "red";
-};
+}
 
-view.onBlueButtonClick = function () {
+    onBlueButtonClick() {
 	_sndLib.play(_sndLib.sprite.basketSelect);
 
      var gambleConfig = _ng.GameConfig.infoPopupView.gamblePopup;
 
 	this.popupBG.state.setAnimation(0, gambleConfig.background.animationState.Idle_L, true);
     this.colorType = "blue";
-};
-view.onTossButtonClick = function () {
+}
+
+    onTossButtonClick() {
 	_sndLib.play(_sndLib.sprite.basketSelect);
 	this.backBtn.visible = false;
 	pixiLib.setInteraction(this.blueBtn, false);
@@ -3211,7 +2750,7 @@ view.onTossButtonClick = function () {
 
 }
 
-view.showGambleWinView = function(){
+    showGambleWinView() {
 	_sndLib.stop(_sndLib.sprite.gambleBG);
     var gambleConfig = _ng.GameConfig.infoPopupView.gamblePopup;
 	const isSucess = coreApp.gameModel.gambleResultData.iscoinTossGambleActive;
@@ -3269,12 +2808,12 @@ view.showGambleWinView = function(){
 	}
 }
 
-view.closeGambleView = function () {
+    closeGambleView() {
 	_sndLib.play(_sndLib.sprite.BasketUI_OUT);
 	this.onFsCloseHandler("collect");
 }
 
-view.updateGamblingWinAmount = function (){
+    updateGamblingWinAmount() {
 	const urlParams = new URLSearchParams(window.location.search);
 	const roundId = urlParams.get('round_id');
 	var gambleConfig = _ng.GameConfig.infoPopupView.gamblePopup;
@@ -3300,7 +2839,7 @@ view.updateGamblingWinAmount = function (){
 	}
 }
 
-view.coinFlipReplaySimulation = function (){
+    coinFlipReplaySimulation() {
 
  const urlParams = new URLSearchParams(window.location.search);
  const roundId = urlParams.get('round_id');
@@ -3330,7 +2869,7 @@ view.coinFlipReplaySimulation = function (){
  
 }
 
-view.replayForToss = function (){
+    replayForToss() {
 
  var responseData = window.slotService.replayDataArray[window.slotService.replayDataArray.length-1];
   var obj = {
@@ -3363,7 +2902,7 @@ view.replayForToss = function (){
 
 }
 
-view.attachToSlot = function (spine, slotName, element) {
+    attachToSlot(spine, slotName, element) {
     var slotIndex = spine.spineData.findSlotIndex(slotName);
     var placeholderSlot = spine.slotContainers[slotIndex];
     if (!placeholderSlot) {
@@ -3372,8 +2911,17 @@ view.attachToSlot = function (spine, slotName, element) {
     placeholderSlot.addChild(element);
 }
 
+}
 
-// --- Consolidated Exports & Aliases ---
+
+
 var CyprusInfoPopupView = InfoPopupView;
-var GInfoPopupView = InfoPopupView;
-if (typeof window !== "undefined") { window.CyprusInfoPopupView = InfoPopupView; window.GInfoPopupView = InfoPopupView; }
+if (typeof window !== "undefined") {
+    window.CyprusInfoPopupView = InfoPopupView;
+}
+
+
+
+var interval = 1500;
+
+this.timerId;

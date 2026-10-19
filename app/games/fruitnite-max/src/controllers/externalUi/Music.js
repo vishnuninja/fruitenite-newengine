@@ -1,6 +1,8 @@
+var _ng = _ng || {};
 
-_ng.Music = function() {
-    localStorageVolume = window.localStorage.getItem(_ng.GameConfig.gameName+"_SoundsVolume");
+class Music {
+  constructor() {
+    this.localStorageVolume = window.localStorage.getItem(_ng.GameConfig.gameName + "_SoundsVolume");
 
     const initialVolume = this.localStorageVolume ? `${+this.localStorageVolume * 100}` : '20';
 
@@ -28,12 +30,9 @@ _ng.Music = function() {
     });
   }
 
-    _ng.Music.prototype.constructor = _ng.Music;
-    var music_eui = _ng.Music.prototype;
-
-  music_eui.updateSounds = function(value) {
+  updateSounds(value) {
     const volume = +value / 100;
-    window.localStorage.setItem(_ng.GameConfig.gameName+"_SoundsVolume", `${volume}`);
+    window.localStorage.setItem(_ng.GameConfig.gameName + "_SoundsVolume", `${volume}`);
     
     _sndLib.setVolume(volume);
 
@@ -44,7 +43,12 @@ _ng.Music = function() {
     }
   }
 
-  music_eui.show = function(){
+  show() {
     const visible = window.externalUi.call('ui-sound-range', 'isVisible');
     window.externalUi.call('ui-sound-range', visible ? 'hide' : 'show');
   }
+}
+
+
+_ng.Music = Music;
+

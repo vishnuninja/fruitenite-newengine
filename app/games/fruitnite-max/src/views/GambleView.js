@@ -1,23 +1,25 @@
-function GambleView(argument) {
-	ViewContainer.call(this, arguments);
+// ============================================================================
+// ES6 Class Definition: GambleView
+// ============================================================================
+
+class GambleView extends ViewContainer {
+    constructor(argument) {
+	super(...arguments);
 }
 
-GambleView.prototype = Object.create(ViewContainer.prototype);
-GambleView.prototype.constructor = GambleView.prototype;
-
-var view = GambleView.prototype;
-
-view.createView = function (argument) {
+    createView(argument) {
 	console.log(" core gamble ");
 	this.hide();
-};
-view.onCollectClick = function (){
+}
+
+    onCollectClick() {
 	//close bonus round 
 	this.toggleWinButtons(false);
 	this.hide();
 	//trigger to show win from gamble and update balance 
 }
-view.onContinueClick = function (){
+
+    onContinueClick() {
 	this.msgTxt.text = "CHOOSE RED OR BLUE SCARAB TO GAMBLE OR TAKE WIN";
 	this.toggleOption(true);
 	this.currentBet = coreApp.gameModel.gambleData.winAmount;
@@ -26,19 +28,21 @@ view.onContinueClick = function (){
 	this.toggleWinButtons(false);
 }
 
-view.toggleWinButtons = function(bool){
+    toggleWinButtons(bool) {
 	this.continueBtn.visible = bool;
 	this.collectBtn.visible = bool;
 	pixiLib.setInteraction(this.collectBtn, bool);
 	pixiLib.setInteraction(this.continueBtn, bool);
 }
 
-view.onGambleResponse = function (){
+    onGambleResponse() {
 	setTimeout(this.delayResult.bind(this), 1200);
 }
-view.delayResult = function(){
+
+    delayResult() {
 }
-view.toggleOption = function (bool){
+
+    toggleOption(bool) {
 	
 	pixiLib.setInteraction(this.redBtn, bool);
 	pixiLib.setInteraction(this.blueBtn, bool);
@@ -55,7 +59,7 @@ view.toggleOption = function (bool){
 	
 }
 
-view.onPickGamble = function(){
+    onPickGamble() {
 	this.msgTxt.text = "GOOD LUCK";
 	console.log(" ==== picked ==== ");
 
@@ -70,18 +74,23 @@ view.onPickGamble = function(){
 	this.cardRotationAnim(true);
 }
 
-view.createAllEvents = function (argument) {
+    createAllEvents(argument) {
 	// body...
-};
+}
 
-view.resize = function (argument) {
-};
+    resize(argument) {
+}
 
-view.show = function (argument) {
-};
+    show(argument) {
+}
 
-view.hide = function (argument) {
-};
+    hide(argument) {
+}
 
-view.destroy = function (argument) {
-};
+    destroy(argument) {
+}
+
+}
+
+
+

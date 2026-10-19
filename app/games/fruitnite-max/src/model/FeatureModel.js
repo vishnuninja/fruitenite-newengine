@@ -1,21 +1,24 @@
-function FeatureModel() {
-	this.isFeatureActive = false;
+class FeatureModel {
+	constructor() {
+		this.isFeatureActive = false;
+	}
+
+	isActive() {
+		return this.isFeatureActive;
+	}
+
+	setFeatureState(bool) {
+		this.isFeatureActive = bool;
+	}
+
+	getFeatureRoundData() {
+		return this.featureData;
+	}
+
+	setFeatureRoundData(obj) {
+		this.isActive = (obj) ? true : false;
+		this.featureData = obj;
+	}
 }
 
-var feature = FeatureModel.prototype;
 
-feature.isActive = function () {
-	return this.isFeatureActive;
-}
-
-feature.setFeatureState = function (bool){
-	this.isFeatureActive = bool;
-}
-
-feature.getFeatureRoundData = function () {
-	return this.featureData;
-}
-feature.setFeatureRoundData = function (obj) {
-	this.isActive = (obj) ? true : false;
-	this.featureData = obj;
-}

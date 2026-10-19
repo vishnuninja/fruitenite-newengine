@@ -1,32 +1,37 @@
-_ng.ElapsedTimeEUI = function(parent) {
-    this.parentExternalUI = parent;
-    if(!_ng.GameConfig.showElapsedTime || isHistoryMode) return;
-    this.setConfig();
-    this.addEvents();
-    this.show();
+var _ng = _ng || {};
+
+class ElapsedTimeEUI {
+    constructor(parent) {
+        this.parentExternalUI = parent;
+        if (!_ng.GameConfig.showElapsedTime || isHistoryMode) return;
+        this.setConfig();
+        this.addEvents();
+        this.show();
+    }
+
+    setConfig() {
+        if (!_ng.GameConfig.elapsedTimeConfig) return;
+        window.externalUi.call('elapsed-time', "setPosition", _ng.GameConfig.elapsedTimeConfig[_viewInfoUtil.viewType]);
+    }
+
+    addEvents() {
+        _mediator.subscribe(_events.core.onResize, this.resize.bind(this));
+    }
+
+    show() {
+        window.externalUi.call('elapsed-time', "show");
+    }
+
+    hide() {
+        window.externalUi.call('elapsed-time', "hide");
+    }
+
+    resize() {
+        if (_viewInfoUtil.device == 'Desktop') return;
+        window.externalUi.call('elapsed-time', "setPosition", _ng.GameConfig.elapsedTimeConfig[_viewInfoUtil.viewType]);
+    }
 }
 
-_ng.ElapsedTimeEUI.prototype.constructor = _ng.ElapsedTimeEUI;
-var elapsedTime = _ng.ElapsedTimeEUI.prototype;
 
-elapsedTime.setConfig = function() {
-    if(!_ng.GameConfig.elapsedTimeConfig) return;
-    window.externalUi.call('elapsed-time', "setPosition", _ng.GameConfig.elapsedTimeConfig[_viewInfoUtil.viewType]);
-}
+_ng.ElapsedTimeEUI = ElapsedTimeEUI;
 
-elapsedTime.addEvents = function() {
-    _mediator.subscribe(_events.core.onResize, this.resize.bind(this));
-}
-
-elapsedTime.show = function() {
-   window.externalUi.call('elapsed-time', "show");
-}
-
-elapsedTime.hide = function() {
-   window.externalUi.call('elapsed-time', "hide");
-}
-
-elapsedTime.resize = function() {
-    if(_viewInfoUtil.device == 'Desktop') return;
-     window.externalUi.call('elapsed-time', "setPosition", _ng.GameConfig.elapsedTimeConfig[_viewInfoUtil.viewType]);
-}

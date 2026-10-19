@@ -11,8 +11,8 @@ _ng.LoadConfig = {
             "controllers/GWinController.js",
             "controllers/GPanelController.js",
             "configs/ReelViewUIConfig.js",
-            "configs/PaytableViewUIConfig.js",
             "views/GReelSymbol.js",
+            "views/BuyPanelView.js",
             "views/GView.js",
             "views/GReelView.js",
             "views/GWinView.js",
@@ -35,14 +35,11 @@ _ng.LoadConfig = {
              "utils/wagerNormalization.js",
              "views/GHistoryPanelView.js",
              "controllers/GHistoryPanelController.js",
-             "controllers/GambleController.js",
          
         ],
         "Desktop": [
-            "controllers/PanelDesktopController.js",
         ],
         "Mobile": [
-            "controllers/PanelMobileController.js",
             "views/GHistoryPanelMobileView.js",
         ]
     },
@@ -54,10 +51,10 @@ _ng.LoadConfig = {
                 "paytable.json", "symbols.json", "menu0.json","zSym.json",
                 "winnum-export.xml","featureBitmapFont-export.xml","Numbers-export.xml","m_anim.json","dedeBitmap.xml","reel_frame.json","box-Multiplier.xml",
                 "popAnim-0.json","continuebtn.json","companyLogo.json","gold_win.json","liquid_jar_Final.json",
-                 "wins.json","tickerbase.json","BuyFreespinPanel.json","betChance.json","sidePanelUI.json","leftPanelAssets.json",
+                 "wins.json","tickerbase.json","leftPanelAssets.json",
                  "fruitniteMax_Introscreen.json","portraitBuyFeature.json","CoinShower-0.json","CoinShower-1.json","fadingTexts.json","sugarBoxFont-export.xml","extraAssets.json","autoSpinBase.json","panelButtons.json",
-                 "newGamePanel.json","autoplaybase.json","autoplayPopup.json","betPopup.json",,"newSetting.json","closesetting.json","autoSpin.json","turboActive.json","volumeBar.json","stopButtonAssets.json","scatter.json","superFreeSpinPopup.json","multiplier_static.json",
-                 "buyFeature_VP.json","playstpbtn.json","replay.json",
+                 "newGamePanel.json","autoplaybase.json","autoplayPopup.json","betPopup.json","newSetting.json","closesetting.json","autoSpin.json","turboActive.json","volumeBar.json","stopButtonAssets.json","scatter.json","superFreeSpinPopup.json","multiplier_static.json",
+                 "playstpbtn.json","replay.json",
                     /* NEW */
                  "apple_green.json","apple_red.json","banana.json","grapes.json","kiwi.json","lemon.json","strawberry.json","watermelon.json","orange.json","popup_in.json","buy_free_spins.json",
                  "transition.json","multiplayer.json","character_flying.json","logo.json","gambleAssets.json","Popup_reward.json","character_flying.json","buy_button.json","pomegranate_sym.json",

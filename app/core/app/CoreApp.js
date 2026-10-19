@@ -1,5 +1,6 @@
 var _ng = _ng || {},
-    coreApp;
+    coreApp,
+    _viewInfoUtil;
 
 var filesLoaded = 0;
 var filesLoadArray = [];
@@ -388,7 +389,6 @@ _ng.CoreApp.prototype.loadJSFiles = function (loadingIndex) {
     filesLoadArray.push(this.slotPath + "configs/SlotConfig.js");
     filesLoadArray.push(this.gamePath + "configs/GameConfig.js");
     filesLoadArray.push(this.gamePath + "configs/LoadConfig.js");
-    filesLoadArray.push(this.gamePath + "configs/PanelConfig.js");
     filesLoadArray.push(this.gamePath + "configs/UIConfig.js");
     filesLoadArray.push(this.gamePath + "configs/ReelViewUIConfig.js");
 
@@ -408,7 +408,10 @@ _ng.CoreApp.prototype.onConfigJSFileLoad = function () {
         Object.assign(mergedConfig, _ng.SlotConfig);
         Object.assign(mergedConfig, _ng.GameConfig);
         Object.assign(mergedConfig, _ng.LoadConfig);
-        Object.assign(mergedConfig, _ng.PanelConfig);
+        if (_ng.PanelConfig) {
+            Object.assign(mergedConfig, _ng.PanelConfig);
+            delete _ng.PanelConfig;
+        }
         Object.assign(mergedConfig, _ng.UIConfig);
         Object.assign(mergedConfig.ReelViewUiConfig, _ng.ReelViewUiConfig)
 
@@ -416,7 +419,6 @@ _ng.CoreApp.prototype.onConfigJSFileLoad = function () {
         delete _ng.SlotConfig;
         delete _ng.GameConfig;
         delete _ng.LoadConfig;
-        delete _ng.PanelConfig;
         delete _ng.UIConfig;
         delete _ng.ReelViewUiConfig;
 
@@ -466,7 +468,10 @@ _ng.CoreApp.prototype.mergeConfig = function () {
     Object.assign(mergedConfig, _ng.SlotConfig);
     Object.assign(mergedConfig, _ng.GameConfig);
     Object.assign(mergedConfig, _ng.LoadConfig);
-    Object.assign(mergedConfig, _ng.PanelConfig);
+    if (_ng.PanelConfig) {
+        Object.assign(mergedConfig, _ng.PanelConfig);
+        delete _ng.PanelConfig;
+    }
     Object.assign(mergedConfig, _ng.UIConfig);
     Object.assign(mergedConfig.ReelViewUiConfig, _ng.ReelViewUiConfig)
 
@@ -474,7 +479,6 @@ _ng.CoreApp.prototype.mergeConfig = function () {
     delete _ng.SlotConfig;
     delete _ng.GameConfig;
     delete _ng.LoadConfig;
-    delete _ng.PanelConfig;
     delete _ng.UIConfig;
     delete _ng.ReelViewUiConfig;
 
@@ -991,23 +995,20 @@ _ng.CoreApp.prototype.initializeCoreClasses = function () {
     var coreClasses = _ng.GameConfig.classes.core;
     if (coreClasses.separateClasses !== undefined) {
         coreClasses = coreClasses.separateClasses;
+        if (coreClasses.viewInfoUtil) {
+            this.viewInfoUtil = new window["_ng"][coreClasses.viewInfoUtil](this);
+            _viewInfoUtil = this.viewInfoUtil;
+        }
         for (var className in coreClasses) {
-            this[className] = new window["_ng"][coreClasses[className]](this);
+            if (className !== "viewInfoUtil") {
+                this[className] = new window["_ng"][coreClasses[className]](this);
+            }
         }
     }
     this.gameController.setView(this.gameView);
     this.gameController.setModel(this.gameModel);
     coreClasses = _ng.GameConfig.classes.core;
     this.gameService.setModel(this.gameModel);
-    /*  if(coreClasses.viewControllers !== undefined){
-          coreClasses = coreClasses.viewControllers;
-          for(var className in coreClasses){
-              this[className + "View"] = new window["_ng"][coreClasses[className][0]](this);
-              this[className + "Controller"] = new window["_ng"][coreClasses[className][1]](this);
-              this[className + "View"].createView();
-              this[className + "Controller"].setView(this[className + "View"]);
-          }
-      }*/
     _viewInfoUtil = this.viewInfoUtil;
 }
 _ng.CoreApp.prototype.addDeviceClassToHTML = function (viewType) {

@@ -1,6 +1,12 @@
+// ============================================================================
+// ES6 Class Definition: PanelValueSelector
+// ============================================================================
+
 var _ng = _ng || {};
-_ng.PanelValueSelector = function(params, parent) {
-    PIXI.Container.call(this);
+
+class PanelValueSelector extends PIXI.Container {
+    constructor(params, parent) {
+    super();
 
     this.params = params.params;
     this.currentIndex = 3;
@@ -68,18 +74,16 @@ _ng.PanelValueSelector = function(params, parent) {
     _mediator.subscribe(_events.core.onResize, this.onResize.bind(this));
 }
 
-_ng.PanelValueSelector.prototype = Object.create(PIXI.Container.prototype);
-_ng.PanelValueSelector.prototype.constructor = _ng.PanelValueSelector;
-var p = _ng.PanelValueSelector.prototype;
-
-p.setOptionsArray = function(options){
+    setOptionsArray(options) {
     this.options = options;
 }
-p.setDefaultIndex = function(index){
+
+    setDefaultIndex(index) {
     this.defaultIndex = index;
     this.currentIndex = index;
 }
-p.setValue = function(str){
+
+    setValue(str) {
     if(str !== undefined){
         pixiLib.setText(this.value, str);
     }else{
@@ -90,16 +94,18 @@ p.setValue = function(str){
         pixiLib.setText(this.value, optionValue);
         this.checkButtonState();
     }
-};
-p.selectNext = function(){
+}
+
+    selectNext() {
     this.currentIndex++;
     if(this.currentIndex == this.options.length){
         this.currentIndex--;
         return;
     }
     this.setValue();
-};
-p.selectPrevious = function(){
+}
+
+    selectPrevious() {
     this.currentIndex--;
     if(this.currentIndex < 0){
         this.currentIndex++;
@@ -107,17 +113,21 @@ p.selectPrevious = function(){
     }
     this.setValue();
 }
-p.getCurrentIndex = function(){
+
+    getCurrentIndex() {
     return this.currentIndex;
 }
-p.getMaxIndex = function(){
+
+    getMaxIndex() {
     return (this.options.length - 1);
 }
-p.setMaxIndex = function(){
+
+    setMaxIndex() {
     this.currentIndex = this.getMaxIndex();
     this.setValue();
 }
-p.checkButtonState = function(){
+
+    checkButtonState() {
     if(this.minusButton){
         pixiLib.setInteraction(this.minusButton, true);
     }
@@ -135,8 +145,9 @@ p.checkButtonState = function(){
 		    pixiLib.setInteraction(this.plusButton, false);
         }
     }
-};
-p.disableAll = function(){
+}
+
+    disableAll() {
     if(this.minusButton){
         pixiLib.setInteraction(this.minusButton, false);
     }
@@ -144,11 +155,12 @@ p.disableAll = function(){
         pixiLib.setInteraction(this.plusButton, false);
     }
 }
-p.enableAll = function(){
+
+    enableAll() {
     this.checkButtonState();
 }
 
-p.onResize = function() {
+    onResize() {
     var viewType = _viewInfoUtil.viewType;
     var elements = ['minusButton', 'plusButton', 'value', 'title'];
 
@@ -163,3 +175,10 @@ p.onResize = function() {
         this.setAlignment(this.params.props);
     }
 }
+
+}
+
+
+var _ng = _ng || {};
+_ng.PanelValueSelector = PanelValueSelector;
+

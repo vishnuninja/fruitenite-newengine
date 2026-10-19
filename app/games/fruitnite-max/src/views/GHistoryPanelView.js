@@ -1,25 +1,6 @@
-function HistoryPanelView(argument) {
-	ViewContainer.call(this, arguments);
-	this.historyItems = [];
-
-	this.lastWinsPage = 1;
-	this.lastWinsHasMore = true;
-	this.lastWinsLoading = false;
-	this.highestWinsPage = 1;
-	this.highestWinsHasMore = true;
-	this.highestWinsLoading = false;
-
-	this.highestWinsData = [];
-
-	this.currentPage = 1;
-	this.hasMore = true;
-	this.isLoadingMore = false;
-	this.loadMoreButton = null;
-	this.loaderSpinner = null;
-	this.noDataMessage = null;
-	this.isInfiniteScrollEnabled = false;
-	this.scrollObserver = null;
-}
+// ============================================================================
+// ES6 Class Definition: HistoryPanelView
+// ============================================================================
 
 const normalRound = [
 	{
@@ -282,20 +263,39 @@ const normalRound = [
 	}
 ]
 
-HistoryPanelView.prototype = Object.create(ViewContainer.prototype);
-HistoryPanelView.prototype.constructor = HistoryPanelView.prototype;
+class HistoryPanelView extends ViewContainer {
+    constructor(argument) {
+	super(...arguments);
+	this.historyItems = [];
 
-var historyView = HistoryPanelView.prototype;
+	this.lastWinsPage = 1;
+	this.lastWinsHasMore = true;
+	this.lastWinsLoading = false;
+	this.highestWinsPage = 1;
+	this.highestWinsHasMore = true;
+	this.highestWinsLoading = false;
 
-historyView.createView = function (argument) {
+	this.highestWinsData = [];
+
+	this.currentPage = 1;
+	this.hasMore = true;
+	this.isLoadingMore = false;
+	this.loadMoreButton = null;
+	this.loaderSpinner = null;
+	this.noDataMessage = null;
+	this.isInfiniteScrollEnabled = false;
+	this.scrollObserver = null;
+}
+
+    createView(argument) {
 	this.createPanelBackground();
 	this.createCloseButton();
 	this.createTabs();
 	this.createHistoryList();
 	this.hide();
-};
+}
 
-historyView.createPanelBackground = function () {
+    createPanelBackground() {
 
 	var gameWidth = _ng.GameConfig.gameLayout[_viewInfoUtil.viewType].width;
 	var gameHeight = _ng.GameConfig.gameLayout[_viewInfoUtil.viewType].height;
@@ -368,9 +368,9 @@ historyView.createPanelBackground = function () {
 
 	this.panelWidth = popupWidth;
 	this.panelHeight = popupHeight;
-};
+}
 
-historyView.createCloseButton = function () {
+    createCloseButton() {
 
 	var closeBtnStyle = {
 		fontFamily: "Montserrat-regular, sans-serif",
@@ -388,9 +388,9 @@ historyView.createCloseButton = function () {
 	this.headerBg.addChild(this.closeBtn);
 
 	pixiLib.addEvent(this.closeBtn, this.onCloseHandler.bind(this));
-};
+}
 
-historyView.createTabs = function () {
+    createTabs() {
 
 	this.tabsContainer = pixiLib.getContainer();
 	this.tabsContainer.y = 80;
@@ -470,9 +470,9 @@ historyView.createTabs = function () {
 	pixiLib.addEvent(this.highestWinsTabContainer, () => {
 		this.switchToHighestWins();
 	});
-};
+}
 
-historyView.switchToLastWins = function () {
+    switchToLastWins() {
 
 	var tabWidth = (this.panelWidth - 20) / 2;
 	this.activeTabBg.x = 10;
@@ -511,9 +511,9 @@ historyView.switchToLastWins = function () {
 			this.setupInfiniteScroll();
 		}
 	}
-};
+}
 
-historyView.switchToHighestWins = function () {
+    switchToHighestWins() {
 
 	var tabWidth = (this.panelWidth - 20) / 2;
 	var newX = 10 + tabWidth;
@@ -556,9 +556,9 @@ historyView.switchToHighestWins = function () {
 			this.setupInfiniteScroll();
 		}
 	}
-};
+}
 
-historyView.createHistoryList = function () {
+    createHistoryList() {
 
 	this.headerContainer = pixiLib.getContainer();
 	this.headerContainer.x = 10;
@@ -637,9 +637,9 @@ historyView.createHistoryList = function () {
 	window.addEventListener('touchend', this.onListMouseUp.bind(this));
 
 	_mediator.subscribe("ADD_HISTORY_ITEM", this.addHistoryItem.bind(this));
-};
+}
 
-historyView.createTableHeaders = function () {
+    createTableHeaders() {
 
 	var headerBg = pixiLib.getRectangleSprite(this.panelWidth - 20, 30, 0x333333);
 	this.headerContainer.addChild(headerBg);
@@ -675,31 +675,9 @@ historyView.createTableHeaders = function () {
 
 		this.columnHeaders.push(headerText);
 	}.bind(this));
-};
-
-function formatNumberWithSeparators(num, decimalSeparator) {
-	const thousandSeparator = decimalSeparator === ',' ? '.' : ',';
-	const parts = num.toFixed(2).split('.');
-	const integerPart = parts[0];
-	const decimalPart = parts[1];
-
-	const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, thousandSeparator);
-	
-	return formattedInteger + decimalSeparator + decimalPart;
 }
 
-function isHighestWinsTabActive(view) {
-	if (!view || !view.highestWinsTab) return false;
-	var fill = view.highestWinsTab.style.fill;
-	return fill === 0xffffff || 
-		   fill === '#ffffff' || 
-		   fill === '0xffffff' ||
-		   String(fill).toLowerCase() === '#ffffff' ||
-		   String(fill).toLowerCase() === '0xffffff' ||
-		   fill === 16777215;
-}
-
-historyView.addHistoryItem = function (roundData) {
+    addHistoryItem(roundData) {
 
 	if (!roundData || !roundData.id) {
 
@@ -1030,9 +1008,9 @@ historyView.addHistoryItem = function (roundData) {
 	}
 
 	this.updateScrollbarVisibility();
-};
+}
 
-historyView.replayRound = function (roundData) {
+    replayRound(roundData) {
 	_sndLib.play(_sndLib.sprite.btnClick);
 
 	if (coreApp && coreApp.gameModel) {
@@ -1076,9 +1054,9 @@ historyView.replayRound = function (roundData) {
 			_mediator.publish("onSpinResponse");
 		}.bind(this), 300);
 	}.bind(this), 250);
-};
+}
 
-historyView.onCloseHandler = function (argument) {
+    onCloseHandler(argument) {
 	_sndLib.play(_sndLib.sprite.btnClick);
 	window.externalUi.call("game_ui", "show");
 
@@ -1147,18 +1125,18 @@ historyView.onCloseHandler = function (argument) {
 
 	this.hide();
 	_mediator.publish("onHideHistoryPanel");
-};
+}
 
-historyView.createAllEvents = function (argument) {
+    createAllEvents(argument) {
 
 	_mediator.subscribe(_events.core.onResize, this.onResize.bind(this));
 
 	_mediator.subscribe("onReplayCompleted", this.onReplayCompleted.bind(this));
 
 	_mediator.subscribe("onTotalWinShown", this.onTotalWinShown.bind(this));
-};
+}
 
-historyView.onResize = function (argument) {
+    onResize(argument) {
 
 	if (this.visible) {
 
@@ -1216,9 +1194,9 @@ historyView.onResize = function (argument) {
 
 		}
 	}
-};
+}
 
-historyView.show = function (argument) {
+    show(argument) {
 
 	try {
 		_sndLib.play(_sndLib.sprite.btnClick);
@@ -1321,9 +1299,9 @@ historyView.show = function (argument) {
 
 	}
 
-};
+}
 
-historyView.loadHistoryFromApi = function (page, limit, append) {
+    loadHistoryFromApi(page, limit, append) {
 	try {
 
 		var isHighestWinsTab = isHighestWinsTabActive(this);
@@ -1379,7 +1357,6 @@ historyView.loadHistoryFromApi = function (page, limit, append) {
 		fetch(url, { method: "GET" })
 			.then(function (res) { return res.json(); })
 			.then(function (data) {
-
 				var isHighestWinsTab = isHighestWinsTabActive(this);
 
 				var actualData = data;
@@ -1893,9 +1870,9 @@ historyView.loadHistoryFromApi = function (page, limit, append) {
 		this.clearHistoryItems();
 		this.updateLoadMoreButton();
 	}
-};
+}
 
-historyView.loadMockHistory = function () {
+    loadMockHistory() {
 
 	if (!this.historyRounds) {
 		return;
@@ -1969,7 +1946,7 @@ historyView.loadMockHistory = function () {
 	this.updateLoadMoreButton();
 }
 
-historyView.clearHistoryItems = function () {
+    clearHistoryItems() {
 
 	if (this.historyListContainer) {
 
@@ -2052,9 +2029,9 @@ historyView.clearHistoryItems = function () {
 	this.hasMore = true;
 	this.isLoadingMore = false;
 
-};
+}
 
-historyView.updateScrollbarVisibility = function () {
+    updateScrollbarVisibility() {
 
 	var buttonHeight = (this.loadMoreButton && this.hasMore) ? 60 : 0;
 
@@ -2077,9 +2054,9 @@ historyView.updateScrollbarVisibility = function () {
 	}
 
 	this.updateLoadMoreButton();
-};
+}
 
-historyView.updateThumbPosition = function () {
+    updateThumbPosition() {
 	if (!this.scrollThumb) return;
 
 	var visibleHeight = this.maskHeight || (this.panelHeight - 210);
@@ -2093,9 +2070,9 @@ historyView.updateThumbPosition = function () {
 	this.historyListContainer.y = 160 - Math.max(0, this.scrollPosition);
 
 	this.updateLoadMoreButton();
-};
+}
 
-historyView.scrollContent = function (deltaY) {
+    scrollContent(deltaY) {
 	if (this.maxScroll <= 0) return;
 
 	var newPosition = this.scrollPosition + deltaY;
@@ -2113,9 +2090,9 @@ historyView.scrollContent = function (deltaY) {
 	this.updateThumbPosition();
 
 	this.checkLoadMoreVisibility();
-};
+}
 
-historyView.onMouseWheel = function (event) {
+    onMouseWheel(event) {
 	event.stopPropagation();
 
 	var delta = 0;
@@ -2129,9 +2106,9 @@ historyView.onMouseWheel = function (event) {
 
 	event.preventDefault();
 	return false;
-};
+}
 
-historyView.onScrollThumbDown = function (event) {
+    onScrollThumbDown(event) {
 	event.stopPropagation();
 	this.isDragging = true;
 	this.dragStartY = event.data.global.y;
@@ -2140,9 +2117,9 @@ historyView.onScrollThumbDown = function (event) {
 	if (this.scrollThumb && this.scrollThumb.parent) {
 		this.scrollThumb.parent.addChild(this.scrollThumb);
 	}
-};
+}
 
-historyView.onScrollBarClick = function (event) {
+    onScrollBarClick(event) {
 	event.stopPropagation();
 	if (!this.scrollThumb.visible) return;
 
@@ -2157,9 +2134,9 @@ historyView.onScrollBarClick = function (event) {
 
 		this.scrollContent(this.maskHeight - thumbHeight);
 	}
-};
+}
 
-historyView.onMouseMove = function (event) {
+    onMouseMove(event) {
 	if (!this.isDragging) return;
 
 	var deltaY = event.clientY - this.dragStartY;
@@ -2169,9 +2146,9 @@ historyView.onMouseMove = function (event) {
 	this.scrollPosition = (this.scrollStartY + (deltaY / thumbRange) * this.maxScroll);
 	this.scrollPosition = Math.max(0, Math.min(this.maxScroll, this.scrollPosition));
 	this.updateThumbPosition();
-};
+}
 
-historyView.onTouchMove = function (event) {
+    onTouchMove(event) {
 	if (!this.isDragging) return;
 	event.preventDefault();
 
@@ -2185,13 +2162,13 @@ historyView.onTouchMove = function (event) {
 	this.scrollPosition = (this.scrollStartY + (deltaY / thumbRange) * this.maxScroll);
 	this.scrollPosition = Math.max(0, Math.min(this.maxScroll, this.scrollPosition));
 	this.updateThumbPosition();
-};
+}
 
-historyView.onMouseUp = function () {
+    onMouseUp() {
 	this.isDragging = false;
-};
+}
 
-historyView.onListMouseDown = function (event) {
+    onListMouseDown(event) {
 	if (this.maxScroll <= 0) return;
 
 	event.stopPropagation();
@@ -2200,9 +2177,9 @@ historyView.onListMouseDown = function (event) {
 	this.dragStartY = event.data.global.y;
 	this.scrollVelocity = 0;
 	this.lastScrollTime = Date.now();
-};
+}
 
-historyView.onListTouchStart = function (event) {
+    onListTouchStart(event) {
 	if (this.maxScroll <= 0) return;
 
 	event.stopPropagation();
@@ -2213,9 +2190,9 @@ historyView.onListTouchStart = function (event) {
 		this.scrollVelocity = 0;
 		this.lastScrollTime = Date.now();
 	}
-};
+}
 
-historyView.onGlobalMouseMove = function (event) {
+    onGlobalMouseMove(event) {
 	if (this.isDraggingScroll) {
 		event.preventDefault();
 		this.handleDragScroll(event.data.global.y);
@@ -2223,9 +2200,9 @@ historyView.onGlobalMouseMove = function (event) {
 
 		this.onMouseMove(event);
 	}
-};
+}
 
-historyView.onGlobalTouchMove = function (event) {
+    onGlobalTouchMove(event) {
 	if (this.isDraggingScroll && event.changedTouches.length === 1) {
 		event.preventDefault();
 		var touch = event.changedTouches[0];
@@ -2234,9 +2211,9 @@ historyView.onGlobalTouchMove = function (event) {
 
 		this.onTouchMove(event);
 	}
-};
+}
 
-historyView.handleDragScroll = function (currentY) {
+    handleDragScroll(currentY) {
 	if (!this.isDraggingScroll) return;
 
 	var now = Date.now();
@@ -2251,9 +2228,9 @@ historyView.handleDragScroll = function (currentY) {
 
 	this.lastDragY = currentY;
 	this.lastScrollTime = now;
-};
+}
 
-historyView.onListMouseUp = function (event) {
+    onListMouseUp(event) {
 	if (this.isDraggingScroll) {
 		event.stopPropagation();
 		this.isDraggingScroll = false;
@@ -2264,9 +2241,9 @@ historyView.onListMouseUp = function (event) {
 	}
 
 	this.onMouseUp();
-};
+}
 
-historyView.applyMomentum = function () {
+    applyMomentum() {
 	if (!this.isDraggingScroll && Math.abs(this.scrollVelocity) > 0.1) {
 
 		var delta = this.scrollVelocity * 16;
@@ -2280,9 +2257,9 @@ historyView.applyMomentum = function () {
 	}
 
 	this.checkLoadMoreVisibility();
-};
+}
 
-historyView.createLoadMoreButton = function () {
+    createLoadMoreButton() {
 
 	if (this.loadMoreButton) {
 
@@ -2425,9 +2402,9 @@ historyView.createLoadMoreButton = function () {
 	}
 
 	this.updateLoadMoreButton();
-};
+}
 
-historyView.updateLoadMoreButton = function (isLoading) {
+    updateLoadMoreButton(isLoading) {
 
 	
 	if (!this.loadMoreButton) {
@@ -2487,9 +2464,9 @@ historyView.updateLoadMoreButton = function (isLoading) {
 
 	}
 
-};
+}
 
-historyView.checkLoadMoreVisibility = function () {
+    checkLoadMoreVisibility() {
 	if (!this.loadMoreButton) {
 		return;
 	}
@@ -2513,9 +2490,9 @@ historyView.checkLoadMoreVisibility = function () {
 		this.loadMoreButton.renderable = true;
 	}
 
-};
+}
 
-historyView.loadNextPage = function () {
+    loadNextPage() {
 
 	var isHighestWinsTab = isHighestWinsTabActive(this);
 	var isLoading = isHighestWinsTab ? this.highestWinsLoading : this.lastWinsLoading;
@@ -2538,9 +2515,9 @@ historyView.loadNextPage = function () {
 	this.showLoader();
 
 	this.loadHistoryFromApi(nextPage, 20, true);
-};
+}
 
-historyView.loadHighestWinsHistory = function () {
+    loadHighestWinsHistory() {
 
 	this.highestWinsPage = 1;
 	this.highestWinsHasMore = true;
@@ -2555,9 +2532,9 @@ historyView.loadHighestWinsHistory = function () {
 	this.showLoader();
 
 	this.loadHistoryFromApi(1, 20, false);
-};
+}
 
-historyView.showLoader = function () {
+    showLoader() {
 	if (this.loaderSpinner) {
 		return;
 	}
@@ -2603,9 +2580,9 @@ historyView.showLoader = function () {
 		}
 	};
 	animate();
-};
+}
 
-historyView.hideLoader = function () {
+    hideLoader() {
 	if (this.loaderSpinner) {
 		try {
 			if (this.loaderSpinner.parent) {
@@ -2623,9 +2600,9 @@ historyView.hideLoader = function () {
 	if (this.loadMoreButton) {
 		this.updateLoadMoreButton();
 	}
-};
+}
 
-historyView.showNoDataMessage = function () {
+    showNoDataMessage() {
 
 	var isHighestWinsTab = isHighestWinsTabActive(this);
 	var isLastWinsTab = !isHighestWinsTab;
@@ -2669,9 +2646,9 @@ historyView.showNoDataMessage = function () {
 	this.noDataMessage = messageContainer;
 	var tabName = isHighestWinsTab ? 'Highest Wins' : 'Last Wins';
 
-};
+}
 
-historyView.hideNoDataMessage = function () {
+    hideNoDataMessage() {
 	if (this.noDataMessage) {
 		try {
 			if (this.noDataMessage.parent) {
@@ -2685,17 +2662,9 @@ historyView.hideNoDataMessage = function () {
 		}
 		this.noDataMessage = null;
 	}
-};
-
-function isMobileDeviceDesktop() {
-	const viewType = _viewInfoUtil ? _viewInfoUtil.viewType : "VD";
-	const actualWindowWidth = window.innerWidth || 1280;
-	const isMobileViewType = viewType === "VP" || viewType === "VL";
-	const isSmallScreen = actualWindowWidth <= 768;
-	return isMobileViewType || isSmallScreen;
 }
 
-historyView.setupInfiniteScroll = function () {
+    setupInfiniteScroll() {
 
 	if (typeof isMobileDevice === 'function' && isMobileDevice()) {
 		return;
@@ -2743,9 +2712,9 @@ historyView.setupInfiniteScroll = function () {
 	};
 
 	checkScroll();
-};
+}
 
-historyView.openReplayPopup = function (roundData) {
+    openReplayPopup(roundData) {
 
 	var gameWidth = _ng.GameConfig.gameLayout[_viewInfoUtil.viewType].width;
 	var gameHeight = _ng.GameConfig.gameLayout[_viewInfoUtil.viewType].height;
@@ -2827,9 +2796,9 @@ historyView.openReplayPopup = function (roundData) {
 	this.addReelViewToReplayPopup();
 
 	this.compareRoundId(roundData);
-};
+}
 
-historyView.addReelViewToReplayPopup = function () {
+    addReelViewToReplayPopup() {
 
 	this.replayReelContainer = pixiLib.getContainer();
 	this.replayReelContainer.name = "replayReelContainer";
@@ -2866,9 +2835,9 @@ historyView.addReelViewToReplayPopup = function () {
 
 	this.replayContainer.addChild(this.replayReelContainer);
 
-};
+}
 
-historyView.restoreGameState = function () {
+    restoreGameState() {
 
 	if (coreApp && coreApp.gameModel) {
 
@@ -2922,9 +2891,9 @@ historyView.restoreGameState = function () {
 
 	}
 
-};
+}
 
-historyView.closeReplayPopup = function () {
+    closeReplayPopup() {
 
 	if (this.replayContainer) {
 		if (coreApp && coreApp.stage) {
@@ -2986,9 +2955,9 @@ historyView.closeReplayPopup = function () {
 		_mediator.publish(_events.onHideHistoryPanel);
 	}
 
-};
+}
 
-historyView.compareRoundId = function (roundData) {
+    compareRoundId(roundData) {
 
 	const sourceRounds = (this.historyRounds && this.historyRounds.length) ? this.historyRounds : [];
 	const matchingRecord = sourceRounds.find(item => item.id === roundData.id);
@@ -2997,9 +2966,9 @@ historyView.compareRoundId = function (roundData) {
 
 		this.getReplayRecords(matchingRecord);
 	}
-};
+}
 
-historyView.getReplayRecords = function (matchingRecord) {
+    getReplayRecords(matchingRecord) {
 
 	let replayRecords = [];
 	let recordType = "mockSpinRounds";
@@ -3018,9 +2987,9 @@ historyView.getReplayRecords = function (matchingRecord) {
 		this.displayReplayRecords(replayRecords, recordType);
 	} else {
 	}
-};
+}
 
-historyView.createReplayUrl = function (roundData) {
+    createReplayUrl(roundData) {
 
 	const sessionId = sessionStorage.getItem("sessionId") || sessionStorage.sessionId;
 
@@ -3083,9 +3052,9 @@ historyView.createReplayUrl = function (roundData) {
 	}
 
 	this.openReplayIframe(replayUrl.toString());
-};
+}
 
-historyView.createReplayPageUrl = function (roundData, sessionId, isBuyFeature, isNormalSpin) {
+    createReplayPageUrl(roundData, sessionId, isBuyFeature, isNormalSpin) {
 
 	const replayData = this.getReplayDataForRound(roundData);
 
@@ -3181,9 +3150,9 @@ historyView.createReplayPageUrl = function (roundData, sessionId, isBuyFeature, 
 	const dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(htmlContent);
 
 	return dataUrl;
-};
+}
 
-historyView.getReplayDataForRound = function (roundData) {
+    getReplayDataForRound(roundData) {
 
 	let replayRecords = [];
 
@@ -3197,9 +3166,9 @@ historyView.getReplayDataForRound = function (roundData) {
 	}
 
 	return replayRecords;
-};
+}
 
-historyView.injectReplayDataDirectly = function (roundData) {
+    injectReplayDataDirectly(roundData) {
 
 	this.hide();
 
@@ -3282,9 +3251,9 @@ historyView.injectReplayDataDirectly = function (roundData) {
 
 	this.processReplayData(roundData);
 
-};
+}
 
-historyView.processReplayData = function (roundData) {
+    processReplayData(roundData) {
 
 	let replayRecords = [];
 	let recordType = "mockSpinRounds";
@@ -3304,18 +3273,18 @@ historyView.processReplayData = function (roundData) {
 	} else {
 		this.showNoReplayDataMessage();
 	}
-};
+}
 
-historyView.startReplaySequence = function (replayRecords) {
+    startReplaySequence(replayRecords) {
 
 	this.replayRecords = replayRecords;
 	this.currentReplayIndex = 0;
 	this.isReplayPlaying = true;
 
 	this.playNextReplayRecord();
-};
+}
 
-historyView.playNextReplayRecord = function () {
+    playNextReplayRecord() {
 	if (this.currentReplayIndex >= this.replayRecords.length) {
 		this.showReplayCompleteMessage();
 		return;
@@ -3337,9 +3306,9 @@ historyView.playNextReplayRecord = function () {
 	setTimeout(() => {
 		this.playNextReplayRecord();
 	}, 3000);
-};
+}
 
-historyView.showNoReplayDataMessage = function () {
+    showNoReplayDataMessage() {
 
 	const messageText = pixiLib.getElement("Text", {
 		fontFamily: "Montserrat-regular, sans-serif",
@@ -3351,9 +3320,9 @@ historyView.showNoReplayDataMessage = function () {
 	messageText.y = this.replayPanelBg.y + 350;
 	messageText.anchor.set(0.5, 0.5);
 	this.replayContainer.addChild(messageText);
-};
+}
 
-historyView.showReplayCompleteMessage = function () {
+    showReplayCompleteMessage() {
 
 	const messageText = pixiLib.getElement("Text", {
 		fontFamily: "Montserrat-regular, sans-serif",
@@ -3365,9 +3334,9 @@ historyView.showReplayCompleteMessage = function () {
 	messageText.y = this.replayPanelBg.y + 350;
 	messageText.anchor.set(0.5, 0.5);
 	this.replayContainer.addChild(messageText);
-};
+}
 
-historyView.openReplayIframe = function (replayUrl) {
+    openReplayIframe(replayUrl) {
 
 	this.hide();
 
@@ -3515,9 +3484,9 @@ historyView.openReplayIframe = function (replayUrl) {
 
 	this.replayIframe = iframe;
 
-};
+}
 
-historyView.closeReplayIframe = function () {
+    closeReplayIframe() {
 	window.externalUi.call("game_ui", "show");
 
 	if (coreApp && coreApp.gameModel) {
@@ -3578,16 +3547,16 @@ historyView.closeReplayIframe = function () {
 	} catch (e) {
 	}
 
-};
+}
 
-historyView.hide = function (argument) {
+    hide(argument) {
 	this.visible = false;
 
 	this.resumeReelAnimations();
 
-};
+}
 
-historyView.pauseReelAnimations = function () {
+    pauseReelAnimations() {
 
 	if (coreApp && coreApp.gameView && coreApp.gameView.reelView && coreApp.gameView.reelView.reels) {
 		for (var i = 0; i < coreApp.gameView.reelView.reels.length; i++) {
@@ -3609,9 +3578,9 @@ historyView.pauseReelAnimations = function () {
 			}
 		}
 	}
-};
+}
 
-historyView.resumeReelAnimations = function () {
+    resumeReelAnimations() {
 
 	if (coreApp && coreApp.gameView && coreApp.gameView.reelView && coreApp.gameView.reelView.reels) {
 		for (var i = 0; i < coreApp.gameView.reelView.reels.length; i++) {
@@ -3628,9 +3597,9 @@ historyView.resumeReelAnimations = function () {
 			}
 		}
 	}
-};
+}
 
-historyView.shiftGameUI = function (shiftLeft) {
+    shiftGameUI(shiftLeft) {
 	var shiftAmount = shiftLeft ? -(this.panelWidth / 2) : 0;
 	var duration = 0.3;
 
@@ -3652,9 +3621,9 @@ historyView.shiftGameUI = function (shiftLeft) {
 	if (coreApp.gameView.clockView) {
 		TweenMax.to(coreApp.gameView.clockView, duration, { x: shiftAmount });
 	}
-};
+}
 
-historyView.updateLanguageTexts = function (lang) {
+    updateLanguageTexts(lang) {
 
 	if (this.titleText) {
 		pixiLib.setText(this.titleText, gameLiterals.dedetitlereplay);
@@ -3695,22 +3664,22 @@ historyView.updateLanguageTexts = function (lang) {
 			}
 		}
 	}
-};
+}
 
-historyView.destroy = function (argument) {
+    destroy(argument) {
 	this.destroy();
-};
+}
 
-historyView.onReplayCompleted = function (data) {
+    onReplayCompleted(data) {
 
 	this.pendingReplayCompletion = {
 		roundId: data.roundId,
 		userLocale: data.userLocale
 	};
 
-};
+}
 
-historyView.onTotalWinShown = function () {
+    onTotalWinShown() {
 
 	if (this.pendingReplayCompletion) {
 
@@ -3726,9 +3695,9 @@ historyView.onTotalWinShown = function () {
 
 		this.pendingReplayCompletion = null;
 	}
-};
+}
 
-historyView.showReplayCompletionPopup = function (roundData, userLocale) {
+    showReplayCompletionPopup(roundData, userLocale) {
 
 	_sndLib.play(_sndLib.sprite.btnClick);
 
@@ -3891,9 +3860,9 @@ historyView.showReplayCompletionPopup = function (roundData, userLocale) {
 
 	this.completionRoundData = roundData;
 
-};
+}
 
-historyView.closeReplayCompletionPopup = function () {
+    closeReplayCompletionPopup() {
 	if (this.replayCompletionContainer) {
 		window.externalUi.call("game_ui", "show");
 		if (coreApp && coreApp.gameView && coreApp.gameView.popupContainer && this.replayCompletionContainer.parent === coreApp.gameView.popupContainer) {
@@ -3909,9 +3878,9 @@ historyView.closeReplayCompletionPopup = function () {
 		this.replayCompletionContainer = null;
 	}
 	this.completionRoundData = null;
-};
+}
 
-historyView.restartReplay = function () {
+    restartReplay() {
 
 	let slotService = null;
 
@@ -3958,9 +3927,9 @@ historyView.restartReplay = function () {
 			_mediator.publish("restartReplay");
 		}
 	}
-};
+}
 
-historyView.generateAndCopyLink = function (roundData, linkTextElement, linkBtn) {
+    generateAndCopyLink(roundData, linkTextElement, linkBtn) {
 
 	const userLocale = sessionStorage.getItem("Language") || sessionStorage.Language || 'en';
 
@@ -4056,9 +4025,9 @@ historyView.generateAndCopyLink = function (roundData, linkTextElement, linkBtn)
 		}
 	}.bind(this), 2000);
 
-};
+}
 
-historyView.copyToClipboard = function (text) {
+    copyToClipboard(text) {
 
 	if (navigator.clipboard && window.isSecureContext) {
 		navigator.clipboard.writeText(text).then(function () {
@@ -4070,9 +4039,9 @@ historyView.copyToClipboard = function (text) {
 
 		this.fallbackCopyToClipboard(text);
 	}
-};
+}
 
-historyView.fallbackCopyToClipboard = function (text) {
+    fallbackCopyToClipboard(text) {
 
 	const textArea = document.createElement("textarea");
 	textArea.value = text;
@@ -4092,5 +4061,39 @@ historyView.fallbackCopyToClipboard = function (text) {
 	}
 
 	document.body.removeChild(textArea);
-};
+}
 
+}
+
+
+
+
+function formatNumberWithSeparators(num, decimalSeparator) {
+	const thousandSeparator = decimalSeparator === ',' ? '.' : ',';
+	const parts = num.toFixed(2).split('.');
+	const integerPart = parts[0];
+	const decimalPart = parts[1];
+
+	const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, thousandSeparator);
+	
+	return formattedInteger + decimalSeparator + decimalPart;
+}
+
+function isHighestWinsTabActive(view) {
+	if (!view || !view.highestWinsTab) return false;
+	var fill = view.highestWinsTab.style.fill;
+	return fill === 0xffffff || 
+		   fill === '#ffffff' || 
+		   fill === '0xffffff' ||
+		   String(fill).toLowerCase() === '#ffffff' ||
+		   String(fill).toLowerCase() === '0xffffff' ||
+		   fill === 16777215;
+}
+
+function isMobileDeviceDesktop() {
+	const viewType = _viewInfoUtil ? _viewInfoUtil.viewType : "VD";
+	const actualWindowWidth = window.innerWidth || 1280;
+	const isMobileViewType = viewType === "VP" || viewType === "VL";
+	const isSmallScreen = actualWindowWidth <= 768;
+	return isMobileViewType || isSmallScreen;
+}

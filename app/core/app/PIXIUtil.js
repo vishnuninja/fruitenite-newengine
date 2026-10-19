@@ -447,11 +447,14 @@ pixiLib.setProperties = function (element, props, isUpdateText) {
     }
 };
 pixiLib.getRenderer = function () {
-    if (coreApp.gameView.renderer.renderer) {
-        return coreApp.gameView.renderer.renderer;
-    } else {
-        return coreApp.gameView.renderer;
+    if (typeof coreApp !== "undefined" && coreApp && coreApp.gameView && coreApp.gameView.renderer) {
+        if (coreApp.gameView.renderer.renderer) {
+            return coreApp.gameView.renderer.renderer;
+        } else {
+            return coreApp.gameView.renderer;
+        }
     }
+    return null;
 }
 pixiLib.setTexture = function (obj, image) {
     if (image === "") {

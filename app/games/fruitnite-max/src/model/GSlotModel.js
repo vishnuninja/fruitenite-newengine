@@ -1,8 +1,9 @@
 // ============================================================================
-// Consolidated Parent (CyprusSlotModel.js) and Child (GSlotModel.js)
-// Base Class Definition & Implementation
+// ES6 Class Definition: SlotModel
 // ============================================================================
-_ng.SlotModel = function () {
+
+class SlotModel {
+    constructor() {
 	//CoreModel.call(this, coreApp);
 	this.userModel = new UserModel();
 	this.panelModel = new PanelModel();
@@ -25,12 +26,7 @@ _ng.SlotModel = function () {
 	this.amountType = coreApp.getUrlVar("amount_type") ? coreApp.getUrlVar("amount_type") : 1;
 }
 
-_ng.SlotModel.constructor = _ng.SlotModel;
-//SlotModel.prototype = Object.create(CoreModel.prototype);
-
-var data = _ng.SlotModel.prototype;
-
-data.saveInitData = function (obj) {
+    saveInitData(obj) {
 	this.obj = JSON.parse(obj);
 	this.userModel.saveUserInfo(this.obj);
 	this.panelModel.saveInitData(this.obj);
@@ -41,11 +37,12 @@ data.saveInitData = function (obj) {
 	this.updatePanelModel();
 
 }
-data.saveBalanceInfoSM = function (obj) {
+
+    saveBalanceInfoSM(obj) {
 	this.spinData.smBalance = obj.player.balance2 || 0;
 }
 
-data.saveGambleResponse = function (obj) {
+    saveGambleResponse(obj) {
 	this.obj = JSON.parse(obj);
 	this.gambleData.saveGambleResponse(this.obj);
 	this.spinData.saveGambleResponse(this.obj);
@@ -56,7 +53,7 @@ data.saveGambleResponse = function (obj) {
 	//set win amount 
 }
 
-data.saveFeatureData = function (obj) {
+    saveFeatureData(obj) {
 	this.obj = JSON.parse(obj);
 	this.userModel.saveUserInfo(this.obj);
 	this.spinData.saveFeatureData(obj);
@@ -64,24 +61,26 @@ data.saveFeatureData = function (obj) {
 	this.updatePanelModel();
 }
 
-data.isBigWinActive = function () {
+    isBigWinActive() {
 	if (!_viewInfoUtil.isSecondaryAssetsLoaded || _ng.isSkipBigwinActive == true) {
 		return false;
 	}
 	return this.isBigWin;
 }
 
-data.getBalance = function (argument) {
+    getBalance(argument) {
 	return this.userModel.getBalance();
-};
-data.setBalance = function (data) {
-	this.userModel.setBalance(data);
-};
-data.getCurrencyCode = function () {
-	return this.userModel.getCurrencyCode();
-};
+}
 
-data.saveSpinData = function (obj) {
+    setBalance(data) {
+	this.userModel.setBalance(data);
+}
+
+    getCurrencyCode() {
+	return this.userModel.getCurrencyCode();
+}
+
+    saveSpinData(obj) {
 	this.obj = JSON.parse(obj);
 	this.userModel.saveUserInfo(this.obj);
 	this.panelModel.saveInitData(this.obj);
@@ -96,323 +95,7 @@ data.saveSpinData = function (obj) {
 
 }
 
-data.checkBigwinAvailable = function () {
-	if (this.getTotalWin() > 0) {
-		if (_ng.GameConfig.specialWins.bigWin.multiplier * this.getTotalBet() <= this.getTotalWin()) {
-			this.isBigWin = true;
-		} else {
-			this.isBigWin = false;
-		}
-	}
-}
-data.getTotalFSWin = function () {
-	return this.freeSpinData.getFreeSpinTotalWin();
-}
-
-data.getAllTotalBet = function () {
-	return this.panelModel.getAllTotalBet();
-}
-data.setAllTotalBet = function (totalBet) {
-	return this.panelModel.setAllTotalBet(totalBet);
-}
-
-data.getAllTotalWin = function () {
-	return this.spinData.getAllTotalWinAmount();
-}
-
-data.getTotalWin = function () {
-	return this.spinData.getTotalWinAmount();
-}
-data.getReelMatrix = function () {
-	return this.spinData.getReels();
-};
-
-data.getPostMatrix = function () {
-	return this.spinData.getPostMatrix();
-};
-
-data.getTotalBet = function () {
-	return this.panelModel.getTotalBet();
-}
-data.getTotalBetPerLine = function () {
-}
-data.getTotalWinLines = function (argument) {
-	return this.spinData.getTotalLineWins();
-};
-data.getTotalWinLinesNumbers = function (argument) {
-	return this.spinData.getTotalWinLinesNumbers();
-};
-data.getTotalWinSymbols = function (argument) {
-	return this.spinData.getTotalWinSymbols();
-};
-
-data.getPostMatrixInfo = function () {
-	return this.spinData.getPostMatrixInfo();
-};
-data.getMinimumLines = function (argument) {
-	// body...
-}
-data.getMinBet = function (argument) {
-	// body...
-}
-data.getMaxBet = function (argument) {
-	// body...
-}
-data.getBetValues = function (argument) {
-	// body...
-}
-data.setMaxBet = function (argument) {
-	// body...
-}
-//Autospin data----------------
-data.isAutoSpinActive = function () {
-	return this.autoSpinData.isActive();
-}
-data.getAutoSpinCurrentCount = function () {
-	return this.autoSpinData.getCurrentCount();
-}
-data.setAutoSpinCurrentCount = function (num) {
-	return this.autoSpinData.setCurrentCount(num);
-}
-data.getAutoSpinTotalCount = function () {
-	return this.autoSpinData.getTotalCount();
-}
-
-data.startAutoSpins = function (num) {
-	this.autoSpinData.startAutoSpin(num);
-}
-data.stopAutoSpins = function () {
-	this.autoSpinData.stopAutoSpin();
-}
-/********Promo Freespin Data*********/
-data.getIsPFSTriggered = function () {
-	return this.PFSData.isPFSTriggered;
-}
-data.getIsPFSActive = function () {
-	return this.PFSData.isPFSActive;
-}
-data.getIsFullPFSActive = function () {
-	return this.PFSData.isFullPFSActive;
-}
-data.getIsPFSEnded = function () {
-	return this.PFSData.isPFSEnded;
-}
-// data.updatePanelModel = function () {
-// 	if (this.PFSData.isFullPFSActive) {
-// 		var PFSData = this.PFSData.getPFSData();
-// 		this.userModel.updateUserModelWithPFS(PFSData);
-// 		this.panelModel.updatePanelModelWithPFS(PFSData);
-// 	}
-// }
-data.updatePanelModel = function () {}
-
-data.updatePanelModelPFS = function () {
-	if (coreApp.gameModel.getIsPFSActive()) {
-		var PFSData = this.PFSData.getPFSData();
-		this.panelModel.updatePanelModelWithPrevData(PFSData);
-	}
-	if(this.PFSData.previousData && !coreApp.gameModel.getIsPFSActive()){
-        this.panelModel.updatePanelModelWithPrevData(this.PFSData.getPreviousInitData());
-    }
-}
-
-data.getTotalPFS = function () {
-	return this.PFSData.totalPromoFreeSpins;
-}
-data.getRemainingPFS = function () {
-	return this.PFSData.remainingPromoFreeSpins;
-}
-data.getTotalPFSWin = function () {
-	return this.PFSData.totalPFSWins;
-}
-/*************************************/
-
-
-data.isGambleActive = function () {
-	return this.gambleData.isGambleInitActive;
-}
-
-
-//Freespin data----------------
-data.getIsFreeSpinTriggered = function () {
-	return this.freeSpinData.getIsFreeSpinTriggered();
-}
-data.setIsFreeSpinTriggered = function (bool) {
-	this.freeSpinData.setIsFreeSpinTriggered(bool);
-}
-data.getIsFreeSpinEnded = function () {
-	return this.freeSpinData.getIsFreeSpinEnded();
-}
-data.isFreeSpinActive = function () {
-	return this.freeSpinData.isActive();
-}
-data.setFreeSpinActiveStatus = function (bool) {
-	this.isFreeSpinActive.setFreeSpinActiveStatus(bool);
-};
-data.isFullFSActive = function () {
-	return this.freeSpinData.isFullFSActive;
-}
-data.getFreeSpinCurrentCount = function () {
-	return this.freeSpinData.currentCount();
-}
-
-data.setFreespinsCurrentCount = function (num) {
-	this.freeSpinData.setFreespinsCurrentCount(num);
-}
-data.getTotalFreeSpins = function (argument) {
-	return this.freeSpinData.totalCount();
-}
-data.getFreeSpinTotalCount = function () {
-	return this.freeSpinData.totalCount();
-}
-data.getTotalFSTriggered = function () {
-	return this.freeSpinData.totalTriggeredCount();
-}
-data.setFreespinsTotalCount = function (num) {
-	this.freeSpinData.setFreespinsTotalCount(num);
-}
-//isWalkingWild 
-data.isWalkingWildActive = function () {
-	return this.isWalkingWildAvailable;
-}
-data.setWalkingWildActive = function (bool) {
-	this.isWalkingWildAvailable = bool;
-}
-//isReSpinActive 
-data.isReSpinActive = function () {
-	return this.spinData.getIsRespinActive();
-}
-data.setReSpinActive = function (bool) {
-	this.isReSpinActive = bool;
-}
-//feature is active
-data.isFeatureActive = function () {
-	// return this.featureData.isActive();
-	return this.spinData.getIsBonusTriggered();
-}
-data.getFeatureObject = function () {
-	return this.spinData.getFeatureObject();
-}
-
-
-data.setFreespins = function (obj) {
-	this.freeSpinData.setFreespins(obj);
-}
-
-data.isFeatureData = function () {
-	return this.spinData.getIsBonusTriggered();
-}
-data.isUnityFeature = function () {
-	return this.spinData.isUnityFeature;
-}
-data.isGiantFeature = function () {
-	return this.spinData.isGiantFeature;
-}
-/************ Candy Sticky Respin Feature **************/
-data.isStickyRespinTriggered = function () {
-	return this.spinData.isStickyRespinTriggered;
-}
-data.isStickyRespinActive = function () {
-	return this.spinData.isStickyRespinActive;
-}
-data.getStickyRSSymbols = function () {
-	return this.spinData.stickyRSSymbols;
-}
-data.isSpawningWildActive = function () {
-	return this.spinData.getIsSpawningWildActive();
-}
-/*******************************************************/
-//isSpaceClick active 
-data.isSpaceClick = function () {
-	this.isSpaceClickActive = false;
-}
-
-data.setSpaceClick = function (bool) {
-	this.isSpaceClickActive = bool;
-}
-
-//isBgSound active 
-data.isBgSound = function () {
-	this.isBgSoundPlay = false;
-}
-
-data.setSpaceClick = function (bool) {
-	this.isBgSoundPlay = bool;
-}
-
-data.formatAmount = function (winAmount) {
-	return winAmount.toFixed(2);
-}
-data.getSelectedNumCoins = function () {
-	return this.panelModel.getSelectedNumCoins();
-}
-data.getSelectedCoinValue = function () {
-	return this.panelModel.getCoinValue();
-}
-data.getSelectedLines = function () {
-	if (_ng.GameConfig.paylinesType === "fixed") {
-		return _ng.GameConfig.paylines;
-	}
-	//return this.panelModel.numberPaylines;
-	return this.panelModel.selectedPaylines;
-}
-data.getSelectedLinesFS = function () {
-	if (this.panelModel.fsPaylines) {
-		return this.panelModel.fsPaylines;
-	} else {
-		this.getSelectedLines();
-	}
-}
-data.getCoinArray = function () {
-	return this.panelModel.getCoinArray();
-}
-data.getCoinIndex = function () {
-	return this.panelModel.getCoinIndex();
-}
-data.getCoinValue = function () {
-	return this.panelModel.getCoinValue();
-}
-/*data.getBalance = function(){
-	return this.panelModel.getBalance();
-}*/
-data.getLineValue = function () {
-	return this.panelModel.getLineValue();
-}
-data.getTotalPaylines = function () {
-	return this.panelModel.getTotalPaylines();
-}
-
-data.getIsRespinTriggered = function () {
-	return this.spinData.getIsRespinTriggered();
-}
-data.setIsRespinTriggered = function (bool) {
-	this.spinData.setIsRespinTriggered(bool);
-}
-
-data.getRespinsTotal = function () {
-	return this.spinData.getRespinsTotal();
-}
-data.getRespinsLeft = function () {
-	return this.spinData.getRespinsLeft();
-}
-data.getWildMultiplier = function () {
-	return this.spinData.getWildMultiplier();
-}
-data.getFeatureParentType = function () {
-	return this.spinData.getFeatureParentType();
-}
-data.getStickySymbols = function (params) {
-	return this.spinData.getStickySymbols();
-
-}
-
-
-// ============================================================================
-// Game-Specific Extensions & Prototype Overrides (GSlotModel.js)
-// ============================================================================
-var gSlotModel = _ng.SlotModel.prototype;
-
-gSlotModel.checkBigwinAvailable = function () {
+    checkBigwinAvailable() {
 	if (this.getTotalWin() > 0) {
 		if (_ng.GameConfig.specialWins.nice.multiplier * this.getTotalBet() <= this.getTotalWin()) {
 			this.isBigWin = true;
@@ -422,8 +105,346 @@ gSlotModel.checkBigwinAvailable = function () {
 	}
 }
 
+    getTotalFSWin() {
+	return this.freeSpinData.getFreeSpinTotalWin();
+}
 
-// --- Consolidated Exports & Aliases ---
-_ng.GSlotModel = _ng.SlotModel;
-if (typeof SlotModel === "undefined") { SlotModel = _ng.SlotModel; }
-if (typeof GSlotModel === "undefined") { GSlotModel = _ng.SlotModel; }
+    getAllTotalBet() {
+	return this.panelModel.getAllTotalBet();
+}
+
+    setAllTotalBet(totalBet) {
+	return this.panelModel.setAllTotalBet(totalBet);
+}
+
+    getAllTotalWin() {
+	return this.spinData.getAllTotalWinAmount();
+}
+
+    getTotalWin() {
+	return this.spinData.getTotalWinAmount();
+}
+
+    getReelMatrix() {
+	return this.spinData.getReels();
+}
+
+    getPostMatrix() {
+	return this.spinData.getPostMatrix();
+}
+
+    getTotalBet() {
+	return this.panelModel.getTotalBet();
+}
+
+    getTotalBetPerLine() {
+}
+
+    getTotalWinLines(argument) {
+	return this.spinData.getTotalLineWins();
+}
+
+    getTotalWinLinesNumbers(argument) {
+	return this.spinData.getTotalWinLinesNumbers();
+}
+
+    getTotalWinSymbols(argument) {
+	return this.spinData.getTotalWinSymbols();
+}
+
+    getPostMatrixInfo() {
+	return this.spinData.getPostMatrixInfo();
+}
+
+    getMinimumLines(argument) {
+	// body...
+}
+
+    getMinBet(argument) {
+	// body...
+}
+
+    getMaxBet(argument) {
+	// body...
+}
+
+    getBetValues(argument) {
+	// body...
+}
+
+    setMaxBet(argument) {
+	// body...
+}
+
+    isAutoSpinActive() {
+	return this.autoSpinData.isActive();
+}
+
+    getAutoSpinCurrentCount() {
+	return this.autoSpinData.getCurrentCount();
+}
+
+    setAutoSpinCurrentCount(num) {
+	return this.autoSpinData.setCurrentCount(num);
+}
+
+    getAutoSpinTotalCount() {
+	return this.autoSpinData.getTotalCount();
+}
+
+    startAutoSpins(num) {
+	this.autoSpinData.startAutoSpin(num);
+}
+
+    stopAutoSpins() {
+	this.autoSpinData.stopAutoSpin();
+}
+
+    getIsPFSTriggered() {
+	return this.PFSData.isPFSTriggered;
+}
+
+    getIsPFSActive() {
+	return this.PFSData.isPFSActive;
+}
+
+    getIsFullPFSActive() {
+	return this.PFSData.isFullPFSActive;
+}
+
+    getIsPFSEnded() {
+	return this.PFSData.isPFSEnded;
+}
+
+    updatePanelModel() {}
+
+    updatePanelModelPFS() {
+	if (coreApp.gameModel.getIsPFSActive()) {
+		var PFSData = this.PFSData.getPFSData();
+		this.panelModel.updatePanelModelWithPrevData(PFSData);
+	}
+	if(this.PFSData.previousData && !coreApp.gameModel.getIsPFSActive()){
+        this.panelModel.updatePanelModelWithPrevData(this.PFSData.getPreviousInitData());
+    }
+}
+
+    getTotalPFS() {
+	return this.PFSData.totalPromoFreeSpins;
+}
+
+    getRemainingPFS() {
+	return this.PFSData.remainingPromoFreeSpins;
+}
+
+    getTotalPFSWin() {
+	return this.PFSData.totalPFSWins;
+}
+
+    isGambleActive() {
+	return this.gambleData.isGambleInitActive;
+}
+
+    getIsFreeSpinTriggered() {
+	return this.freeSpinData.getIsFreeSpinTriggered();
+}
+
+    setIsFreeSpinTriggered(bool) {
+	this.freeSpinData.setIsFreeSpinTriggered(bool);
+}
+
+    getIsFreeSpinEnded() {
+	return this.freeSpinData.getIsFreeSpinEnded();
+}
+
+    isFreeSpinActive() {
+	return this.freeSpinData.isActive();
+}
+
+    setFreeSpinActiveStatus(bool) {
+	this.isFreeSpinActive.setFreeSpinActiveStatus(bool);
+}
+
+    isFullFSActive() {
+	return this.freeSpinData.isFullFSActive;
+}
+
+    getFreeSpinCurrentCount() {
+	return this.freeSpinData.currentCount();
+}
+
+    setFreespinsCurrentCount(num) {
+	this.freeSpinData.setFreespinsCurrentCount(num);
+}
+
+    getTotalFreeSpins(argument) {
+	return this.freeSpinData.totalCount();
+}
+
+    getFreeSpinTotalCount() {
+	return this.freeSpinData.totalCount();
+}
+
+    getTotalFSTriggered() {
+	return this.freeSpinData.totalTriggeredCount();
+}
+
+    setFreespinsTotalCount(num) {
+	this.freeSpinData.setFreespinsTotalCount(num);
+}
+
+    isWalkingWildActive() {
+	return this.isWalkingWildAvailable;
+}
+
+    setWalkingWildActive(bool) {
+	this.isWalkingWildAvailable = bool;
+}
+
+    isReSpinActive() {
+	return this.spinData.getIsRespinActive();
+}
+
+    setReSpinActive(bool) {
+	this.isReSpinActive = bool;
+}
+
+    isFeatureActive() {
+	// return this.featureData.isActive();
+	return this.spinData.getIsBonusTriggered();
+}
+
+    getFeatureObject() {
+	return this.spinData.getFeatureObject();
+}
+
+    setFreespins(obj) {
+	this.freeSpinData.setFreespins(obj);
+}
+
+    isFeatureData() {
+	return this.spinData.getIsBonusTriggered();
+}
+
+    isUnityFeature() {
+	return this.spinData.isUnityFeature;
+}
+
+    isGiantFeature() {
+	return this.spinData.isGiantFeature;
+}
+
+    isStickyRespinTriggered() {
+	return this.spinData.isStickyRespinTriggered;
+}
+
+    isStickyRespinActive() {
+	return this.spinData.isStickyRespinActive;
+}
+
+    getStickyRSSymbols() {
+	return this.spinData.stickyRSSymbols;
+}
+
+    isSpawningWildActive() {
+	return this.spinData.getIsSpawningWildActive();
+}
+
+    isSpaceClick() {
+	this.isSpaceClickActive = false;
+}
+
+    setSpaceClick(bool) {
+	this.isBgSoundPlay = bool;
+}
+
+    isBgSound() {
+	this.isBgSoundPlay = false;
+}
+
+    formatAmount(winAmount) {
+	return winAmount.toFixed(2);
+}
+
+    getSelectedNumCoins() {
+	return this.panelModel.getSelectedNumCoins();
+}
+
+    getSelectedCoinValue() {
+	return this.panelModel.getCoinValue();
+}
+
+    getSelectedLines() {
+	if (_ng.GameConfig.paylinesType === "fixed") {
+		return _ng.GameConfig.paylines;
+	}
+	//return this.panelModel.numberPaylines;
+	return this.panelModel.selectedPaylines;
+}
+
+    getSelectedLinesFS() {
+	if (this.panelModel.fsPaylines) {
+		return this.panelModel.fsPaylines;
+	} else {
+		this.getSelectedLines();
+	}
+}
+
+    getCoinArray() {
+	return this.panelModel.getCoinArray();
+}
+
+    getCoinIndex() {
+	return this.panelModel.getCoinIndex();
+}
+
+    getCoinValue() {
+	return this.panelModel.getCoinValue();
+}
+
+    getLineValue() {
+	return this.panelModel.getLineValue();
+}
+
+    getTotalPaylines() {
+	return this.panelModel.getTotalPaylines();
+}
+
+    getIsRespinTriggered() {
+	return this.spinData.getIsRespinTriggered();
+}
+
+    setIsRespinTriggered(bool) {
+	this.spinData.setIsRespinTriggered(bool);
+}
+
+    getRespinsTotal() {
+	return this.spinData.getRespinsTotal();
+}
+
+    getRespinsLeft() {
+	return this.spinData.getRespinsLeft();
+}
+
+    getWildMultiplier() {
+	return this.spinData.getWildMultiplier();
+}
+
+    getFeatureParentType() {
+	return this.spinData.getFeatureParentType();
+}
+
+    getStickySymbols(params) {
+	return this.spinData.getStickySymbols();
+
+}
+
+}
+
+
+var _ng = _ng || {};
+_ng.SlotModel = SlotModel;
+var _ng = _ng || {};
+_ng.GSlotModel = SlotModel;
+
+
+

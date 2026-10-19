@@ -1,6 +1,12 @@
+// ============================================================================
+// ES6 Class Definition: PanelValueField
+// ============================================================================
+
 var _ng = _ng || {};
-_ng.PanelValueField = function(params, parent) {
-    PIXI.Container.call(this);
+
+class PanelValueField extends PIXI.Container {
+    constructor(params, parent) {
+    super();
     this.params = params.params;
     var viewType = _viewInfoUtil.viewType;
 
@@ -56,23 +62,18 @@ _ng.PanelValueField = function(params, parent) {
     _mediator.subscribe(_events.core.onResize, this.onElementResize.bind(this));
 }
 
-_ng.PanelValueField.prototype = Object.create(PIXI.Container.prototype);
-_ng.PanelValueField.prototype.constructor = _ng.PanelValueField;
-
-var p = _ng.PanelValueField.prototype;
-
-p.setVisibility = function(bool){
+    setVisibility(bool) {
     this.visible = bool;
-};
+}
 
-p.setValue = function(value) {
+    setValue(value) {
     if(this.params.valueFormatter !== undefined){
         value = pixiLib[this.params.valueFormatter](value);
     }
     pixiLib.setText(this.value, value);
-};
+}
 
-p.onElementResize = function() {
+    onElementResize() {
     var viewType = _viewInfoUtil.viewType;
     var elements = ['icon', 'title', 'value'];
 
@@ -87,3 +88,10 @@ p.onElementResize = function() {
         this.setAlignment(this.params.props);
     }
 }
+
+}
+
+
+var _ng = _ng || {};
+_ng.PanelValueField = PanelValueField;
+

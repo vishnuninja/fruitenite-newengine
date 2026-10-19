@@ -1,13 +1,11 @@
-_ng.PromoView = function() {
+class PromoView {
+    constructor() {
     this.init();
     this.addlisteners();
 
-}
+    }
 
-_ng.PromoView.prototype.constructor = _ng.PromoView;
-var promoView = _ng.PromoView.prototype;
-
-promoView.addlisteners = function() {
+    addlisteners() {
     // _mediator.subscribe("promoStateChanged", this.onPromoStateChanged.bind(this));
     _mediator.subscribe("promoFreeSpinAwarded", this.promoFreeSpinAwarded.bind(this));
     _mediator.subscribe("promoFreeSpinRewarded", this.promoFreeSpinRewarded.bind(this));
@@ -20,13 +18,10 @@ promoView.addlisteners = function() {
     _mediator.subscribe("updatePromoSpinLeft", this.updatePanel.bind(this));
 	_mediator.subscribe("updatePromoWinText", this.onUpdatePromoWinText.bind(this));
 
-}
 
-/**
- * Shows popup when promo free spins are awarded
- * Displays Yes/Later buttons
- */
-promoView.init = function() {
+    }
+
+    init() {
     this.topStripDiv = null;
     this.spinLeftStrip = null;
     this.totalWinAmountStrip = null;
@@ -35,9 +30,10 @@ promoView.init = function() {
     this.pfsSessionActive = false;
     this.injectStyles();
     this.createDiv();
-}
 
-promoView.createDiv = function() {
+    }
+
+    createDiv() {
     this.topStripDiv = document.createElement('div');
     this.topStripDiv.className = 'pfr';
     this.topStripDiv.style.display = 'none'; // Initially hidden
@@ -74,9 +70,10 @@ promoView.createDiv = function() {
 
     // Add to DOM immediately (but hidden)
     document.body.appendChild(this.topStripDiv);
-}
 
-promoView.injectStyles = function() {
+    }
+
+    injectStyles() {
     var style = document.createElement('style');
     style.innerHTML = `
 .pfr {
@@ -137,9 +134,10 @@ promoView.injectStyles = function() {
 }
 `;
     document.head.appendChild(style);
-}
 
-promoView.showPanel = function() {
+    }
+
+    showPanel() {
     if (!this.topStripDiv) {
         // If panel doesn't exist, recreate it
         this.createDiv();
@@ -148,45 +146,52 @@ promoView.showPanel = function() {
     if (this.topStripDiv) {
         this.topStripDiv.style.display = 'flex';
     }
-}
 
-promoView.hidePanel = function() {
+    }
+
+    hidePanel() {
     if (this.topStripDiv) {
         this.topStripDiv.style.display = 'none';
     }
-}
 
-promoView.onShowPromoView = function() {
+    }
+
+    onShowPromoView() {
     this.showPanel();
-}
 
-promoView.onHidePromoView = function() {
+    }
+
+    onHidePromoView() {
     this.hidePanel();
-}
 
-promoView.onDestroyPromoView = function() {
+    }
+
+    onDestroyPromoView() {
     if (this.topStripDiv && document.body.contains(this.topStripDiv)) {
         document.body.removeChild(this.topStripDiv);
         this.topStripDiv = null;
         this.spinLeftStrip = null;
         this.totalWinAmountStrip = null;
     }
-}
 
-promoView.updatePanel = function(spinsLeft) {
+    }
+
+    updatePanel(spinsLeft) {
     if (this.spinLeftStrip) {
         this.spinLeftStrip.innerHTML = spinsLeft;
     }
-}
 
-promoView.onUpdatePromoWinText = function(winAmount) {
+    }
+
+    onUpdatePromoWinText(winAmount) {
     winAmount = winAmount;
     if (this.totalWinAmountStrip) {
         this.totalWinAmountStrip.innerHTML = pixiLib.getFormattedAmount(winAmount);
     }
-}
 
-promoView.promoFreeSpinAwarded = function(state) {
+    }
+
+    promoFreeSpinAwarded(state) {
     // Disable ante bet and buy feature buttons when popup shows
     _mediator.publish("disableBuyFeature");
     _mediator.publish("disablePanelFs");
@@ -213,13 +218,10 @@ promoView.promoFreeSpinAwarded = function(state) {
             }
         }
     );
-}
 
-/**
- * Shows popup when there are unfinished promo free spins
- * Displays Continue button with remaining spins count
- */
-promoView.unfinishedPromoFreeSpin = function() {
+    }
+
+    unfinishedPromoFreeSpin() {
     // Disable ante bet and buy feature buttons when popup shows
     _mediator.publish("disableBuyFeature");
     _mediator.publish("disablePanelFs");
@@ -247,13 +249,10 @@ promoView.unfinishedPromoFreeSpin = function() {
             }
         }
     );
-}
 
-/**
- * Shows popup when promo free spins are completed and rewarded
- * Displays Continue button with total win amount
- */
-promoView.promoFreeSpinRewarded = function() {
+    }
+
+    promoFreeSpinRewarded() {
  
     if (!this.pfsSessionActive) {
         console.log('[PFS] promoFreeSpinRewarded skipped – no active PFS session');
@@ -297,12 +296,10 @@ promoView.promoFreeSpinRewarded = function() {
     if (coreApp && coreApp.gameModel && coreApp.gameModel.PFSData) {
         coreApp.gameModel.PFSData.isPFSEnded = true;
     }
-}
 
-/**
- * Handler for Yes button click in promo free spin awarded popup
- */
-promoView.onYesButtonClick = function() {
+    }
+
+    onYesButtonClick() {
     this.pfsSessionActive = true;
     _ng.externalUiController.commonPopup.hide();
     _mediator.publish("runGameInit");
@@ -315,12 +312,10 @@ promoView.onYesButtonClick = function() {
     _mediator.publish("hideAutoPlayButton");
     _ng.externalUiController.spinActive(true);
 
-}
 
-/**
- * Handler for Later button click in promo free spin awarded popup
- */
-promoView.onLaterButtonClick = function() {
+    }
+
+    onLaterButtonClick() {
     _ng.externalUiController.commonPopup.hide();
     coreApp.gameModel.PFSData = new PromoFreeSpinModel();
     _ng.GameConfig.PFSUseLater = true;
@@ -337,12 +332,10 @@ promoView.onLaterButtonClick = function() {
     _mediator.publish("enabledPanelFs");
     // Show autoplay button
     _mediator.publish("showAutoPlayButton");
-}
 
-/**
- * Handler for Continue button click in unfinished promo free spin popup
- */
-promoView.unFinishedContinueButtonClick = function() {
+    }
+
+    unFinishedContinueButtonClick() {
     this.pfsSessionActive = true;
     _ng.externalUiController.commonPopup.hide();
     _mediator.publish("runGameInit");
@@ -353,12 +346,10 @@ promoView.unFinishedContinueButtonClick = function() {
     _mediator.publish("disablePanelFs");
     _ng.externalUiController.spinActive(true);
 
-}
 
-/**
- * Handler for Continue button click in rewarded promo free spin popup
- */
-promoView.rewardedContinueClick = function() {
+    }
+
+    rewardedContinueClick() {
     try { 
         console.log('[PFS] Rewarded continue clicked'); 
         _mediator.publish('SHOW_LOG', '[PFS] Rewarded continue clicked'); 
@@ -385,4 +376,11 @@ promoView.rewardedContinueClick = function() {
     _mediator.publish("enabledPanelFs");
     _mediator.publish(_events.slot.updateBalance);
 
+
+    }
+
 }
+
+
+_ng.PromoView = PromoView;
+

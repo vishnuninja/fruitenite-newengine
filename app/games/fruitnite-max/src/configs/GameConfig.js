@@ -1,6 +1,10 @@
 var _ng = _ng || {};
 
+var isHistoryMode = (typeof window !== "undefined" && window.location && window.location.search) ?
+    new URLSearchParams(window.location.search).has('round_id') : false;
+
 _ng.GameConfig = {
+    "isHistoryMode": isHistoryMode,
     "displayName": "Fruitnite Max",
     "gameName": "fruitnite-max",
     "gameId": 721,//1081,
@@ -31,8 +35,6 @@ _ng.GameConfig = {
     "TurboOn":false,
     "superBuyEnabled":false,
     "spaceBarHoldTimeout":200,
-    "quickSpinInfoTriggered":false,    //for quick spin info
-    "quickSpinInfoPopupShown" : false,  //for quick spin info
     "CyprusCore":true,
     "PFSUseLater":false,
     "MOCK_PFS_FREESPINS": false, // MOCK: Trigger freespins during PFS for testing

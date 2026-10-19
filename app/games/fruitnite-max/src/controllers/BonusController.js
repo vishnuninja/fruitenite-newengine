@@ -1,52 +1,59 @@
-function BonusController() {
-	
-}
+class BonusController {
+	constructor() {}
 
-var vc = BonusController.prototype;
-
-vc.setView = function (view) {
-	this.view = view;
-	this.createListeners();
-};
-vc.createListeners = function (argument) {
-	this.model = coreApp.gameModel;
-	_mediator.subscribe(_events.core.onResize, this.onResize.bind(this));
-    _mediator.subscribe("showBonusGame", this.onShowBonusGame.bind(this));
-    _mediator.subscribe("onFeatureResponse", this.onFeatureResponse.bind(this));
-    _mediator.subscribe("closeBonus", this.onCloseBonusRound.bind(this));
-};
-
-vc.onCloseBonusRound = function () {
-	this.view.onCloseBonusRound(this.model.getFeatureObject());
-	if(_ng.GameConfig.changeFeatureWinAmountObj) {
-	var winAmount = this.model.getFeatureObject().current_round.win_amount ? {win: this.model.getFeatureObject().current_round.win_amount}: {win: ""};	
-	} else {
-	var winAmount = this.model.getFeatureObject().win_amount ? this.model.getFeatureObject().win_amount: "";
+	setView(view) {
+		this.view = view;
+		this.createListeners();
 	}
-	_mediator.publish(_events.slot.updateWin, winAmount);
-	_mediator.publish(_events.slot.updateBalance);
+
+	createListeners(argument) {
+		this.model = coreApp.gameModel;
+		_mediator.subscribe(_events.core.onResize, this.onResize.bind(this));
+		_mediator.subscribe("showBonusGame", this.onShowBonusGame.bind(this));
+		_mediator.subscribe("onFeatureResponse", this.onFeatureResponse.bind(this));
+		_mediator.subscribe("closeBonus", this.onCloseBonusRound.bind(this));
+	}
+
+	onCloseBonusRound() {
+		this.view.onCloseBonusRound(this.model.getFeatureObject());
+		var winAmount;
+		if (_ng.GameConfig.changeFeatureWinAmountObj) {
+			winAmount = this.model.getFeatureObject().current_round.win_amount ? { win: this.model.getFeatureObject().current_round.win_amount } : { win: "" };
+		} else {
+			winAmount = this.model.getFeatureObject().win_amount ? this.model.getFeatureObject().win_amount : "";
+		}
+		_mediator.publish(_events.slot.updateWin, winAmount);
+		_mediator.publish(_events.slot.updateBalance);
+	}
+
+	onFeatureResponse() {
+		try {
+			this.view.onFeatureResponse(this.model.getFeatureObject());
+		} catch (e) {}
+	}
+
+	onShowBonusGame() {
+		try {
+			this.view.showBonusGame(this.model.getFeatureObject());
+		} catch (e) {}
+	}
+
+	onResize(argument) {
+		this.view.resize();
+	}
+
+	show(argument) {
+		this.view.show();
+	}
+
+	hide(argument) {
+		this.view.hide();
+	}
+
+	destroy(argument) {
+		this.view.destroy();
+	}
 }
-vc.onFeatureResponse = function () {
-	//Need to make BonusView a generic Class
-	try{
-		this.view.onFeatureResponse(this.model.getFeatureObject());
-	}catch(e){}
-}
-vc.onShowBonusGame = function () {
-	//Need to make BonusView a generic Class
-	try{
-		this.view.showBonusGame(this.model.getFeatureObject());
-	}catch(e){}
-}
-vc.onResize = function (argument) {
-	this.view.resize();
-};
-vc.show = function (argument) {
-	this.view.show();
-};
-vc.hide = function (argument) {
-	this.view.hide();
-};
-vc.destroy = function (argument) {
-	this.view.destroy();
-};
+
+
+
