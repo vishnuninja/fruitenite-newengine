@@ -116,7 +116,7 @@ _ng.GameConfig = {
                 "gameController": "SlotController",
                 "gameView": "SlotView",
                 "gameModel": "SlotModel",
-                "gameService": "SlotService",
+                "gameService": isHistoryMode ? "ReplayServiceAdapter" : "SlotService",
             },
             "viewControllers": {
                 "preloader": ["PreloaderView", "PreloaderController"]

@@ -68,6 +68,7 @@ var vgSlotList = [
   "app/games/" + argv.gamename + "/src/model/CyprusGambleModel.js",
   "app/games/" + argv.gamename + "/src/model/CyprusPromoFreeSpinModel.js",
   "app/games/" + argv.gamename + "/src/services/DemoSlotService.js",
+  "app/games/" + argv.gamename + "/src/services/ReplayServiceAdapter.js",
   "app/games/" + argv.gamename + "/src/controllers/BGController.js",
   "app/games/" + argv.gamename + "/src/controllers/BonusController.js",
   "app/games/" + argv.gamename + "/src/controllers/GambleController.js",

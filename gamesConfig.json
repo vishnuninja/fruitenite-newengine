@@ -34,7 +34,8 @@
             "utils/wagerNormalization.js",
             "views/GHistoryPanelView.js",
             "controllers/GHistoryPanelController.js",
-            "views/GHistoryPanelMobileView.js"
+            "views/GHistoryPanelMobileView.js",
+            "services/ReplayServiceAdapter.js"
         ]
     }
 }

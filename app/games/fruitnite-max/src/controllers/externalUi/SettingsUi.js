@@ -53,26 +53,20 @@ class SettingsUi {
 
   handleSettingsButtons(e) {
     const { detail } = e;
-    if (detail === 'history') {
-      if (coreApp.gameModel.isAutoSpinActive() || coreApp.gameModel.isFreeSpinActive())
+    if (detail === 'history' || detail === 'history-button') {
+      if (typeof coreApp !== 'undefined' && coreApp.gameModel && 
+          (coreApp.gameModel.isAutoSpinActive() || coreApp.gameModel.isFreeSpinActive()))
         return;
       console.log('Opening History Choice Panel');
       this.hide();
       this.hideOverlay();
-      HistoryChoicePanel.show();
-      window.addEventListener('history-choice-selected', function handleChoice(event) {
-        const choice = event.detail;
-        if (choice === 'history') {
-          if (coreApp.gameView.settingsPanel) {
-            coreApp.gameView.settingsPanel.onHistoryPanelClick();
-          }
-        } else if (choice === 'replay') {
-          if (coreApp.gameView.settingsPanel) {
-            coreApp.gameView.settingsPanel.onHistoryTitleClick();
-          }
+      if (typeof HistoryChoicePanel !== 'undefined' && HistoryChoicePanel.show) {
+        HistoryChoicePanel.show();
+      } else {
+        if (typeof _mediator !== 'undefined' && _mediator.publish) {
+          _mediator.publish("SHOW_HISTORY_PANEL");
         }
-        window.removeEventListener('history-choice-selected', handleChoice);
-      }, { once: true });
+      }
     }
 
     if (detail === 'paytable') {

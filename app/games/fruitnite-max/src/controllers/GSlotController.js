@@ -740,44 +740,12 @@ class SlotController extends _ng.CoreController {
 }
 
     onUnfinishGame() {
-    // Check if we're in history mode and need to fetch replay data
-     const urlParams = new URLSearchParams(window.location.search);
-    const hasRoundId = urlParams.has('round_id');
-    const isInHistoryMode = hasRoundId;
-    // If in history mode and slotService exists, fetch replay data now
-    if (isInHistoryMode && window.slotService && window.slotService.isReplayMode) {
-        if (!window.slotService.replayDataArray || window.slotService.replayDataArray.length === 0) {
-            // Pass a callback to continue the game flow after API call completes
-            window.slotService.getReplayData(() => {
-                // Auto-start the replay sequence after data is loaded
-                if (window.slotService && window.slotService.replayDataArray && window.slotService.replayDataArray.length > 0) {
-                    // Small delay to ensure everything is ready
-                    setTimeout(() => {
-                        if (window.slotService && typeof window.slotService.injectReplayData === 'function') {
-                            window.slotService.injectReplayData();
-                        } else {
-                            this.continueUnfinishGameFlow();
-                        }
-                    }, 500);
-                } else {
-                    this.continueUnfinishGameFlow();
-                }
-            });
-            return;
-        } else {
-            // Replay data already loaded, auto-start replay sequence
-            setTimeout(() => {
-                if (window.slotService && typeof window.slotService.injectReplayData === 'function') {
-                    window.slotService.injectReplayData();
-                } else {
-                    this.continueUnfinishGameFlow();
-                }
-            }, 500);
+    if (window.slotService && window.slotService.isReplayMode) {
+        if (typeof window.slotService.injectReplayData === 'function') {
+            window.slotService.injectReplayData();
             return;
         }
     }
-
-
     this.continueUnfinishGameFlow();
 }
 

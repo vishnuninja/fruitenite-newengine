@@ -69,25 +69,33 @@ class PanelModel {
         this.selectedCoinIndex = this.coinDefaultIndex;
         this.selectedCoinValue = this.coinArray[this.selectedCoinIndex];
         
-        if (isHistoryMode) {
-            var totalWager = parseFloat(urlParams.get('wager'));
-            var feature = '';
-            const isAnteBet = urlParams.get('is_ante_bet');
-            const isBuyFeature = urlParams.get('is_buy_feature');
-            const isSuperBuyFeature = urlParams.get('is_buy_super_feature');
+        const isInHistory = (typeof isHistoryMode !== 'undefined') ? isHistoryMode : (typeof window !== 'undefined' && window.location && new URLSearchParams(window.location.search).has('round_id'));
+        if (isInHistory) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const wagerParam = urlParams.get('wager');
+            if (wagerParam) {
+                var totalWager = parseFloat(wagerParam);
+                var feature = '';
+                const isAnteBet = urlParams.get('is_ante_bet');
+                const isBuyFeature = urlParams.get('is_buy_feature');
+                const isSuperBuyFeature = urlParams.get('is_buy_super_feature');
 
-            // Priority: is_ante_bet > is_buy_feature > is_bonus
-            if (isAnteBet && isAnteBet === 'true') {
-                feature = 'anteBet';
-            } else if (isBuyFeature && isBuyFeature === 'true') {
-                feature = 'buyFreeSpins';
-            } else if (isSuperBuyFeature && isSuperBuyFeature === 'true') {
-                feature = 'superBuyFreeSpins';
+                // Priority: is_ante_bet > is_buy_feature > is_bonus
+                if (isAnteBet && isAnteBet === 'true') {
+                    feature = 'anteBet';
+                } else if (isBuyFeature && isBuyFeature === 'true') {
+                    feature = 'buyFreeSpins';
+                } else if (isSuperBuyFeature && isSuperBuyFeature === 'true') {
+                    feature = 'superBuyFreeSpins';
+                }
+
+                if (typeof getBaseWager === 'function') {
+                    coinValue = getBaseWager(totalWager, feature);
+                } else {
+                    coinValue = totalWager / 10;
+                }
+                this.selectedCoinValue = coinValue;
             }
-
-
-            coinValue = getBaseWager(totalWager, feature);
-            this.selectedCoinValue = coinValue;
         }
     }
     if (data.num_paylines) {

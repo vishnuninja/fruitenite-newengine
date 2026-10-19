@@ -16,8 +16,21 @@ class DummySettingsView {
     enableMenu() {}
     onResize() {}
     onSoundOffHandler() {}
-    onHistoryPanelClick() {}
-    onHistoryTitleClick() {}
+    onHistoryPanelClick() {
+        if (typeof HistoryChoicePanel !== 'undefined' && HistoryChoicePanel.buildHistoryUrl) {
+            window.open(HistoryChoicePanel.buildHistoryUrl(), '_blank');
+        } else {
+            window.open('history/index.html', '_blank');
+        }
+    }
+    onHistoryTitleClick() {
+        if (typeof _mediator !== 'undefined' && _mediator.publish) {
+            _mediator.publish("SHOW_HISTORY_PANEL");
+        }
+        if (typeof coreApp !== 'undefined' && coreApp.gameView && coreApp.gameView.historyPanelController) {
+            coreApp.gameView.historyPanelController.show();
+        }
+    }
 }
 
 

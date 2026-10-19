@@ -136,6 +136,23 @@ class ExternalUiController {
         this.autoPlay.onStopAutoplayClick();
 
         break;
+      case 'history':
+      case 'history-button':
+      case 'ui-history':
+        if (this.isSpaceBarOnHold) return;
+        if (typeof coreApp !== 'undefined' && coreApp.gameModel && 
+            (coreApp.gameModel.isAutoSpinActive() || coreApp.gameModel.isFreeSpinActive()))
+          return;
+        if (this.settingsUi) {
+          this.settingsUi.hide();
+          this.settingsUi.hideOverlay();
+        }
+        if (typeof HistoryChoicePanel !== 'undefined' && HistoryChoicePanel.show) {
+          HistoryChoicePanel.show();
+        } else if (typeof _mediator !== 'undefined' && _mediator.publish) {
+          _mediator.publish("SHOW_HISTORY_PANEL");
+        }
+        break;
       default:
         break;
     }
